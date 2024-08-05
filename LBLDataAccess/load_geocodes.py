@@ -15,6 +15,9 @@ import pandas as pd
 from typing import Any, Dict, List, Tuple
 import json
 from operator import itemgetter
+from pkg_resources import resource_stream
+import importlib.resources as pkg_resources
+from LBLDataAccess import lookups, open_geography_api
 
 def BFS_SP(graph: Dict, start: str, goal: str) -> List[Any]:
     """Breadth-first search."""
@@ -75,24 +78,20 @@ class SmartGeocodeLookup:
     gss.run_graph(starting_column='LAD23CD', ending_column='OA21CD', local_authorities=['Lewisham', 'Southwark']) # the starting and ending columns should end in CD
     codes = gss.get_filtered_geocodes()
     
-    Above, change the end_column_max_value_search parameter to True if you want to limit the search to only tables with the maximum number of unique values. This can help with issues where lookups already exist, but which omit the full range of values. In other words, the lookups created by Open Geography Portal are intersections, but we may instead be interested in the right join. However, this may result in some tables being omitted.
+    Above, change the end_column_max_value_search parameter to True if you want to limit the search to only tables with the maximum number of unique values. This can help with issues where lookups already exist, but which omit the full range of values. In other words, the lookups created by Open Geography Portal are intersections, but we may instead be interested in the right join. However, this may result in some tables being omitted. Setting the parameter to True should in theory help with selecting exact-fit rather than best-fit lookups, but this is not guaranteed as we cannot rely on the file name differentiating exact-fit and best-fit lookups and this information needs to be derived by looking for the maximum number of unique values given a column name. For example, OA21CD would have n unique values in a LAD21CD to OA21CD lookup, but it could have only n-m unique values in a OA11CD to OA21CD best-fit lookup, whereas exact-fit of the same columns should have n unique values for OA21CD. This will depend entirely on the geographic area of interest and it may well be that exact-fit and best-fit produce the same result. 
     
     """
     
-    def __init__(self, end_column_max_value_search: bool = False, local_authority_constraint=True, verbose=False, lookups_location: str = "lookups", lookup_table_cache: str = 'json_data.json'):
+    def __init__(self, end_column_max_value_search: bool = False, local_authority_constraint: bool = True, verbose: bool = False, lookup_location: Path = None):
         """Initialise SmartGeocodeLookup."""
         self.using_max_values = end_column_max_value_search
         self.local_authority_constraint = local_authority_constraint
         self.verbose = verbose
-
-        _file_path = Path(__file__).resolve().parent
-        self.lookups = _file_path.joinpath(lookups_location)                # where lookup tables are located
-        self.json_file_name = lookup_table_cache                            # where to save the lookup table info
-                
+               
         # hard code the local authorities columns, but keep in init to allow additions later        
-        self._la_possibilities = ['LAD', 'UTLA', 'LTLA']                    # local authority column names - these are hidden, but available
+        self._la_possibilities = ['LAD', 'UTLA', 'LTLA']                          # local authority column names - these are hidden, but available
         
-        self.files_and_folders = self._construct_or_read_json_file()        # method to create a json file or read it
+        self.files_and_folders = self.read_lookup(lookup_folder=lookup_location)  # read a json file as Pandas
 
     def run_graph(self, starting_column: str = None, ending_column: str = None, local_authorities: List = None):
         """
@@ -128,20 +127,29 @@ class SmartGeocodeLookup:
         final_tables_to_return = []
         for shortest_path in self.shortest_paths[:n_first_routes]:
             if len(shortest_path) == 1:
-                directory_locations = {}
-                for folder, files_and_components in self.files_and_folders.items():
-                    file_names = files_and_components.keys()
-                    if shortest_path[0] in file_names:
-                        directory_locations[shortest_path[0]] = self.lookups.joinpath(Path(folder)).joinpath(Path(shortest_path[0]))
-                open_df = self.open_table_as_pandas(directory_locations[shortest_path[0]])
-                open_df.dropna(axis='columns', how='all', inplace=True)
-
-                if self.local_authority_constraint:
-                    geocodes_subset = self.filter_by_local_authority(open_df)
-                    final_tables_to_return.append(geocodes_subset)
-                    
+                print(shortest_path[0])
+                fs = open_geography_api.OpenGeography()
+                output_table = fs.connect_to_feature_service(shortest_path[0])
+                metadata = output_table.lookup_format()
+                print(output_table)
+                if 'geometry' in metadata['fields'][0]:
+                    output = output_table.download(return_geometry=True)
                 else:
-                    final_tables_to_return.append(open_df)
+                    output = output_table.download()
+                
+                if self.local_authority_constraint:
+                    for field in metadata['fields'][0]:
+                        if field[:-4].upper() in self._la_possibilities:
+                            la_field = field
+                            print(la_field, output_table.fields)
+                            geocodes_subset = output[output[la_field].isin(self.local_authorities)]
+                            return geocodes_subset
+                
+                        else:
+                            return output
+                        
+                    
+
             else:
                 joined_table = self.join_tables(shortest_path)
                 joined_table = joined_table.drop_duplicates()
@@ -188,92 +196,58 @@ class SmartGeocodeLookup:
             df.columns = [col.upper().strip() for col in df.columns]
             return df
     
-    
-    def _construct_or_read_json_file(self) -> Any:
-        """Hidden method that decides whether the JSON file is constructed or read."""
-        lookup_folder_contents = [path for path in list(self.lookups.iterdir()) if path.is_file()]
-        if self.lookups.joinpath(self.json_file_name) in lookup_folder_contents:
-            print(f'Reading JSON file {self.json_file_name}')
-            return self._read_json_lookup_table()
-        
+               
+    def read_lookup(self, lookup_folder) -> pd.DataFrame:
+        """
+            Read lookup table.
+
+            Arguments:
+                lookup_folder {Path}    -   pathlib Path to the folder where lookup.json file is stored.
+            
+            Returns:
+                pd.DataFrame    -   Lookup table as a Pandas dataframe.
+        """
+
+        if lookup_folder:
+            json_path = Path(lookup_folder) / 'lookups' / 'lookup.json'
+            return pd.read_json(json_path)
         else:
-            print('No JSON file found. Generating one for faster lookups in the future')
-            self._create_json_file_for_lookups()
-            return self._read_json_lookup_table()
-        
-    
-    def _read_json_lookup_table(self) -> Dict[str, str]:
-        """Hidden method for reading the JSON file."""
-        tables_as_json = self._load_json(self.lookups.joinpath(self.json_file_name))
-        return tables_as_json
-    
-    
-    def _load_json(self, file: str) -> Any:
-        """Load JSON file."""
-        with open(file) as json_data:
-            d = json.load(json_data)
-            json_data.close()
-        return d
+            with pkg_resources.open_text(lookups, 'lookup.json') as f:
+                lookup_data = json.load(f)
+            return pd.DataFrame(lookup_data)
 
-
-    def _create_json_file_for_lookups(self):
-        """Create a JSON file of all lookup tables."""
-        folders = [folder for folder in list(self.lookups.iterdir()) if folder.is_dir()]
-        files_and_folders = {folder.name: {} for folder in folders}
-        for folder in folders:
-            files = list(folder.iterdir())    
-            for file in files:
-                try:
-                    df = self.open_table_as_pandas(file)
-                                        
-                    files_and_folders[folder.name][file.name] = {'columns': [], 'useful_columns':[], 'useful_columns_nunique':[]}
-                    cols = list(df.columns)
-                    # there are some unnecessary columns, so lets limit the columns to just ones that end in 'cd':
-                    useful_columns = [col for col in cols if col[-2:].upper()=='CD']
-                    nunique = [df[col].nunique() for col in useful_columns]
-                    files_and_folders[folder.name][file.name]['columns'].extend(cols)
-                    files_and_folders[folder.name][file.name]['useful_columns'].extend(useful_columns)
-                    files_and_folders[folder.name][file.name]['useful_columns_nunique'].extend(nunique)
-
-
-                except TypeError:
-                    print("Not a .csv or .xlsx file type")
-                    continue
-                
-        
-        with open(f'{self.lookups.joinpath(self.json_file_name)}', 'w') as outfile:
-            json.dump(files_and_folders, outfile, indent=4)
             
     
     def create_graph(self) -> Tuple[Dict, List]:
         """Create a graph of connections between tables using common column names."""
         graph = {}
         
-        table_column_pairs = []
-        for year, table_data in self.files_and_folders.items():
-            for table_name, column_data in table_data.items():
-                table_column_pairs.append((table_name, column_data['useful_columns'], column_data['useful_columns_nunique']))
+        table_column_pairs = list(zip(self.files_and_folders['name'], self.files_and_folders['matchable_fields']))
         
-        for enum, (table, columns, columns_nunique) in enumerate(table_column_pairs):
-            graph[table] = []
-            table_columns_comparison = table_column_pairs.copy()
-            table_columns_comparison.pop(enum)
-            for comparison_table, comparison_columns, comparison_columns_nunique in table_columns_comparison:
-                shared_columns = list(set(columns).intersection(set(comparison_columns)))
-                for shared_column in shared_columns:
-                    graph[table].append((comparison_table, shared_column))
+        
+        for enum, (table, columns) in enumerate(zip(self.files_and_folders['name'], self.files_and_folders['matchable_fields'])):
+            if columns:
+                graph[table] = []
+                table_columns_comparison = list(table_column_pairs).copy()
+                table_columns_comparison.pop(enum)
+                for comparison_table, comparison_columns in table_columns_comparison:
+                    if comparison_columns:
+                        shared_columns = list(set(columns).intersection(set(comparison_columns)))
+                        
+                        for shared_column in shared_columns:
+                            graph[table].append((comparison_table, shared_column))
                     
         return graph, table_column_pairs
     
     
     def get_starting_point_without_local_authority_constraint(self) -> Dict: 
-        """Starting point is any suitable column."""
+        """Starting point is any table with a suitable column."""
         starting_points = {}
         
-        for folder, files in self.files_and_folders.items():
-            for file_name, columns in files.items():
-                if self.starting_column in columns['useful_columns']:
-                    starting_points[file_name] = {'columns': columns['columns'], 'useful_columns': columns['useful_columns']}
+        for row in self.files_and_folders.iterrows():
+            row = row[1]
+            if self.starting_column in row['matchable_fields']:
+                starting_points[row['name']] = {'columns': row['fields'], 'useful_columns': row['matchable_fields']}
         if starting_points:
             return starting_points
         else:
@@ -283,14 +257,17 @@ class SmartGeocodeLookup:
         """Starting point is hard coded as being from any table with 'LAD', 'UTLA', or 'LTLA' columns."""
         starting_points = {}
         
-        for folder, files in self.files_and_folders.items():
-            for file_name, columns in files.items():
-                for la_col in self._la_possibilities:
-                    la_nm_col_subset = [col for col in columns['columns'] if col[:len(la_col)].upper() in self._la_possibilities and col[-2:].upper() == 'NM']
-                    la_cd_col_subset = [col for col in columns['columns'] if col[:len(la_col)].upper() in self._la_possibilities and col[-2:].upper() == 'CD']
-                    if la_col in [col[:len(la_col)].upper() for col in columns['columns']]:
-                        if self.starting_column in columns['useful_columns']:
-                            starting_points[file_name] = {'columns': columns['columns'], 'la_nm_columns': la_nm_col_subset, 'la_cd_columns': la_cd_col_subset, 'useful_columns': columns['useful_columns']}
+
+
+        for row in self.files_and_folders.iterrows():
+            row = row[1]
+            for la_col in self._la_possibilities:
+                
+                la_nm_col_subset = [col for col in row['fields'] if col[:len(la_col)].upper() in self._la_possibilities and col[-2:].upper() == 'NM']
+                la_cd_col_subset = [col for col in row['fields'] if col[:len(la_col)].upper() in self._la_possibilities and col[-2:].upper() == 'CD']
+                if la_col in [col[:len(la_col)].upper() for col in row['matchable_fields']]:
+                    if self.starting_column in row['matchable_fields']:
+                        starting_points[row['name']] = {'columns': row['fields'], 'la_nm_columns': la_nm_col_subset, 'la_cd_columns': la_cd_col_subset, 'useful_columns': row['matchable_fields']}
         if starting_points:
             return starting_points
         else:
@@ -300,7 +277,7 @@ class SmartGeocodeLookup:
     def find_paths(self) -> Dict[str, List]:
         """Find all paths given all start and end options using BFS_SP function."""
        
-        
+        """
         if self.using_max_values:
             get_nunique = itemgetter(2) 
             nunique_vals_in_columns = list(map(get_nunique, self.table_column_pairs))  # make a list of nunique values 
@@ -308,11 +285,12 @@ class SmartGeocodeLookup:
             end_options = [table for i, (table, columns, columns_nunique) in enumerate(self.table_column_pairs) if i in end_table_indices]
             print(end_options)
         else:
-            end_options = []
-            for table, columns, columns_nunique in self.table_column_pairs:
-                if self.ending_column in columns:
-                    end_options.append(table)
-            print(end_options)
+        """
+        end_options = []
+        for table, columns in self.table_column_pairs:
+            if self.ending_column in columns:
+                end_options.append(table)
+
         path_options = {}
         for start_table in self.starting_points.keys():
             path_options[start_table] = {}
@@ -477,7 +455,7 @@ class GeoHelper(SmartGeocodeLookup):
 
 
     def get_available_geocodes(self, selected_year: Dict[str, Dict]):
-        """Geta set of geocode columns for all selected lookup tables."""
+        """Get a set of geocode columns for all selected lookup tables."""
         all_columns = []
         for table in selected_year.keys():
             all_columns.extend(selected_year[table]['useful_columns'])        
@@ -536,10 +514,40 @@ def _test_geohelper():
     print(geo_help.available_geographies())
 
 
-if __name__ == '__main__':
-    filtered_options = _test_smart_lookup()
-    print(len(filtered_options))
-    _test_geohelper()
-    for opt in filtered_options:
-        print(opt)
+def _test_og_API():
+    gss = SmartGeocodeLookup()
+    gss.run_graph(starting_column='OA11CD', ending_column='OA21CD', local_authorities=['Lewisham'])
     
+    filtered = gss.get_filtered_geocodes(3)
+    return filtered
+
+#%%
+if __name__ == '__main__':
+    
+
+    gss = SmartGeocodeLookup()
+    try:
+        gss.run_graph(starting_column='OA11CD', ending_column='MSOA21CD', local_authorities=['Lewisham'])
+    
+        filtered = gss.get_filtered_geocodes(1)
+
+    except Exception as e:
+        print(e)
+        print("Graph:")
+        #print(gss.graph)
+        #print(gss.files_and_folders)
+    
+
+# %%
+fs = open_geography_api.OpenGeography()
+output_table = fs.connect_to_feature_service('OA11_LAD15_LSOA11_MSOA11_LEP14_EN_LUv2_55efc515fae94c8dabd9c6e3baeb9cb8')
+out = output_table.lookup_format()
+dl = output_table.download()
+dl
+#%%
+out['fields'][0]
+
+#%%
+gss = SmartGeocodeLookup()
+
+gss.files_and_folders[gss.files_and_folders['name'] == 'OA11_LAD15_LSOA11_MSOA11_LEP14_EN_LUv2_55efc515fae94c8dabd9c6e3baeb9cb8']
