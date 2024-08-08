@@ -54,7 +54,8 @@ setup(
         'typing', 
         'dataclasses', 
         'geopandas',
-        'datetime'
+        'datetime',
+        'numpy==1.26.4'
     ],
     python_requires='>=3.9',  # Specify your supported Python versions
     cmdclass={

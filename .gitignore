@@ -152,14 +152,11 @@ cython_debug/
 #.idea/
 
 
-/Case studies
-/database_structure
-/powerbi_draft_relationships
 /TestFolder
-/lookups
-/config
-/LBLDataAccess/lookups/*.json
-/LBLDataAccess/config/*.json
+/Lookups
+/Config
+#/LBLDataAccess/Lookups/*.json
+/LBLDataAccess/Config/*.json
 
 settings.txt
 .settings.txt

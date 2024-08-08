@@ -10,7 +10,9 @@ import pandas as pd
 from copy import deepcopy
 import gc
 from pathlib import Path
+from LBLDataAccess import lookups
 from pkg_resources import resource_stream
+import importlib.resources as pkg_resources
 
 @dataclass
 class Service:
@@ -103,6 +105,9 @@ class Service:
         if not self.description:
             self.description = self.metadata.get('description')
         self.fields = self.metadata.get('fields', [])
+
+        
+
         self.primary_key = self.metadata.get('uniqueIdField')
         lastedit = self.metadata.get('editingInfo', {})
         try:
@@ -124,11 +129,20 @@ class Service:
             Returns a Pandas ready dictionary of the service's metadata 
         """
         self._service_attributes()
+        
+       
+        
         try:
-            row_data = {'name':[self.name], 'fields': [[field['name'] for field in self.fields]], 'url': [self.url], 'description': [self.description], 'primary_key': [self.primary_key['name']], 'lasteditdate': [self.lasteditdate]}
+            self.data = {'name':[self.name], 'fields': [[field['name'] for field in self.fields]], 'url': [self.url], 'description': [self.description], 'primary_key': [self.primary_key['name']], 'lasteditdate': [self.lasteditdate]}
         except TypeError:
-            row_data = {'name':[self.name], 'fields': [[field['name'] for field in self.fields]], 'url': [self.url], 'description': [self.description], 'primary_key': [self.primary_key['name']], 'lasteditdate': ['']}
-        return row_data
+            self.data = {'name':[self.name], 'fields': [[field['name'] for field in self.fields]], 'url': [self.url], 'description': [self.description], 'primary_key': [self.primary_key['name']], 'lasteditdate': ['']}
+         # add the field 'geometry' to services that are designated as layers as the underlying Esri REST API says: A feature service can contain datasets (for example, tables and views) with or without a spatial column. Datasets with a spatial column are considered layers; those without a spatial column are considered tables. A feature service allows clients to query and edit feature geometry and attributes.
+        if self.layers:
+            self.data['fields'][0].append('geometry')
+            self.data['has_geometry'] = [True]
+        else:
+            self.data['has_geometry'] = [False]
+        return self.data
 
     def print_service_attributes(self) -> None:
         """
@@ -143,151 +157,7 @@ class Service:
         print('Fields:', self.fields)
         print('Primary key:', self.primary_key)
 
-    def download(self, fileformat: str = 'geojson', return_geometry:bool=False, where_clause: str = '1=1', output_fields: str = '*', params: Dict[str, str] = None, visit_all_links: bool = False, n_sample_rows: int = -1) -> Any:
-        """
-            Download data from Open Geography Portal.
-
-            Arguments:
-                fileformat {str}    -   The format in which to download the data (default: 'geojson').
-                return_geometry {bool}  -   Whether the query should return the geometry field.
-                where_clause {str}  -   SQL filter to apply to the rows (default: '1=1'). Open Geography Portal depends on Esri API, which uses SQL-92. This where clause can take the following instructions:
-
-                    <COLUMN | LITERAL> '<=' | '>=' | '<' | '>' | '=' | '<>' <COLUMN | LITERAL>
-                    <BOOLEAN EXPRESSION> AND | OR <BOOLEAN EXPRESSION>
-                    NOT <BOOLEAN EXPRESSION>
-                    <COLUMN> IS [ NOT ] NULL
-                    <COLUMN> [ NOT ] LIKE <STRING>
-                    <COLUMN> [ NOT ] IN ( <LITERAL, <LITERAL>, ... )
-                    <COLUMN> [ NOT ] BETWEEN <COLUMN | LITERAL> AND <COLUMN | LITERAL>
-
-                output_fields {str} -   Fields to include in the output (default: '*').
-            
-                params {Dict[str,str]}  -   If you want to manually override the search parameters. Only change if you cannot get the data otherwise or if you wish to do somethimg more sophisticated like use geometries as search terms. Some tables may allow you to send an input geometry as part of the parameter query and select the spatial relationship between the output and the input. For more information on how to format the 'geometry' attribute for the parameters, see https://developers.arcgis.com/rest/services-reference/enterprise/geometry-objects.htm. Note that polygons, envelopes, points, and lines all require slightly different formatting.
-
-                visit_all_links {bool}  -   Some tables may have more than one link to visit. However, typically the first one is enough, so set this to True if you think you're missing data. Note that this method does not handle duplicate rows so you will have to deal with any duplication afterwards.
-
-                n_sample_rows {int} -   This parameter helps with testing as it lets you quickly select the first n rows. It overrides the where_clause and uses the table's primary key to select top n rows. 
-
-            Returns:
-                List[Dict[str, Any]]    -   List of dictionaries representing the downloaded data.
-        """
-        self._service_attributes()
-        primary_key = self.primary_key['name']
-
-        assert isinstance(n_sample_rows, int), "n_sample_rows is not int"
-        if n_sample_rows > 0 :
-            where_clause = f"{primary_key}<={n_sample_rows}"
-        
-
-        if hasattr(self, 'feature_server'):
-            service_url = self.url  # url for service
-            
-            # find all potential links for data:
-            if self.tables:
-                links_to_visit = self.tables
-                fileformat = 'json'
-            elif self.layers:
-                links_to_visit = self.layers
-
-            if not params:
-                params = {
-                'where': where_clause,
-                'objectIds': '',
-                'time': '',
-                'resultType': 'standard',
-                'outFields': output_fields,
-                'returnIdsOnly': False,
-                'returnUniqueIdsOnly': False,
-                'returnCountOnly': False,
-                'returnGeometry': return_geometry,
-                'returnDistinctValues': False,
-                'cacheHint': False,
-                'orderByFields': '',
-                'groupByFieldsForStatistics': '',
-                'outStatistics': '',
-                'having': '',
-                'resultOffset': '',
-                'resultRecordCount': '',
-                'sqlFormat': 'none',
-                'f': fileformat
-                }
-            assert isinstance(params, dict), "Params provided is not a dictionary"
-            link_url = f"{service_url}/{str(links_to_visit[0]['id'])}/query"  # visit first link
-            print(f"Visiting link {request('GET', link_url, params=params).url}")
-            response = request_get(link_url, params=params).json()  # get the first response
-                       
-            # use type checking to normalise the response
-            if type(response) == dict:
-                responses = json.dumps(response)
-                responses = json.loads(responses)
-            elif type(response) == str:
-                responses = json.loads(response)
-
-            count = self._record_count(link_url, params=params)  # get the number of records to fetch given the parameters of the query
-            
-            counter = len(response['features'])  # number of initial features
-            print("Number of records to download:", count)
-            try:
-                last_object = max([i["properties"][primary_key] for i in response["features"]])  # find ID of last item in query - will not work if primary key is not a simple counter, so may need to fix this. 
-            except KeyError:
-                last_object = max([i["attributes"][primary_key] for i in response["features"]])
-            
-            print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-            pattern = r'>(\s*)(\d+)'
-            while counter < int(count):
-                # update the SQL where clause to reflect the number of objects already processed:
-                if ">" in params['where']:
-                    params['where'] = re.sub(pattern, '>' + str(last_object), params['where'], count=1)
-                else:
-                    params['where'] = f'{primary_key}>{last_object}'
-                additional_response = request_get(link_url, params=params).json()
-                try:
-                    last_object = max([i["properties"][primary_key] for i in additional_response["features"]]) 
-                except KeyError:
-                    last_object = max([i["attributes"][primary_key] for i in additional_response["features"]])
-                responses['features'].extend(additional_response['features'])
-                counter += len(additional_response['features'])
-                print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-                
-            if len(links_to_visit) > 1 and visit_all_links:
-                for link in links_to_visit[1:]:
-                    print(f"Visiting link {link}")
-                    link_url = f"{service_url}/{str(link['id'])}/query"
-                    response = request_get(link_url, params=params).json()
-                    count = self._record_count(link_url, params=params)
-                    counter = len(response['features'])
-                    try:
-                        last_object = max([i["properties"][primary_key] for i in response["features"]]) 
-                    except KeyError:
-                        last_object = max([i["attributes"][primary_key] for i in response["features"]])
-                    print("Number of records:", count)
-                    print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-                
-                    while counter < int(count):
-                        # update the SQL where clause to reflect the number of objects already processed:
-                        if ">" in params['where']:
-                            params['where'] = re.sub(pattern, '>' + str(last_object), params['where'], count=1)
-                        else:
-                            params['where'] = f'{primary_key}>{last_object}' 
-                        additional_response = request_get(link_url, params=params).json()
-                        try:
-                            last_object = max([i["properties"][primary_key] for i in additional_response["features"]]) 
-                        except KeyError:
-                            last_object = max([i["attributes"][primary_key] for i in additional_response["features"]])
-
-                        responses['features'].extend(additional_response['features'])
-                        counter += len(additional_response['features'])
-                        print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-            gc.collect()
-
-            if 'geometry' in responses['features'][0].keys():
-                return gpd.GeoDataFrame.from_features(responses)
-            else:
-                df = pd.DataFrame(responses['features'])
-                return df[df.columns[-1]].apply(pd.Series)
-
-        else:
-            raise AttributeError("Choose service with connect_to_featureserver(service_name='') method first")
+    
 
     def _record_count(self, url: str, params: Dict[str, str]) -> int:
         """
@@ -305,26 +175,20 @@ class Service:
 
 class OpenGeography:
     """
-        Main class for accessing Open Geography API. This class currently supports downloading data for FeatureServers only.
+        Main class for connecting to Open Geography API.
 
         Methods:
             print_all_services  -   Prints the name, URL, and server type of all services available through Open Geography API.
 
             print_services_by_server_type   -   Given a server type (one of 'feature', 'map' or 'wfs', default = 'feature'), print the services available. 
 
-            metadata_as_pandas  -   This method can be used for comparing different data tables from Open Geography Portal as well as the basis for building a graph with SmartGeocodeLookup.
 
-            build_lookup    -   Given a list of services, use this method to build a lookup JSON file that contains metadata about the services.
-
-            update_lookup   -   Update the lookup JSON file by either adding new list of services
 
         Usage:
 
 
 
     """
-
-
     def __init__(self) -> None:
         print("Connecting to Open Geography Portal")
         self.base_url = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json"
@@ -383,6 +247,30 @@ class OpenGeography:
                     continue
         except KeyError:
             print(f"{server_type} is not an identifiable server type. Try one of 'feature', 'map', or 'wfs'")
+
+class OpenGeographyLookup(OpenGeography):
+    """
+        Build and update a JSON lookup table for the Open Geography Portal's FeatureServers.
+
+
+        Methods:
+            metadata_as_pandas  -   This method can be used for comparing different data tables from Open Geography Portal as well as the basis for building a graph with SmartGeocodeLookup.
+
+            build_lookup    -   Given a list of services, use this method to build a lookup JSON file that contains metadata about the services.
+
+            update_lookup   -   Update the lookup JSON file by either adding new list of services
+
+        Usage:
+
+            ogl = OpenGeographyLookup()
+            ogl.build_or_update_lookup()
+
+            You can also provide a Path object to build_or_update_lookup() method as parent_path=Path(path_to_folder) if you want to specify where the lookup is stored, but the class will then always have to be provided that path for future updates. 
+
+    """
+
+    def __init__(self) -> None:
+        super().__init__()
 
     def metadata_as_pandas(self, service_type: str = 'feature', included_services: List[str] = []) -> pd.DataFrame:
         """
@@ -508,7 +396,7 @@ class OpenGeography:
         print(f"Found {len(new_tables)} new tables")
 
         # check if an old table is still in use and if not, remove from old_table
-        print(self.service_table.keys())
+
         old_tables_copy = deepcopy(old_tables)
         for existing_table in old_tables_copy:
             if existing_table not in list(self.service_table.keys()):
@@ -530,8 +418,8 @@ class OpenGeography:
                     if int(old_data_last_edit) < int(new_data_last_edit):
                         tables_to_update.append(table)
                 except Exception as e:
-                    print(f"No last editing date available, updating {table} just in case")
-                    tables_to_update.append(table)
+                    print(f"No last editing date available for {table}, beware")
+                    
             print(f"Checked {enum+1} of {len(old_tables_copy)} tables. {len(tables_to_update)} tables require updating. {len(old_tables_copy)-len(old_tables)} have been removed from the lookup")
             print(f"Found {len(tables_to_update)} tables that require updating")
 
@@ -590,32 +478,181 @@ class OpenGeography:
         """
 
         if lookup_folder:
-            parent_path = lookup_folder
+            json_path = Path(lookup_folder) / 'lookups' / 'lookup.json'
+            return pd.read_json(json_path)
         else:
-            parent_path = Path(__file__).resolve().parent
-        return pd.read_json(parent_path.joinpath('lookup.json'))
+            with pkg_resources.open_text(lookups, 'lookup.json') as f:
+                lookup_data = json.load(f)
+            return pd.DataFrame(lookup_data)
 
-    def connect_to_feature_service(self, service_name: str = None) -> Service:
-        """
-            Select a FeatureServer service given its name.
 
-            Arguments:
-                service_name {str}  -   Name of the service.
+class FeatureServer(OpenGeography):
 
-            Returns:
-                Service -   Service dataclass object.
-        """
+    """
+        This class currently supports downloading data for FeatureServers.
+
+        Methods:
+            download    -   Download the data for the table or layer. Supports SQL commands as part of the where_clause argument. 
+        
+        Usage:
+            fs = FeatureServer(service_name)
+            dl = fs.download()
+            
+    """
+
+    def __init__(self, service_name: str = None) -> None:
+        super().__init__()
         try:
             self.service_name = service_name
             self.feature_service = self.service_table.get(self.service_name).featureservers()
-            
-            return self.feature_service
+            self.feature_service.lookup_format()
             
         except AttributeError as e:
-            print(f"{e} - the selected table does not appear to have a feature server. Check table name exists in list of services or your spelling.")
+            print(f"{e} - the selected table does not appear to have a feature server. Check table name exists in list of services or your spelling.")        
 
+    def download(self, fileformat: str = 'geojson', return_geometry:bool=False, where_clause: str = '1=1', output_fields: str = '*', params: Dict[str, str] = None, visit_all_links: bool = False, n_sample_rows: int = -1) -> Any:
+        """
+            Download data from Open Geography Portal.
 
-if __name__ == '__main__':
-    print(Path(__file__).resolve().parent)
-    fs = OpenGeography()
-    fs.build_or_update_lookup()
+            Arguments:
+                fileformat {str}    -   The format in which to download the data (default: 'geojson').
+                return_geometry {bool}  -   Whether the query should return the geometry field.
+                where_clause {str}  -   SQL filter to apply to the rows (default: '1=1'). Open Geography Portal depends on Esri API, which uses SQL-92. This where clause can take the following instructions:
+
+                    <COLUMN | LITERAL> '<=' | '>=' | '<' | '>' | '=' | '<>' <COLUMN | LITERAL>
+                    <BOOLEAN EXPRESSION> AND | OR <BOOLEAN EXPRESSION>
+                    NOT <BOOLEAN EXPRESSION>
+                    <COLUMN> IS [ NOT ] NULL
+                    <COLUMN> [ NOT ] LIKE <STRING>
+                    <COLUMN> [ NOT ] IN ( <LITERAL, <LITERAL>, ... )
+                    <COLUMN> [ NOT ] BETWEEN <COLUMN | LITERAL> AND <COLUMN | LITERAL>
+
+                output_fields {str} -   Fields to include in the output (default: '*').
+            
+                params {Dict[str,str]}  -   If you want to manually override the search parameters. Only change if you cannot get the data otherwise or if you wish to do somethimg more sophisticated like use geometries as search terms. Some tables may allow you to send an input geometry as part of the parameter query and select the spatial relationship between the output and the input. For more information on how to format the 'geometry' attribute for the parameters, see https://developers.arcgis.com/rest/services-reference/enterprise/geometry-objects.htm. Note that polygons, envelopes, points, and lines all require slightly different formatting.
+
+                visit_all_links {bool}  -   Some tables may have more than one link to visit. However, typically the first one is enough, so set this to True if you think you're missing data. Note that this method does not handle duplicate rows so you will have to deal with any duplication afterwards.
+
+                n_sample_rows {int} -   This parameter helps with testing as it lets you quickly select the first n rows. It overrides the where_clause and uses the table's primary key to select top n rows. 
+
+            Returns:
+                List[Dict[str, Any]]    -   List of dictionaries representing the downloaded data.
+        """
+        self.feature_service._service_attributes()
+        primary_key = self.feature_service.primary_key['name']
+
+        assert isinstance(n_sample_rows, int), "n_sample_rows is not int"
+        if n_sample_rows > 0 :
+            where_clause = f"{primary_key}<={n_sample_rows}"
+        
+
+        if hasattr(self.feature_service, 'feature_server'):
+            service_url = self.feature_service.url  # url for service
+            
+            # find all potential links for data:
+            if self.feature_service.tables:
+                links_to_visit = self.feature_service.tables
+                fileformat = 'json'
+            elif self.feature_service.layers:
+                links_to_visit = self.feature_service.layers
+
+            if not params:
+                params = {
+                'where': where_clause,
+                'objectIds': '',
+                'time': '',
+                'resultType': 'standard',
+                'outFields': output_fields,
+                'returnIdsOnly': False,
+                'returnUniqueIdsOnly': False,
+                'returnCountOnly': False,
+                'returnGeometry': return_geometry,
+                'returnDistinctValues': False,
+                'cacheHint': False,
+                'orderByFields': '',
+                'groupByFieldsForStatistics': '',
+                'outStatistics': '',
+                'having': '',
+                'resultOffset': '',
+                'resultRecordCount': '',
+                'sqlFormat': 'none',
+                'f': fileformat
+                }
+            assert isinstance(params, dict), "Params provided is not a dictionary"
+            link_url = f"{service_url}/{str(links_to_visit[0]['id'])}/query"  # visit first link
+            print(f"Visiting link {request('GET', link_url, params=params).url}")
+            response = request_get(link_url, params=params).json()  # get the first response
+                       
+            # use type checking to normalise the response
+            if type(response) == dict:
+                responses = json.dumps(response)
+                responses = json.loads(responses)
+            elif type(response) == str:
+                responses = json.loads(response)
+
+            count = self.feature_service._record_count(link_url, params=params)  # get the number of records to fetch given the parameters of the query
+            
+            counter = len(response['features'])  # number of initial features
+            print("Number of records to download:", count)
+            try:
+                last_object = max([i["properties"][primary_key] for i in response["features"]])  # find ID of last item in query - will not work if primary key is not a simple counter, so may need to fix this. 
+            except KeyError:
+                last_object = max([i["attributes"][primary_key] for i in response["features"]])
+            
+            print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
+            pattern = r'>(\s*)(\d+)'
+            while counter < int(count):
+                # update the SQL where clause to reflect the number of objects already processed:
+                if ">" in params['where']:
+                    params['where'] = re.sub(pattern, '>' + str(last_object), params['where'], count=1)
+                else:
+                    params['where'] = f'{primary_key}>{last_object}'
+                additional_response = request_get(link_url, params=params).json()
+                try:
+                    last_object = max([i["properties"][primary_key] for i in additional_response["features"]]) 
+                except KeyError:
+                    last_object = max([i["attributes"][primary_key] for i in additional_response["features"]])
+                responses['features'].extend(additional_response['features'])
+                counter += len(additional_response['features'])
+                print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
+                
+            if len(links_to_visit) > 1 and visit_all_links:
+                for link in links_to_visit[1:]:
+                    print(f"Visiting link {link}")
+                    link_url = f"{service_url}/{str(link['id'])}/query"
+                    response = request_get(link_url, params=params).json()
+                    count = self.feature_service._record_count(link_url, params=params)
+                    counter = len(response['features'])
+                    try:
+                        last_object = max([i["properties"][primary_key] for i in response["features"]]) 
+                    except KeyError:
+                        last_object = max([i["attributes"][primary_key] for i in response["features"]])
+                    print("Number of records:", count)
+                    print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
+                
+                    while counter < int(count):
+                        # update the SQL where clause to reflect the number of objects already processed:
+                        if ">" in params['where']:
+                            params['where'] = re.sub(pattern, '>' + str(last_object), params['where'], count=1)
+                        else:
+                            params['where'] = f'{primary_key}>{last_object}' 
+                        additional_response = request_get(link_url, params=params).json()
+                        try:
+                            last_object = max([i["properties"][primary_key] for i in additional_response["features"]]) 
+                        except KeyError:
+                            last_object = max([i["attributes"][primary_key] for i in additional_response["features"]])
+
+                        responses['features'].extend(additional_response['features'])
+                        counter += len(additional_response['features'])
+                        print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
+            gc.collect()
+
+            if 'geometry' in responses['features'][0].keys():
+                return gpd.GeoDataFrame.from_features(responses)
+            else:
+                df = pd.DataFrame(responses['features'])
+                return df[df.columns[-1]].apply(pd.Series)
+
+        else:
+            raise AttributeError("Choose service with connect_to_featureserver(service_name='') method first")
+
