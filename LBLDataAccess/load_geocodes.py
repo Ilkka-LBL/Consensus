@@ -104,7 +104,7 @@ class SmartGeocodeLookup:
         self.ending_column = ending_column.upper()                          # end point in the path search
         self.local_authorities = local_authorities                          # list of local authorities to get the geocodes for
 
-        if self.starting_column and self.ending_column and self.local_authorities:
+        if self.starting_column and self.ending_column:
             self.graph, self.table_column_pairs = self.create_graph()       # create the graph for connecting columns
             if self.local_authority_constraint:
                 self.starting_points = self.get_starting_point()            # find all possible starting points given criteria
