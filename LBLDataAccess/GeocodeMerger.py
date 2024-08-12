@@ -115,16 +115,16 @@ class SmartGeocoder:
         else:
             raise Exception("You haven't provided all parameters. Make sure the local_authorities list is not empty.")
         
-    def _get_ogp_table(self, pathway:str) -> Tuple[pd.DataFrame, str]:
+    def _get_ogp_table(self, pathway:str, where_clause:str = "1=1") -> Tuple[pd.DataFrame, str]:
         """
             Download relevant data from Open Geography Portal
         """
 
         fs = OpenGeographyPortal.FeatureServer(pathway)
         if 'geometry' in fs.feature_service.data['fields'][0]:
-            return fs.download(return_geometry=True)
+            return fs.download(where_clause=where_clause, return_geometry=True)
         else:
-            return fs.download()
+            return fs.download(where_clause=where_clause)
         
 
 
@@ -138,52 +138,65 @@ class SmartGeocoder:
 
         final_tables_to_return = {'paths':[], 'table_data':[]}
         for shortest_path in self.shortest_paths[:n_first_routes]:
-            start_table = self._get_ogp_table(shortest_path[0])                
-            start_table.columns = [col.upper() for col in list(start_table.columns)]
-            print(shortest_path)
+            
+            print("Shortest path: ", shortest_path)
             final_tables_to_return['paths'].append(shortest_path)
-            if len(shortest_path) == 1:                
-                if self.local_authorities:
-                    try:
-                        for la_col in self._la_possibilities:
-                            for final_table_col in start_table.columns:
-                        
-                                if final_table_col[:len(la_col)].upper() in self._la_possibilities and final_table_col[-2:].upper() == 'NM':              
-                                    final_tables_to_return['table_data'].append(start_table[start_table[final_table_col].isin(self.local_authorities)])
-                                    
-                    except Exception as e:
-                        print(f"Error: {e}, returning full table")
-                        final_tables_to_return['table_data'].append(start_table)
-                        
-                else:
-                    final_tables_to_return['table_data'].append(start_table)
-                    
-            else:
-                for pathway in shortest_path[1:]:
-                    next_table = self._get_ogp_table(pathway[0])
-                    next_table.columns = [col.upper() for col in list(next_table.columns)]
-                    start_table = start_table.merge(next_table, on=pathway[1], how='left', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
-                start_table = start_table.drop_duplicates()
-                start_table.dropna(axis='columns', how='all', inplace=True)
 
-                if self.local_authorities:
-                    try:
-                        la_cd_col_subset = []
-                        for la_col in self._la_possibilities:
-                            for final_table_col in start_table.columns:
-                                if final_table_col[:len(la_col)].upper() in self._la_possibilities and final_table_col[-2:].upper() == 'NM':
-                                    la_cd_col_subset.append(final_table_col)
-                        if len(start_table[start_table[la_cd_col_subset[0]].isin(self.local_authorities)]) > 0:
-                            final_tables_to_return['table_data'].append(start_table[start_table[la_cd_col_subset[0]].isin(self.local_authorities)])
+            if self.local_authorities:
+                
+                for la_col in self._la_possibilities:
+                    column_names = [i for i in self.lookup[self.lookup['name']==shortest_path[0]]['fields'][0] if i[:len(la_col)].upper() in self._la_possibilities and i[-2:].upper() == 'NM']
+                    for final_table_col in column_names:
+                        if final_table_col[:len(la_col)].upper() in self._la_possibilities and final_table_col[-2:].upper() == 'NM':
+                            string_list = [f'{i}' for i in self.local_authorities]
+                            if len(string_list) < 100:
+                                where_clause = f"{final_table_col} IN {str(tuple(string_list))}"
+                                print(f"Selecting items based on SQL: {where_clause} in table {shortest_path[0]}")
+                                start_table = self._get_ogp_table(shortest_path[0], where_clause=where_clause)
+                                start_table.drop_duplicates(inplace=True)
+
+                            else:
+                                print("More than 100 local authorities listed, returning full table and filtering after")
+                                start_table = self._get_ogp_table(shortest_path[0])
+                                start_table.drop_duplicates(inplace=True)
+                                start_table = start_table[start_table[final_table_col].isin(self.local_authorities)]
+
+            else:
+                start_table = self._get_ogp_table(shortest_path[0])
+                start_table.drop_duplicates(inplace=True)
+
+            if len(shortest_path) == 1:
+                final_tables_to_return['table_data'].append(start_table)
+
+            else:
+                try:
+                    for pathway in shortest_path[1:]:
+                        connecting_column = pathway[1]
+                        string_list = [f'{i}' for i in start_table[connecting_column].unique()]
+                        if len(string_list) < 100:
+                            where_clause = f"{pathway[1]} IN {str(tuple(string_list))}"
+                            print(f"Selecting items based on SQL: {where_clause} in table {pathway[0]}")
+                            next_table = self._get_ogp_table(pathway[0], where_clause=where_clause)
+                            next_table.columns = [col.upper() for col in list(next_table.columns)]
                         else:
-                            print("Couldn't limit the data to listed local authorities, returning full table")
-                            final_tables_to_return['table_data'].append(start_table)
-                    except Exception as e:
-                        print(f"Error: {e}, returning full table")
-                        final_tables_to_return['table_data'].append(start_table)
+                            print("More than 100 unique values to join, downloading full table and applying left join")
+                            next_table = self._get_ogp_table(pathway[0])
+                            next_table.columns = [col.upper() for col in list(next_table.columns)]
                         
-                else:
+                        start_table = start_table.merge(next_table, on=connecting_column, how='left', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')
+                    start_table = start_table.drop_duplicates()
+                    start_table.dropna(axis='columns', how='all', inplace=True)
                     final_tables_to_return['table_data'].append(start_table)
+
+                except Exception as e:
+                    print(e)
+                    print(f"No table merging performed, returning all tables for path {shortest_path}")
+                    all_tables = [start_table]
+                    for pathway in shortest_path[1:]:
+                        next_table = self._get_ogp_table(pathway[0])
+                        all_tables.append(next_table)
+                    final_tables_to_return['table_data'].append(all_tables)
+
         return final_tables_to_return
     
                
@@ -476,3 +489,8 @@ class GeoHelper(SmartGeocoder):
 
     
 
+if __name__ == "__main__":
+    sg = SmartGeocoder()
+    sg.run_graph(starting_column="OA11CD", ending_column="OA21CD", local_authorities=['Lewisham'])
+
+    sg.geocodes(1)

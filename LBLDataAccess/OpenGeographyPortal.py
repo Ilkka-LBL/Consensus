@@ -165,7 +165,7 @@ class Service:
         """
         temp_params = deepcopy(params)  # without deepcopy the changes in param propagates back to the download method
         temp_params['returnCountOnly'] = True
-        temp_params['where'] = '1=1'
+        #temp_params['where'] = '1=1'
         temp_params['f'] = 'json'
         try:
             return request_get(url, params=temp_params).json()['count']
@@ -656,3 +656,4 @@ class FeatureServer(OpenGeography):
         else:
             raise AttributeError("Choose service with connect_to_featureserver(service_name='') method first")
 
+    

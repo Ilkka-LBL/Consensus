@@ -306,6 +306,10 @@ class DownloadFromNomis(LBLToNomis):
         except AttributeError:
             with request_get(self.url, stream=True) as response:
                 return pd.read_csv(response.raw)
+        except Exception as e:
+            print(e)
+            print('Try using the get_bulk() method instead.')
+
 
 
     
@@ -397,6 +401,6 @@ class NomisTable:
         list_of_columns = [(col['codelist'], col['conceptref']) for col in columns]
         return list_of_columns
         
-    def table_shorthand(self) -> str:
+    def table_shorthand(self) -> None:
         """Returns a shorthand description of the table, including its ID and name."""
-        return f"{self.id}: {self.name['value']}"
+        print(f"{self.id}: {self.name['value']}")
