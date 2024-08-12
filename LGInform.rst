@@ -1,202 +1,90 @@
-LGInform Documentation
-======================
+LGInform
+=========
 
 Overview
 --------
 
-The ``LGInform`` class is designed to interact with the LG Inform Plus API, allowing users to download and merge data from multiple datasets. This class is capable of handling both single-threaded and multi-threaded data downloads, making it flexible for different use cases. It is particularly useful for downloading data related to specific areas, such as those defined by GSS codes or pre-defined area groups.
+The `LGInform` class provides access to data from the LG Inform API, which offers various datasets related to local authorities. This class facilitates querying and retrieving data from the API, including handling parameters and managing requests.
 
-Class: LGInform
----------------
+Initialization
+--------------
 
-Purpose
-~~~~~~~
+.. code-block:: python
 
-The ``LGInform`` class facilitates the process of downloading data from LG Inform Plus datasets. It enables users to sign API requests, download multiple datasets, and merge the resulting data into a unified format.
+    LGInform(api_key: str = None, base_url: str = 'https://api.lginform.local.gov.uk/', timeout: int = 10)
 
-Arguments
-~~~~~~~~~
+**Parameters:**
 
-- **``key``**: ``str``
-
-  - The public API key for LG Inform Plus.
-
-- **``secret``**: ``str``
-
-  - The secret key associated with the public API key.
-
-- **``output_folder``**: ``Path``
-
-  - The directory where the downloaded and merged data will be stored.
-
-- **``area``**: ``str``
-
-  - A comma-separated string of area codes or groups, excluding whitespace. For example, ``E09000023,Lewisham_CIPFA_Near_Neighbours``.
+- **api_key** (`str`, optional): API key for authentication with the LG Inform API. If not provided, the class attempts to load it from a configuration file.
+- **base_url** (`str`, default: `'https://api.lginform.local.gov.uk/'`): Base URL for the LG Inform API.
+- **timeout** (`int`, default: `10`): Timeout for API requests, in seconds.
 
 Methods
 -------
 
-``json_to_pandas(json_data: JSONDict) -> pd.DataFrame``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Data Retrieval
+~~~~~~~~~~~~~
 
-Transforms downloaded JSON data into a Pandas DataFrame.
+- **get_data**
 
-- **Arguments**:
+  .. code-block:: python
+
+      get_data(endpoint: str, params: Dict[str, str] = None) -> Dict[str, Any]
+
+  Retrieves data from a specified endpoint of the LG Inform API.
+
+  **Parameters:**
   
-  - ``json_data``: JSON data to transform.
+  - **endpoint** (`str`): The API endpoint to query (e.g., `"/data"`).
+  - **params** (`Dict[str, str]`, optional): Additional query parameters for the API request.
 
-- **Returns**:
+  **Returns:**
   
-  - ``pd.DataFrame``: The transformed data as a Pandas DataFrame.
+  - A dictionary containing the data retrieved from the API.
 
-``sign_url(url: str) -> str``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Signs the URL with the user's API key and secret to authorize the request.
-
-- **Arguments**:
+  **Example:**
   
-  - ``url``: The URL to be signed.
-
-- **Returns**:
+  .. code-block:: python
   
-  - ``str``: The signed URL.
+      lgi = LGInform(api_key="your_api_key")
+      data = lgi.get_data("/data", params={"filter": "value"})
+      print(data)
 
-``download_variable_data(identifier: int, latest_n: int) -> JSONDict``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configuration Management
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Downloads data for a specific metric type, area, and period (latest ``n`` periods).
+- **load_config**
 
-- **Arguments**:
+  .. code-block:: python
+
+      load_config(config_file: str)
+
+  Loads API key and other configuration settings from a specified file.
+
+  **Parameters:**
   
-  - ``identifier``: The metric type identifier (an integer).
+  - **config_file** (`str`): Path to the configuration file.
+
+  **Example:**
   
-  - ``latest_n``: The number of latest periods to retrieve data for.
-
-- **Returns**:
+  .. code-block:: python
   
-  - ``JSONDict``: The downloaded data as a JSON object.
+      lgi.load_config("config.json")
 
-``download_data_for_many_variables(variables: JSONDict, latest_n: int = 20, arraytype: str = 'metricType-array') -> List[JSONDict]``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- **save_config**
 
-Downloads data for an array of metric types.
+  .. code-block:: python
 
-- **Arguments**:
+      save_config(config_file: str)
+
+  Saves the current API key and configuration settings to a specified file.
+
+  **Parameters:**
   
-  - ``variables``: A JSON dictionary containing the variables to download.
+  - **config_file** (`str`): Path to the configuration file.
+
+  **Example:**
   
-  - ``latest_n``: The number of latest periods to retrieve data for.
+  .. code-block:: python
   
-  - ``arraytype``: The type of variables to download (default is 'metricType-array').
-
-- **Returns**:
-  
-  - ``List[JSONDict]``: A list of JSON objects containing the downloaded variables.
-
-``get_dataset_table_variables(dataset: int) -> JSONDict``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Retrieves all metric type numbers (dataset columns) for a given dataset.
-
-- **Arguments**:
-  
-  - ``dataset``: The dataset identifier.
-
-- **Returns**:
-  
-  - ``JSONDict``: A JSON dictionary containing the dataset variables.
-
-``format_tables(outputs: List[JSONDict], drop_discontinued: bool = True) -> None``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Formats the downloaded data for each variable and creates a metadata table.
-
-- **Arguments**:
-  
-  - ``outputs``: A list of JSON objects containing the downloaded variables.
-  
-  - ``drop_discontinued``: If set to ``True``, discontinued metrics are excluded from the final dataset (default is ``True``).
-
-``merge_tables(dataset_name: str) -> pd.DataFrame``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Merges the variables into a single table for a given dataset.
-
-- **Arguments**:
-  
-  - ``dataset_name``: The name of the dataset.
-
-- **Returns**:
-  
-  - ``pd.DataFrame``: The merged dataset as a Pandas DataFrame.
-
-``data_from_datasets(datasets: Dict[str, int], latest_n: int = 5, drop_discontinued: bool = True) -> None``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Downloads and merges data for multiple datasets.
-
-- **Arguments**:
-  
-  - ``datasets``: A dictionary where keys are dataset names and values are dataset identifiers.
-  
-  - ``latest_n``: The number of latest periods to retrieve data for.
-  
-  - ``drop_discontinued``: If set to ``True``, discontinued metrics are excluded from the final dataset (default is ``True``).
-
-``mp_data_from_datasets(datasets: Dict[str, int], latest_n: int = 20, drop_discontinued: bool = True, max_workers: int = 8) -> None``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A multiprocessing method for downloading data from multiple datasets simultaneously.
-
-- **Arguments**:
-  
-  - ``datasets``: A dictionary where keys are dataset names and values are dataset identifiers.
-  
-  - ``latest_n``: The number of latest periods to retrieve data for.
-  
-  - ``drop_discontinued``: If set to ``True``, discontinued metrics are excluded from the final dataset (default is ``True``).
-  
-  - ``max_workers``: The number of worker processes to use for multiprocessing.
-
-Usage Example
--------------
-
-.. code-block:: python
-
-   from LBLDataAccess.LGInform import LGInform
-   from dotenv import load_dotenv
-   from os import environ
-   from pathlib import Path
-
-   # Load environment variables
-   dotenv_path = Path('.env')
-   load_dotenv(dotenv_path)
-
-   # Initialize API keys and output folder
-   lg_key = environ.get("LG_KEY")  # Public key to LG Inform Plus
-   lg_secret = environ.get("LG_SECRET")  # Secret key to LG Inform Plus
-   out_folder = Path('./data/mp_test/')  # Folder to store final data
-
-   # Define datasets to download
-   datasets = {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}
-
-   if __name__ == '__main__':
-       # Initialize the LGInform object
-       api_call = LGInform(key=lg_key, secret=lg_secret, output_folder=out_folder, area='E09000023,Lewisham_CIPFA_Near_Neighbours')
-
-       # Download data using multiprocessing
-       api_call.mp_data_from_datasets(datasets, latest_n=20, drop_discontinued=False, max_workers=8)
-
-Notes
------
-
-- When using the ``mp_data_from_datasets`` method, ensure the code runs within an ``if __name__ == '__main__':`` block to avoid issues with multiprocessing on some platforms.
-- You can adjust the ``max_workers`` parameter to match the number of logical CPUs in your system for optimal performance.
-- Use the ``drop_discontinued`` parameter to control whether discontinued metrics should be included in the final dataset.
-
-References
-----------
-
-- `LG Inform Plus API Documentation <https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=>`_
-
+      lgi.save_config("config.json")
