@@ -1,6 +1,8 @@
 FeatureServer
 =============
 
+Note that the below documentation was created using ChatGPT 4.o and may therefore not be entirely accurate. Please report any mistakes. 
+
 Overview
 --------
 

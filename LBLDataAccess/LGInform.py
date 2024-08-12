@@ -20,62 +20,40 @@ class LGInform:
 
         Arguments:
             key {str}   -    Application Key to LG Inform Plus.
-
             secret {str}    -   Application Secret to LG Inform Plus.
-
             output_folder {Path}    -   pathlib Path object of the storage location.
-
             area {str}  -   a comma separated string of areas, excluding whitespace. You can either use GSS codes or use LG Inform's off-the-shelf groups for areas. For instance, Lewisham GSS code is E09000023 and it's CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as 'E09000023,Lewisham_CIPFA_Near_Neighbours'.
 
         Methods:
 
             json_to_pandas  -   Transform downloaded json data to Pandas dataframe.
-
             sign_url    -   Sign all url calls with your unique secret and key.
-
             download_variable_data  -   Download data for a given metricType, area, and period.
-
             download_data_for_many_variables    -   Download the variables for an array of metricTypes.
-
             get_dataset_table_variables -   Given a dataset, output all the metricType numbers (dataset columns).
-
             format_tables   -   Format the data for each variable and create a metadata table.
-
             merge_tables    -   Merge the variables to form a table for a given dataset.
-
             data_from_datasets  -   Download data for one or more datasets.
-            
             mp_data_from_datasets   -   Multiprocessing wrapper to download data for multiple datasets simultaneously.
 
         Usage:
 
             from LBLDataAccess.LGInform import LGInform
-
             from dotenv import load_dotenv
-
             from os import environ
-
             from pathlib import Path
-
             dotenv_path = Path('.env')
-
             load_dotenv(dotenv_path)
 
 
             lg_key = environ.get("LG_KEY")  # public key to LG Inform Plus
-
             lg_secret = environ.get("LG_SECRET")  # secret to LG Inform Plus
-
             out_folder = Path('./data/mp_test/')  # folder to store final data
-
             datasets = {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}  # a dictionary of datasets. The key can be any string, but the integer value must be an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
             
             if __name__ '__main__':  # when using the multiprocessing wrapper method, you have to run it under if __name__ '__main__' statement.
-            
                 api_call = LGInform(key=lg_key, secret=lg_secret, output_folder=out_folder, area='E09000023,Lewisham_CIPFA_Near_Neighbours')
-
                 #api_call.data_from_datasets(datasets=datasets, latest_n=20, drop_discontinued=False)  # normal, single threaded download
-
                 api_call.mp_data_from_datasets(datasets, latest_n=20, drop_discontinued=False, max_workers=8)  
             
 
@@ -106,6 +84,7 @@ class LGInform:
 
             Returns:
                 pd.DataFrame    -   Downloaded data as Pandas dataframe.
+
         """
 
         column_names = [col['period']['label'] for col in json_data['columns']]
@@ -116,8 +95,12 @@ class LGInform:
         """
             Each url needs to be signed.
 
+            Arguments: 
+                url {str}   -   URL to be signed.
+            
             Returns:
                 str -   URL.
+
         """
 
         url = url + 'ApplicationKey=' + self.key
@@ -139,6 +122,7 @@ class LGInform:
             
             Returns:
                 JSONDict -   Downloaded data as JSON.
+
         """
 
         url = f"{self.base_url}/data?value.valueType=raw&metricType={str(identifier)}&area={str(self.area)}&period=latest{str(latest_n)}&rowGrouping=area&"
@@ -159,6 +143,7 @@ class LGInform:
 
             Returns:
                 List[JSONDict]   -   A list of JSON variables.
+
         """
 
         outputs = []
@@ -171,6 +156,12 @@ class LGInform:
     def get_dataset_table_variables(self, dataset:int) -> JSONDict:
         """
             Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON. 
+
+            Arguments:
+                dataset {int}   -   The number of the dataset from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
+            
+            Returns:
+                JSONDict    -   A JSON dictionary object
         """
 
         url = f'{self.base_url}/metricTypes?dataset={str(dataset)}&'
@@ -181,6 +172,11 @@ class LGInform:
     def format_tables(self, outputs:List[JSONDict], drop_discontinued:bool=True) -> None:
         """
             Format the data for each variable and create a metadata table.
+
+            Arguments:
+                outputs {List[JSONDict]}    -   A list of JSONDict objects.
+                drop_discontinued {bool}    -   Boolean to select whether to include discontinued metrics.
+
         """
 
         table_headers = {'MetricType':[], 'Column name':[], 'Original table name': [], 'Alternative table name(s)': [], 'Short label': [], 'Discontinued': [], 'Metric help text': [], 'Notes': []}
@@ -250,9 +246,12 @@ class LGInform:
     def merge_tables(self, dataset_name:str) -> pd.DataFrame:
         """
             Merge the variables to form a table for a given dataset.
+            Arguments:
+                dataset_name {str}  -   Dataset name string.
 
             Returns:
                 pd.DataFrame    -   All variables of the dataset merged as one Pandas dataframe.
+
         """
         all_tables = [i for i in self.raw_data_folder.glob("*.csv")]
         try:
@@ -267,6 +266,7 @@ class LGInform:
         except IndexError:
             print(f"No data found in {self.raw_data_folder}. Maybe the variables are discontinued? Try changing drop_discontinued parameter to False.")
             return None
+
 
     def data_from_datasets(self, datasets: Dict[str, int], latest_n:int=5, drop_discontinued:bool=True) -> None:
         """
@@ -300,12 +300,14 @@ class LGInform:
             if merged_df is not None:
                 print(f"Dataset {dataset_key} downloaded, merged, and stored in {self.dataset_specific_output_folder}")
 
+
     def _multiprocessing_wrapper(self, input_queue: mp.Queue) -> None:
         """
             This is just the same as data_from_datasets() method, but wrapped to be used with multiprocessing library. 
 
             Arguments:
                 input_queue {mp.Queue}  -   A multiprocessing queue.
+
         """
         args = input_queue.get()
         (datasets, latest_n, drop_discontinued) = args
@@ -356,27 +358,4 @@ class LGInform:
             print(f"Completed step {enum+1}")
 
         print('Done')
-
-
-if __name__ == '__main__':
-    from dotenv import load_dotenv
-    from os import environ
-
-    dotenv_path = Path('.env')
-    load_dotenv(dotenv_path)
-
-
-    lg_key = environ.get("LG_KEY")  # public key to LG Inform Plus
-    lg_secret = environ.get("LG_SECRET")  # secret to LG Inform Plus
-    out_folder = Path('./data/lg_inform_test/')  # folder to store final data
-
-    datasets = {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}  # a dictionary of datasets. The key can be any string, but the integer value must be one of https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-    
-    api_call = LGInform(key=lg_key, secret=lg_secret, output_folder=out_folder, area='E09000023,Lewisham_CIPFA_Near_Neighbours')
-
-    #api_call.data_from_datasets(datasets=datasets, latest_n=20, drop_discontinued=False)  # normal, single threaded download
-
-    api_call.mp_data_from_datasets(datasets, latest_n=20, drop_discontinued=False, max_workers=8)  # when using the multiprocessing wrapper method, you have to run it under if __name__ '__main__' statement.
-
-
 

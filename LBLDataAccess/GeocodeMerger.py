@@ -18,7 +18,17 @@ import importlib.resources as pkg_resources
 from LBLDataAccess import OpenGeographyPortal, lookups
 
 def BFS_SP(graph: Dict, start: str, goal: str) -> List[Any]:
-    """Breadth-first search."""
+    """
+    
+        Breadth-first search.
+
+        Arguments:
+            graph {Dict}    -   Dictionary of connected tables based on shared columns.
+            start {str} -   Starting table and column.
+            goal {str}  -   Final table and column. 
+
+            
+    """
     explored = []
      
     # Queue for traversing the graph in the BFS
@@ -488,9 +498,3 @@ class GeoHelper(SmartGeocoder):
         return filtered_geocodes
 
     
-
-if __name__ == "__main__":
-    sg = SmartGeocoder()
-    sg.run_graph(starting_column="OA11CD", ending_column="OA21CD", local_authorities=['Lewisham'])
-
-    sg.geocodes(1)

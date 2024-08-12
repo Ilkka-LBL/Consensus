@@ -1,3 +1,12 @@
+"""
+@author: ISipila
+
+OpenGeography class is for creating and updating a lookup table of the files in Open Geography Portal.
+
+FeatureServer class is for downloading the content.
+
+"""
+
 from requests import get as request_get
 from requests import request
 from dataclasses import dataclass
@@ -21,23 +30,14 @@ class Service:
 
         Attributes:
             name {str}  -   Name of service.
-
             type {str}  -   One of 'FeatureServer', 'MapServer', 'WFSServer'.
-
             url {str}   -   URL.
-            
             description {str}   -   Description of the service.
-            
             layers {List[Dict[str, Any]]}   -   Data available through service. If empty, it is likely that the 'tables' attribute contains the desired data.
-            
             tables {List[Dict[str, Any]]}   -   Data available through service. If empty, it is likely that the 'layers' attribute contains the desired data.
-            
             output_formats {List[str]}  -   List of formats available for the data.
-            
             metadata {json} -   Metadata as JSON.
-            
             fields {List[str]}  -   List of fields for the data.
-            
             primary_key {str}   -   Primary key for the data.
     """
 
@@ -179,13 +179,10 @@ class OpenGeography:
 
         Methods:
             print_all_services  -   Prints the name, URL, and server type of all services available through Open Geography API.
-
             print_services_by_server_type   -   Given a server type (one of 'feature', 'map' or 'wfs', default = 'feature'), print the services available. 
 
-
-
         Usage:
-
+            Refer to FeatureServer class.
 
 
     """
@@ -232,6 +229,7 @@ class OpenGeography:
 
             Arguments:
                 server_type {str}   -    The input to 'server_type' should be one of 'feature', 'map' or 'wfs' (default = 'feature'). Usually, it is enough to leave the server_type parameter unchanged, particularly as the MapServer and WFSServers are currently unsupported by this package.
+
         """
         try:            
             for service_name, service_obj in self.service_table.items():
@@ -252,12 +250,9 @@ class OpenGeographyLookup(OpenGeography):
     """
         Build and update a JSON lookup table for the Open Geography Portal's FeatureServers.
 
-
         Methods:
             metadata_as_pandas  -   This method can be used for comparing different data tables from Open Geography Portal as well as the basis for building a graph with SmartGeocodeLookup.
-
             build_lookup    -   Given a list of services, use this method to build a lookup JSON file that contains metadata about the services.
-
             update_lookup   -   Update the lookup JSON file by either adding new list of services
 
         Usage:
@@ -278,11 +273,11 @@ class OpenGeographyLookup(OpenGeography):
 
             Arguments:
                 service_type {str}  -   Select the type of server. Must be one of 'feature', 'map', 'wfs'. (default = 'feature').
-                
                 included_services {List[str]}   -   An optional argument to select which services should be included in the set of tables to use for lookup. Each item of the list should be the name of the service excluding the type of server in brackets. E.g. ['Age_16_24_TTWA'].
             
             Returns:
                 pd.Dataframe    -   Pandas dataframe of the metadata.
+
         """
         
         assert service_type in ['feature', 'map', 'wfs'], "service_type not one of: 'feature', 'map', 'wfs'"
@@ -343,13 +338,12 @@ class OpenGeographyLookup(OpenGeography):
 
             Arguments:
                 parent_path {Path}  -   pathlib object to folder where lookup.json is stored. This package uses Path(__file__).resolve().parent as default.
-
                 included_services {List[str]}   -   List of names of services that a lookup should be built on. Default empty list will build a lookup based on all tables found in Open Geography Portal.
-
                 replace_old {bool}  -   Change to False if you don't want to replace the old lookup table. If False, the method just returns a Pandas dataframe.
             
             Returns:
                 pd.DataFrame    -   Lookup table as a Pandas dataframe.
+
         """
         # if lookup table hasn't been created, make one 
         lookup = self.metadata_as_pandas(included_services=included_services)
@@ -368,13 +362,12 @@ class OpenGeographyLookup(OpenGeography):
 
             Arguments:
                 parent_path {Path}  -   pathlib object to folder where lookup.json is stored. This package uses Path(__file__).resolve().parent as default.
-
                 service_type {str}  -   Select the type of server. Must be one of 'feature', 'map', 'wfs'. (default = 'feature').
-
                 full_check {bool}   -   Set to False if you don't want to check when all tables were last updated.
 
             Returns:
                 pd.DataFrame    -   An updated lookup table as Pandas dataframe.
+
         """
         
         # production version: 
@@ -475,6 +468,7 @@ class OpenGeographyLookup(OpenGeography):
             
             Returns:
                 pd.DataFrame    -   Lookup table as a Pandas dataframe.
+
         """
 
         if lookup_folder:
