@@ -1,19 +1,20 @@
 # Combining NOMIS data and ONS Geoportal GSS codes
 ---
 ### TODO:
-I am currently working towards adding Open Geography API access so that I can remove the dependency on downloaded and frankly messy lookup tables. This class will additionally help with accessing and downloading information from Open Geography Portal and streamlining workflows. 
-
-This is available in branch Version-0.3 and will be later integrated to the PYPI package as well. 
-
+The next stage in the development is to create a DuckDB database cache backend that is searched before a query to Open Geography Portal is made and extended with every new call of `FeatureServer` class.
 
 ### Purpose
-The purpose of this Python package is to allow easier navigation of the NOMIS API and easier collection of GSS geocodes from ONS Open Geography Portal. The GSS geocodes are necessary for selecting the right tables in the NOMIS API, which can otherwise be very difficult to navigate.
+The main purpose of this Python package is to allow easier navigation of the NOMIS API and easier collection of GSS geocodes from ONS Open Geography Portal. The GSS geocodes are necessary for selecting the right tables in the NOMIS API, which can otherwise be very difficult to navigate.
 
-### The caveat
-The lookup tables do not contain all possible lookup tables that are available from ONS's Open Geography Portal. Instead, only a handful of the most useful tables were downloaded. 
+This package also includes a class to help with selecting data from LG Inform Plus, if your institution is a subscriber.
 
-However, you can easily extend the list of lookup tables by placing a new .csv file in the appropriate folder under `/lookups/` after downloading it from the ONS Open Geography Portal. You can even create a custom folder for any new lookup tables that span between years (e.g. 2011 to 2016), but I recommend you stick with the folder naming pattern for your own sanity's sake. If you add more lookup tables, remember to delete the `json_data.json` file in the `/lookups/` folder - this file will be recreated automatically the next time you use the SmartGeocodeLookup class and will slow the process down at first, but once the json file has been recreated, the next time you use the
-class the speed will be back to normal.
+### The caveats
+The current version of the package relies on access to Open Geography Portal, but their servers are not always available, so you may have to wait to run the queries at the correct time. 
+
+The output from SmartGeocoder class is not guaranteed to contain the correct tables for joining as you may prefer to use exact fit instead of best fit lookups. You may also be more interested in population weighted joins, which this package does not perform (only simple left joins are supported).
+However, the FeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
+
+Note that this package does not create any sort of file caches, so you should implement your own.
 
 ## Getting started
 To install this package:
@@ -22,7 +23,7 @@ To install this package:
 
 Or 
 
-`python -m pip install LBLDataAccess==0.2.2`
+`python -m pip install LBLDataAccess==1.0.1`
 
 If using Conda, you may need to just write:
 
@@ -30,19 +31,71 @@ If using Conda, you may need to just write:
 
 or 
 
-`pip install LBLDataAccess==0.2.2`
+`pip install LBLDataAccess==1.0.1`
+
+
+### Configuration
+To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
+
+```
+from LBLDataAccess.ConfigManager import ConfigManager
+```
+
+This class has three methods for saving, updating, and resetting the `config.json` file. The `config.json` file resides in the folder `config` inside the package installation folder.
+
+The default `config.json` file contents are:
+```
+self.default_config = {
+            "nomis_api_key": "",
+            "lg_inform_key": "",
+            "lg_inform_secret": "",
+            "proxies": {
+                "http": "",
+                "https": ""
+            }
+        }
+```
+For the `DownloadFromNomis` class to function, you must provide at least the API key `nomis_api_key`, which you can get by signig up on www.nomisweb.co.uk and heading to your profile settings. 
+
+Minimum example:
+```
+from LBLDataAccess.ConfigManager import ConfigManager
+
+config_dict = {"nomis_api_key": "your_new_api_key_value"}
+
+conf = ConfigManager()
+conf.update_config(config_dict)
+```
+
+If you also want to add proxies:
+
+```
+from LBLDataAccess.ConfigManager import ConfigManager
+
+config_dict = {
+                "nomis_api_key": "your_new_api_key_value", 
+                "proxies.http": "your_proxy",
+                "proxies.https": "your_proxy"
+              }
+
+conf = ConfigManager()
+conf.update_config(config_dict)
+```
+
+Note that the modules and classes in this package rely on the keys provided in this config file.
+
 
 ### Getting help selecting geocodes:
-To get help with selecting geocodes, you must first import GeoHelper
+To get help with selecting geocodes, you must first import `GeoHelper` class
 
 
 ```
-from LBLDataAccess.load_geocodes import GeoHelper
+from LBLDataAccess.GeocodeMerger import GeoHelper
 
 geo_help = GeoHelper()
 ```
 
-GeoHelper class has a few helpful options to select the correct GSS codes to use with NOMIS.
+`GeoHelper` class has a few helpful options to select the correct GSS codes to use with NOMIS.
 First of all, we can check what tables are available:
 
 `all_available_tables = geo_help.files_and_folders`

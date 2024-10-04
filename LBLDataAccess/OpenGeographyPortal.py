@@ -8,7 +8,7 @@ FeatureServer class is for downloading the content.
 """
 
 from requests import get as request_get
-from requests import request
+from requests import request, exceptions
 from dataclasses import dataclass
 from typing import Any, Dict, List
 import geopandas as gpd
@@ -20,8 +20,12 @@ from copy import deepcopy
 import gc
 from pathlib import Path
 from LBLDataAccess import lookups
+from LBLDataAccess.config_utils import load_config
 from pkg_resources import resource_stream
 import importlib.resources as pkg_resources
+import time
+import aiohttp
+import asyncio
 
 @dataclass
 class Service:
@@ -105,10 +109,8 @@ class Service:
         if not self.description:
             self.description = self.metadata.get('description')
         self.fields = self.metadata.get('fields', [])
-
-        
-
         self.primary_key = self.metadata.get('uniqueIdField')
+        self.matchable_fields = [i['name'].upper() for i in self.fields if i['name'].upper() != self.primary_key]
         lastedit = self.metadata.get('editingInfo', {})
         try:
             self.lasteditdate = lastedit['lastEditDate']  # in milliseconds - to get time, use datetime.fromtimestamp(int(self.lasteditdate/1000)).strftime('%d-%m-%Y %H:%M:%S')
@@ -186,26 +188,42 @@ class OpenGeography:
 
 
     """
-    def __init__(self) -> None:
+    def __init__(self, max_retries=10, retry_delay=2) -> None:
         print("Connecting to Open Geography Portal")
         self.base_url = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json"
-        self.output = request_get(self.base_url)
-        self._validate_response()
-
-        print("Connection okay")
-        self.main_dict = self.output.json()
-        self.services = self.main_dict.get('services', [])
-        print("Loading services")
-        self._load_all_services()
-        print("Services loaded. You're good to go.")
+        self.max_retries = max_retries
+        self.retry_delay = retry_delay
         self.server_types = {'feature': 'FeatureServer', 'map': 'MapServer', 'wfs': 'WFSServer'}
+        self.services = self._validate_response()
+        
 
     def _validate_response(self) -> None:
         """
             Validate access to base URL.
         """
-        assert self.output.status_code == 200, f"Request failed with status code: {self.output.status_code}"
-
+       
+        print(f"Requesting services from URL: {self.base_url}")  # Debug statement
+        
+        attempts = 0
+        while attempts < self.max_retries:
+            response = request_get(self.base_url)
+            if response.status_code == 200:
+                print("Connection okay")
+                services = response.json().get('services', [])
+                if services:  # Check if the services list is not empty
+                    print("Loading services")
+                    self.services = services
+                    self._load_all_services()
+                    attempts += self.max_retries
+                else:
+                    print("Returned empty list of services, retrying...")
+            else:
+                print(f"Attempt {attempts + 1} failed with status code {response.status_code}. Retrying...")
+            attempts += 1
+            time.sleep(self.retry_delay)  # Wait before retrying
+        if not services:
+            print(f"Failed to retrieve services after {self.max_retries} attempts.")
+                
     def _load_all_services(self) -> None:
         """
             Helper method to load services to a dictionary.
@@ -215,13 +233,14 @@ class OpenGeography:
         for service in self.services:
             service_obj = Service(service['name'], service['type'], service['url'])
             self.service_table[f"{service['name']}"] = service_obj
+        print("Services loaded. You're good to go.")
 
     def print_all_services(self) -> None:
         """
             Print name, type, and url of all services available through Open Geography Portal.
         """
         for service_name, service_obj in self.service_table.items():
-            print(f"Service: {service_name}\nURL: {service_obj.url}\nServer type: {service_obj.type}\n")
+            print(f"Service: {service_name}\nURL: {service_obj.url}\nService type: {service_obj.type}\nService columns: {service_obj.fields}")
 
     def print_services_by_server_type(self, server_type: str = 'feature') -> None:
         """
@@ -240,7 +259,7 @@ class OpenGeography:
                                     'WFSServer': service_obj.wfsservers()
                                     }
                     service_info = service_options[self.server_types[server_type]]
-                    print('Service:', service_info.name, '\nURL:', service_info.url, '\nServer type:', service_info.type, '\n')
+                    print('Service:', service_info.name, '\nURL:', service_info.url, '\nServer type:', service_info.type, '\n Service columns:', {service_info.fields})
                 else:
                     continue
         except KeyError:
@@ -269,11 +288,11 @@ class OpenGeographyLookup(OpenGeography):
 
     def metadata_as_pandas(self, service_type: str = 'feature', included_services: List[str] = []) -> pd.DataFrame:
         """
-            Make a Pandas Dataframe of selected tables. This method can be used for comparing different data tables from Open Geography Portal as well as the basis for building a graph with SmartGeocodeLookup.
+            Make a Pandas Dataframe of selected tables. This method can be used for comparing different data tables from Open Geography Portal as well as the basis for building a graph with SmartGeocoder.
 
             Arguments:
                 service_type {str}  -   Select the type of server. Must be one of 'feature', 'map', 'wfs'. (default = 'feature').
-                included_services {List[str]}   -   An optional argument to select which services should be included in the set of tables to use for lookup. Each item of the list should be the name of the service excluding the type of server in brackets. E.g. ['Age_16_24_TTWA'].
+                included_services {List[str]}   -   An optional argument to select which services should be included in the set of tables to use for lookup. Each item of the list should be the name of the service (excluding the type of server in brackets). E.g. ['Age_16_24_TTWA'].
             
             Returns:
                 pd.Dataframe    -   Pandas dataframe of the metadata.
@@ -323,11 +342,11 @@ class OpenGeographyLookup(OpenGeography):
             lookup_df = pd.concat(lookup_dfs)
             lookup_df.reset_index(inplace=True)
             lookup_df.drop(columns=['index'], inplace=True)
-            matchable_columns = []
+            """matchable_columns = []
             for field_item in lookup_df['fields']:
-                fields = [i.upper() for i in field_item if i.upper()[-2:]=='CD' and i.upper()[-4:-2].isnumeric()]
+                fields = [i.upper() for i in field_item if i.upper().endswith('CD') and i.upper()[-4:-2].isnumeric()]
                 matchable_columns.append(fields)
-            lookup_df['matchable_fields'] = matchable_columns
+            lookup_df['matchable_fields'] = matchable_columns"""
             lookup_df['lasteditdate'] = lookup_df['lasteditdate']
             print("Pandas dataframe ready")
             return lookup_df
@@ -480,31 +499,100 @@ class OpenGeographyLookup(OpenGeography):
             return pd.DataFrame(lookup_data)
 
 
-class FeatureServer(OpenGeography):
+class FeatureServer():
 
     """
-        This class currently supports downloading data for FeatureServers.
+        This class currently supports downloading data for FeatureServices.
 
         Methods:
-            download    -   Download the data for the table or layer. Supports SQL commands as part of the where_clause argument. 
+            looper  -   Keep trying to connect to the Open Geography Portal's ESRI servers.
+            chunker -   Don't overwhelm the servers, but make several smaller queries.
+            download    -   Download the data for the table or layer. Supports SQL commands as part of the where_clause argument.
         
         Usage:
-            fs = FeatureServer(service_name)
-            dl = fs.download()
+            max_retries = 10
+            timeout = 20
+            chunk_size = 50
+            where_clause = '1=1' # SQL92 syntax - default means 'all'
+            return_geometry = True  # default is False
+            service_name = 'MSOA_2021_EW_BGC_V2'    # only an example - use OpenGeography().print_services_by_server_type() to view options
+
+            service_table = OpenGeography().service_table
+            fs = FeatureServer(service_name, service_table, max_retries, timeout, chunk_size)
+            dl = fs.download(where_clause=where_clause, return_geometry=return_geometry)
             
     """
 
-    def __init__(self, service_name: str = None) -> None:
-        super().__init__()
+    def __init__(self, service_name: str = None, service_table: Dict[str, Any] = {}, max_retries: int = 10, timeout: int = 20, chunk_size: int = 50) -> None:
         try:
-            self.service_name = service_name
-            self.feature_service = self.service_table.get(self.service_name).featureservers()
-            self.feature_service.lookup_format()
             
+            self.feature_service = service_table.get(service_name).featureservers()
+            self.feature_service.lookup_format()
+            self.max_retries = max_retries
+            self.timeout = timeout
+            self.chunk_size = chunk_size
+
         except AttributeError as e:
             print(f"{e} - the selected table does not appear to have a feature server. Check table name exists in list of services or your spelling.")        
 
-    def download(self, fileformat: str = 'geojson', return_geometry:bool=False, where_clause: str = '1=1', output_fields: str = '*', params: Dict[str, str] = None, visit_all_links: bool = False, n_sample_rows: int = -1) -> Any:
+    def looper(self, link_url: str, params: Dict[str,str]) -> Any:
+        """ Keep trying to connect to Feature Service until max_retries or response """
+        retries = 0
+        while retries < self.max_retries:
+            try:
+                response = request_get(link_url, params=params, timeout=self.timeout)
+                if response.status_code == 200:
+                    return response.json()
+                else:
+                    print(f"Error: {response.status_code} - {response.text}")
+                    return None
+            except exceptions.Timeout:
+                retries += 1
+                print(f"Timeout occurred. Retrying {retries}/{self.max_retries}...")
+                time.sleep(2)
+
+        print("Max retries reached. Request failed.")
+        return None
+    
+    def chunker(self, service_url: str, params: Dict[str,str]) :
+        """ Download data in chunks """
+        if self.feature_service.tables:
+            links_to_visit = self.feature_service.tables
+        elif self.feature_service.layers:
+            links_to_visit = self.feature_service.layers
+        
+        params['resultOffset'] = 0
+        params['resultRecordCount'] = self.chunk_size
+
+        # Visit first link
+        link_url = f"{service_url}/{str(links_to_visit[0]['id'])}/query"
+        print(f"Visiting link {link_url}")
+
+        # Get the first response
+        responses = self.looper(link_url, params)
+
+        # Get the total number of records
+        count = self.feature_service._record_count(link_url, params=params)
+        print(f"Total records to download: {count}")
+
+        counter = len(responses['features'])
+        print(f"Downloaded {counter} out of {count} ({100 * (counter / count):.2f}%) items")
+
+        # Continue fetching data until all records are downloaded
+        while counter < int(count):
+            params['resultOffset'] += self.chunk_size
+            additional_response = self.looper(link_url, params)
+            if not additional_response:
+                break
+
+            # Append features to the main response
+            responses['features'].extend(additional_response['features'])
+            counter += len(additional_response['features'])
+            print(f"Downloaded {counter} out of {count} ({100 * (counter / count):.2f}%) items")
+
+        return responses
+
+    def download(self, fileformat: str = 'geojson', return_geometry: bool = False, where_clause: str = '1=1', output_fields: str = '*', params: Dict[str,str] = None, n_sample_rows: int = -1) -> Any:
         """
             Download data from Open Geography Portal.
 
@@ -525,8 +613,6 @@ class FeatureServer(OpenGeography):
             
                 params {Dict[str,str]}  -   If you want to manually override the search parameters. Only change if you cannot get the data otherwise or if you wish to do somethimg more sophisticated like use geometries as search terms. Some tables may allow you to send an input geometry as part of the parameter query and select the spatial relationship between the output and the input. For more information on how to format the 'geometry' attribute for the parameters, see https://developers.arcgis.com/rest/services-reference/enterprise/geometry-objects.htm. Note that polygons, envelopes, points, and lines all require slightly different formatting.
 
-                visit_all_links {bool}  -   Some tables may have more than one link to visit. However, typically the first one is enough, so set this to True if you think you're missing data. Note that this method does not handle duplicate rows so you will have to deal with any duplication afterwards.
-
                 n_sample_rows {int} -   This parameter helps with testing as it lets you quickly select the first n rows. It overrides the where_clause and uses the table's primary key to select top n rows. 
 
             Returns:
@@ -535,119 +621,168 @@ class FeatureServer(OpenGeography):
         self.feature_service._service_attributes()
         primary_key = self.feature_service.primary_key['name']
 
-        assert isinstance(n_sample_rows, int), "n_sample_rows is not int"
-        if n_sample_rows > 0 :
+        if n_sample_rows > 0:
             where_clause = f"{primary_key}<={n_sample_rows}"
         
-
+        
         if hasattr(self.feature_service, 'feature_server'):
-            service_url = self.feature_service.url  # url for service
-            
-            # find all potential links for data:
-            if self.feature_service.tables:
-                links_to_visit = self.feature_service.tables
-                fileformat = 'json'
-            elif self.feature_service.layers:
-                links_to_visit = self.feature_service.layers
+            service_url = self.feature_service.url
 
             if not params:
                 params = {
-                'where': where_clause,
-                'objectIds': '',
-                'time': '',
-                'resultType': 'standard',
-                'outFields': output_fields,
-                'returnIdsOnly': False,
-                'returnUniqueIdsOnly': False,
-                'returnCountOnly': False,
-                'returnGeometry': return_geometry,
-                'returnDistinctValues': False,
-                'cacheHint': False,
-                'orderByFields': '',
-                'groupByFieldsForStatistics': '',
-                'outStatistics': '',
-                'having': '',
-                'resultOffset': '',
-                'resultRecordCount': '',
-                'sqlFormat': 'none',
-                'f': fileformat
+                    'where': where_clause,
+                    'objectIds': '',
+                    'time': '',
+                    'resultType': 'standard',
+                    'outFields': output_fields,
+                    'returnIdsOnly': False,
+                    'returnUniqueIdsOnly': False,
+                    'returnCountOnly': False,
+                    'returnGeometry': return_geometry,
+                    'returnDistinctValues': False,
+                    'cacheHint': False,
+                    'orderByFields': '',
+                    'groupByFieldsForStatistics': '',
+                    'outStatistics': '',
+                    'having': '',
+                    'resultOffset': 0,
+                    'resultRecordCount': self.chunk_size,
+                    'sqlFormat': 'none',
+                    'f': fileformat
                 }
-            assert isinstance(params, dict), "Params provided is not a dictionary"
-            link_url = f"{service_url}/{str(links_to_visit[0]['id'])}/query"  # visit first link
-            print(f"Visiting link {request('GET', link_url, params=params).url}")
-            response = request_get(link_url, params=params).json()  # get the first response
-                       
-            # use type checking to normalise the response
-            if type(response) == dict:
-                responses = json.dumps(response)
-                responses = json.loads(responses)
-            elif type(response) == str:
-                responses = json.loads(response)
-
-            count = self.feature_service._record_count(link_url, params=params)  # get the number of records to fetch given the parameters of the query
-            
-            counter = len(response['features'])  # number of initial features
-            print("Number of records to download:", count)
             try:
-                last_object = max([i["properties"][primary_key] for i in response["features"]])  # find ID of last item in query - will not work if primary key is not a simple counter, so may need to fix this. 
-            except KeyError:
-                last_object = max([i["attributes"][primary_key] for i in response["features"]])
-            
-            print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-            pattern = r'>(\s*)(\d+)'
-            while counter < int(count):
-                # update the SQL where clause to reflect the number of objects already processed:
-                if ">" in params['where']:
-                    params['where'] = re.sub(pattern, '>' + str(last_object), params['where'], count=1)
-                else:
-                    params['where'] = f'{primary_key}>{last_object}'
-                additional_response = request_get(link_url, params=params).json()
-                try:
-                    last_object = max([i["properties"][primary_key] for i in additional_response["features"]]) 
-                except KeyError:
-                    last_object = max([i["attributes"][primary_key] for i in additional_response["features"]])
-                responses['features'].extend(additional_response['features'])
-                counter += len(additional_response['features'])
-                print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-                
-            if len(links_to_visit) > 1 and visit_all_links:
-                for link in links_to_visit[1:]:
-                    print(f"Visiting link {link}")
-                    link_url = f"{service_url}/{str(link['id'])}/query"
-                    response = request_get(link_url, params=params).json()
-                    count = self.feature_service._record_count(link_url, params=params)
-                    counter = len(response['features'])
-                    try:
-                        last_object = max([i["properties"][primary_key] for i in response["features"]]) 
-                    except KeyError:
-                        last_object = max([i["attributes"][primary_key] for i in response["features"]])
-                    print("Number of records:", count)
-                    print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
-                
-                    while counter < int(count):
-                        # update the SQL where clause to reflect the number of objects already processed:
-                        if ">" in params['where']:
-                            params['where'] = re.sub(pattern, '>' + str(last_object), params['where'], count=1)
-                        else:
-                            params['where'] = f'{primary_key}>{last_object}' 
-                        additional_response = request_get(link_url, params=params).json()
-                        try:
-                            last_object = max([i["properties"][primary_key] for i in additional_response["features"]]) 
-                        except KeyError:
-                            last_object = max([i["attributes"][primary_key] for i in additional_response["features"]])
 
-                        responses['features'].extend(additional_response['features'])
-                        counter += len(additional_response['features'])
-                        print(f"Downloaded {counter} out of {count} ({100*(counter/count):.2f}%) items")
+                responses = self.chunker(service_url, params)
+            except ZeroDivisionError:
+                print("No records found in this Service. Try another Feature Service.")
             gc.collect()
 
+            # Handle the response based on the data type
             if 'geometry' in responses['features'][0].keys():
                 return gpd.GeoDataFrame.from_features(responses)
             else:
                 df = pd.DataFrame(responses['features'])
-                return df[df.columns[-1]].apply(pd.Series)
+                return df.apply(pd.Series)
 
         else:
-            raise AttributeError("Choose service with connect_to_featureserver(service_name='') method first")
+            raise AttributeError("Feature service not found")
 
-    
+
+class AsyncFeatureServer():
+    def __init__(self, service_name: str = None, service_table: dict = {}, max_retries: int = 10, timeout: int = 20, chunk_size: int = 50) -> None:
+        try:
+            self.feature_service = service_table.get(service_name).featureservers()
+            self.feature_service.lookup_format()
+            self.max_retries = max_retries
+            self.timeout = timeout
+            self.chunk_size = chunk_size
+        except AttributeError as e:
+            print(f"{e} - the selected table does not appear to have a feature server. Check table name exists in list of services or your spelling.")
+
+    async def looper(self, session: aiohttp.ClientSession, link_url: str, params: dict) -> dict:
+        """ Keep trying to connect to Feature Service until max_retries or response """
+        retries = 0
+        while retries < self.max_retries:
+            try:
+                async with session.get(link_url, params=params, timeout=self.timeout) as response:
+                    if response.status == 200:
+                        return await response.json()
+                    else:
+                        print(f"Error: {response.status} - {await response.text()}")
+                        return None
+            except asyncio.TimeoutError:
+                retries += 1
+                print(f"Timeout occurred. Retrying {retries}/{self.max_retries}...")
+                await asyncio.sleep(2)
+
+        print("Max retries reached. Request failed.")
+        return None
+
+    async def chunker(self, session: aiohttp.ClientSession, service_url: str, params: dict) -> dict:
+        """ Download data in chunks asynchronously """
+        if self.feature_service.tables:
+            links_to_visit = self.feature_service.tables
+        elif self.feature_service.layers:
+            links_to_visit = self.feature_service.layers
+
+        params['resultOffset'] = 0
+        params['resultRecordCount'] = self.chunk_size
+
+        link_url = f"{service_url}/{str(links_to_visit[0]['id'])}/query"
+        print(f"Visiting link {link_url}")
+
+        # Get the first response
+        responses = await self.looper(session, link_url, params)
+
+        # Get the total number of records
+        count = self.feature_service._record_count(link_url, params=params)
+        print(f"Total records to download: {count}")
+
+        counter = len(responses['features'])
+        print(f"Downloaded {counter} out of {count} ({100 * (counter / count):.2f}%) items")
+
+        # Continue fetching data until all records are downloaded
+        while counter < int(count):
+            params['resultOffset'] += self.chunk_size
+            additional_response = await self.looper(session, link_url, params)
+            if not additional_response:
+                break
+
+            responses['features'].extend(additional_response['features'])
+            counter += len(additional_response['features'])
+            print(f"Downloaded {counter} out of {count} ({100 * (counter / count):.2f}%) items")
+
+        return responses
+
+    async def download(self, fileformat: str = 'geojson', return_geometry: bool = False, where_clause: str = '1=1', output_fields: str = '*', params: dict = None, n_sample_rows: int = -1) -> dict:
+        """
+        Download data from Open Geography Portal asynchronously.
+        """
+        self.feature_service._service_attributes()
+        primary_key = self.feature_service.primary_key['name']
+
+        if n_sample_rows > 0:
+            where_clause = f"{primary_key}<={n_sample_rows}"
+
+        if hasattr(self.feature_service, 'feature_server'):
+            service_url = self.feature_service.url
+
+            if not params:
+                params = {
+                    'where': where_clause,
+                    'objectIds': '',
+                    'time': '',
+                    'resultType': 'standard',
+                    'outFields': output_fields,
+                    'returnIdsOnly': False,
+                    'returnUniqueIdsOnly': False,
+                    'returnCountOnly': False,
+                    'returnGeometry': return_geometry,
+                    'returnDistinctValues': False,
+                    'cacheHint': False,
+                    'orderByFields': '',
+                    'groupByFieldsForStatistics': '',
+                    'outStatistics': '',
+                    'having': '',
+                    'resultOffset': 0,
+                    'resultRecordCount': self.chunk_size,
+                    'sqlFormat': 'none',
+                    'f': fileformat
+                }
+            # Convert any boolean values to 'true' or 'false' in the params dictionary
+            params = {k: str(v).lower() if isinstance(v, bool) else v for k, v in params.items()}
+            async with aiohttp.ClientSession() as session:
+                try:
+                    responses = await self.chunker(session, service_url, params)
+                except ZeroDivisionError:
+                    print("No records found in this Service. Try another Feature Service.")
+                gc.collect()
+
+                if 'geometry' in responses['features'][0].keys():
+                    return gpd.GeoDataFrame.from_features(responses)
+                else:
+                    df = pd.DataFrame(responses['features'])
+                    return df.apply(pd.Series)
+
+        else:
+            raise AttributeError("Feature service not found")
