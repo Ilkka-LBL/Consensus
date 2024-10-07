@@ -18,6 +18,9 @@ import importlib.resources as pkg_resources
 from LBLDataAccess import OpenGeographyPortal, AsyncOGP, lookups
 import aiohttp
 import asyncio
+from numpy import random
+
+random.seed(42)
 
 def BFS_SP(graph: Dict, start: str, goal: str) -> List[Any]:
     """
@@ -180,10 +183,10 @@ class SmartGeocoder:
             raise Exception("You haven't provided all parameters. Make sure the local_authorities list is not empty.")
         
 
-    def _where_clause_maker(self, string_list, column_name, table_name):
+    def _where_clause_maker(self, string_list: List, column_name: str, table_name: str) -> str:
         where_clause = f"{column_name} IN {str(tuple(string_list))}" if len(string_list) > 1 else f"{column_name} IN ('{str(self.geographic_areas[0])}')"
         print(f"Selecting items based on SQL: {where_clause} in table {table_name}")
-        return where_clause    
+        return where_clause
     
 
     async def _get_ogp_table(self, pathway: str, where_clause: str = "1=1", **kwargs) -> Tuple[pd.DataFrame, str]:
@@ -389,7 +392,7 @@ class SmartGeocoder:
         if len(path_options) < 1:
             raise InvalidPathError("A connecting path doesn't exist, try a different starting point (e.g. WD22CD instead of WD21CD) or set allow_geometry() to default if you have limited the search to 'geometry_only'")
         else:
-            return path_options
+            return dict(sorted(path_options.items()))
 
 
     def find_shortest_paths(self) -> List[str]:

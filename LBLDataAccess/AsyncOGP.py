@@ -1,11 +1,8 @@
-from requests import get as request_get
 from dataclasses import dataclass
 from typing import Any, Dict, List
 import geopandas as gpd
-import json
 import pandas as pd 
 from copy import deepcopy
-import gc
 from pathlib import Path
 from LBLDataAccess import lookups
 from LBLDataAccess.config_utils import load_config
@@ -406,7 +403,6 @@ class AsyncFeatureServer():
                     responses = await self.chunker(session, service_url, params)
                 except ZeroDivisionError:
                     print("No records found in this Service. Try another Feature Service.")
-            gc.collect()
 
             if 'geometry' in responses['features'][0].keys():
                 return gpd.GeoDataFrame.from_features(responses)
