@@ -15,7 +15,7 @@ The second caveat is that the output from SmartGeocoder class is not guaranteed 
 
 Note that this package does not create any sort of file caches, so you should implement your own. This is in the todo pile for the package, however.
 
-## Getting started
+## Installation
 To install this package:
 
 `python -m pip install git+https://github.com/Ilkka-LBL/LBLDataAccess.git`
@@ -33,7 +33,7 @@ or
 `pip install Consensus==1.0.0`
 
 
-### Configuration
+## Configuration
 To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
 
 ```
@@ -81,8 +81,53 @@ conf = ConfigManager()
 conf.update_config(config_dict)
 ```
 
-### NB! The config.json file requirements
+#### NB! The config.json file requirements
 Note that the modules and classes in this package rely on the keys provided in this config file. However, you can extend the `config.json` file with the `.update_config()` method, just remember to pass in the old     
+
+
+
+## Building a lookup table for Open Geography Portal
+
+Building a `lookup.json` file is necessary if you want to make use of the capabilities of this package:
+
+```
+from Consensus.AsyncOGP import OpenGeographyLookup
+import asyncio
+
+def main():
+    ogl = OpenGeographyLookup(max_retries=30)
+    asyncio.run(ogl.initialize())
+    asyncio.run(ogl.build_lookup(replace_old=True))
+
+if __name__ == "__main__":
+    main()
+```
+or inside Jupyter notebook cells:
+```
+async def main():
+    ogl = OpenGeographyLookup(max_retries=30)
+    await ogl.initialize()
+    await ogl.build_lookup(replace_old=True)
+
+# and then run the code in a new cell:
+await main()
+```
+
+## Some examples for using the package
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### Getting help selecting geocodes:

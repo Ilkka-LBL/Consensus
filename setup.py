@@ -60,6 +60,7 @@ setup(
         'aiofiles',
         'aiohttp',
         'asyncio',
+        'pytest'
     ],
     python_requires='>=3.9',  # Specify your supported Python versions
     cmdclass={
