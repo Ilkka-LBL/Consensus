@@ -20,7 +20,7 @@ class CleanCommand(Command):
         pass
 
     def run(self):
-        directories_to_remove = ['build', 'dist', 'LBLDataAccess.egg-info']
+        directories_to_remove = ['build', 'dist', 'Consensus.egg-info']
         for directory in directories_to_remove:
             if os.path.exists(directory):
                 print(f"Removing {directory} directory")
@@ -33,19 +33,19 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files('LBLDataAccess/lookups')
-config = package_files('LBLDataAccess/config')
+extra_files = package_files('Consensus/lookups')
+config = package_files('Consensus/config')
 all_files = extra_files + config
 
 setup(
-    name='LBLDataAccess',
+    name='Consensus',
     version='1.0.1',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     packages=find_packages(),
     include_package_data=True,
     package_data={
-        'LBLDataAccess': ['lookups/lookup.json', 'config/config.json'],
+        'Consensus': ['lookups/lookup.json', 'config/config.json'],
     },
     install_requires=[
         'requests',
@@ -56,7 +56,10 @@ setup(
         'geopandas',
         'datetime',
         'more-itertools',
-        'numpy==1.26.4'
+        'numpy==1.26.4',
+        'aiofiles',
+        'aiohttp',
+        'asyncio',
     ],
     python_requires='>=3.9',  # Specify your supported Python versions
     cmdclass={

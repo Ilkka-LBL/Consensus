@@ -1,6 +1,6 @@
 import unittest
-from LBLDataAccess.ConfigManager import ConfigManager
-from LBLDataAccess.config_utils import load_config
+from Consensus.ConfigManager import ConfigManager
+from Consensus.config_utils import load_config
 
 
 class TestConfigManager(unittest.TestCase):

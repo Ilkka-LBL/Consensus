@@ -4,11 +4,10 @@ import geopandas as gpd
 import pandas as pd 
 from copy import deepcopy
 from pathlib import Path
-from LBLDataAccess import lookups
-from LBLDataAccess.config_utils import load_config
+from Consensus import lookups
+from Consensus.config_utils import load_config
 from pkg_resources import resource_stream
 import importlib.resources as pkg_resources
-import time
 import aiohttp
 import asyncio
 import aiofiles
@@ -292,7 +291,7 @@ class AsyncFeatureServer():
     def __init__(self) -> None:
         pass
 
-    async def setup(self, service_name: str = None, service_table: dict = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50, ):
+    async def setup(self, service_name: str = None, service_table: dict = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50):
         try:
             self.feature_service = service_table.get(service_name).featureservers()
             

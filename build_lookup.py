@@ -1,4 +1,4 @@
-from LBLDataAccess.AsyncOGP import OpenGeographyLookup
+from Consensus.AsyncOGP import OpenGeographyLookup
 
 import asyncio
 

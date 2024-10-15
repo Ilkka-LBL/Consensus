@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional, Tuple
 from shutil import copyfileobj
 import pandas as pd
-from LBLDataAccess.config_utils import load_config
+from Consensus.config_utils import load_config
 
 class ConnectToNomis:
     """ Get NOMIS data.
@@ -32,7 +32,7 @@ class ConnectToNomis:
     """
     
     def __init__(self, api_key: str = None, proxies: Dict[str, str] = None):
-        """Initialize LBLToNomis."""
+        """Initialize ConnectToNomis."""
         self.config = load_config()
         self.api_key = api_key or self.config.get('nomis_api_key', '').strip()
         

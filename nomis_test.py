@@ -1,6 +1,6 @@
 import unittest
-from LBLDataAccess.Nomis import DownloadFromNomis
-from LBLDataAccess.ConfigManager import ConfigManager
+from Consensus.Nomis import DownloadFromNomis
+from Consensus.ConfigManager import ConfigManager
 from dotenv import load_dotenv
 from pathlib import Path
 from os import environ

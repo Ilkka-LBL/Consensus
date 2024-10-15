@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to LBLDataAccess's documentation!
+Welcome to Consensus' documentation!
 =========================================
 
 .. toctree::
@@ -11,9 +11,11 @@ Welcome to LBLDataAccess's documentation!
    :caption: Contents:
 
    GeocodeMerger
+   LocalMerger
    LGInform
    Nomis
-   OpenGeographyPortal
+   AsyncOGP
+   ConfigManager
 
 Indices and tables
 ==================

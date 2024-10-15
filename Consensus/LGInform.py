@@ -7,7 +7,7 @@ import requests
 from typing import Dict, Any, List
 import multiprocessing as mp
 import more_itertools
-from LBLDataAccess.config_utils import load_config
+from Consensus.config_utils import load_config
 
 JSONDict = Dict[str, Any]
 
@@ -39,8 +39,8 @@ class LGInform:
 
         Usage:
 
-            from LBLDataAccess.LGInform import LGInform
-            from LBLDataAccess.ConfigManager import ConfigManager
+            from Consensus.LGInform import LGInform
+            from Consensus.ConfigManager import ConfigManager
             from dotenv import load_dotenv
             from os import environ
             from pathlib import Path
@@ -68,12 +68,12 @@ class LGInform:
         mp.set_start_method('spawn')
 
         self.config = load_config()
-        self.api_key = api_key or self.config.get('lg_inform_key', '').strip()
-        self.api_secret = api_secret or self.config.get('lg_inform_secret', '').strip()
+        self.api_key = api_key or self.config.get('lg_inform_key', None).strip()
+        self.api_secret = api_secret or self.config.get('lg_inform_secret', None).strip()
         self.proxies = proxies or self.config.get('proxies', {})
-
-        assert api_key, 'Please provide Application Key to LG Inform Plus - if using ContextManager, name variable as "lg_inform_key"'
-        assert api_secret, 'Please provide Application Secret to LG Inform Plus - if using ContextManager, name variable as "lg_inform_secret"'
+        
+        assert self.api_key, 'Please provide Application Key to LG Inform Plus - if using ContextManager, name variable as "lg_inform_key"'
+        assert self.api_secret, 'Please provide Application Secret to LG Inform Plus - if using ContextManager, name variable as "lg_inform_secret"'
         
         self.area = area
 
@@ -331,7 +331,7 @@ class LGInform:
         sliding_dataset = more_itertools.windowed([{i: k} for i, k in datasets.items()], n=max_workers, step=max_workers)
         
         for enum, subset in enumerate(sliding_dataset):
-            print(f"Step {enum+1} of {round(len(datasets)/max_workers)}")
+            print(f"Step {enum+1} of {round(len(datasets)/max_workers)+1}")
             new_subset = [item for item in subset if item is not None]
             
             print(f"Employing workers {1 + max_workers*enum} to {max_workers + max_workers*enum}")

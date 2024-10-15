@@ -15,7 +15,7 @@ import pandas as pd
 from typing import Any, Dict, List, Tuple
 import json
 import importlib.resources as pkg_resources
-from LBLDataAccess import OpenGeographyPortal, AsyncOGP, lookups
+from Consensus import OpenGeographyPortal, AsyncOGP, lookups
 import aiohttp
 import asyncio
 from numpy import random
@@ -160,12 +160,14 @@ class SmartGeocoder:
                 starting_column {str}   -   This should be the full column name (case insensitive) of the data that you want as your starting point. The one constraint is that it should end in "CD". 
                                             For instance, WD21CD for 2021 wards.
                 ending_column {str} -   As above, but this should be final endpoint. 
-                local_authorities {List}    -   An optional argument. Provide a list of local authorities (e.g. ['Lewisham', 'Greenwich']) if you want the starting table to be restricted 
-                                                to the set of tables that have one of following columns: "LAD##CD", "LTLA##CD", "UTLA##CD", where ## refers to a year. 
+                geographic_areas {List[str]}    -   An optional argument. Provide a list of local authorities (e.g. ['Lewisham', 'Greenwich']) if you want the starting table to be restricted 
+                                                    to the set of tables that have one of following columns: "LAD##CD", "LTLA##CD", "UTLA##CD", where ## refers to a year. 
+                geographic_areas_columns {List[str]}    -   An optional argument. A list of columns to check for the geographic areas.
                 
 
         """
-
+        assert starting_column, "No start point provided"
+        assert ending_column, "No end point provided"
         self.starting_column = starting_column.upper()                                          # start point in the path search
         self.ending_column = ending_column.upper()                                              # end point in the path search
         self.geographic_areas = geographic_areas                                                # list of geographic areas to get the geocodes for
@@ -239,13 +241,13 @@ class SmartGeocoder:
             for final_table_col in column_names:
                 if final_table_col.upper() in self.geographic_area_columns: #and final_table_col.upper().endswith('NM'):
                     string_list = [f'{i}' for i in self.geographic_areas]
-                    if len(string_list) < 100:
+                    if len(string_list) < 200:
                         where_clause = self._where_clause_maker(string_list, final_table_col, chosen_path[0])
                         start_table = await self._get_ogp_table(chosen_path[0], where_clause=where_clause, kwargs=kwargs)
                         start_table.drop_duplicates(inplace=True)
 
                     else:
-                        print(f"More than 100 items listed for 'geographic_areas' argument, returning full table and filtering after")
+                        print(f"More than 200 items listed for 'geographic_areas' argument, returning full table and filtering after")
                         start_table = await self._get_ogp_table(chosen_path[0], kwargs=kwargs)
                         start_table.drop_duplicates(inplace=True)
                         start_table = start_table[start_table[final_table_col].isin(self.geographic_areas)]

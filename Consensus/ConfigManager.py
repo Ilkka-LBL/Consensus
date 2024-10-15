@@ -2,7 +2,7 @@ import json
 import os
 from typing import Dict, Any
 import importlib.resources as pkg_resources
-from LBLDataAccess.config_utils import load_config  # Import the load_config function
+from Consensus.config_utils import load_config  # Import the load_config function
 
 
 class ConfigManager:
@@ -10,7 +10,7 @@ class ConfigManager:
         # Determine the path for the config file within the package
         if config_file is None:
             self.config_file = os.path.join(
-                pkg_resources.files('LBLDataAccess').joinpath('config/config.json')
+                pkg_resources.files('Consensus').joinpath('config/config.json')
             )
         else:
             self.config_file = config_file
@@ -34,7 +34,7 @@ class ConfigManager:
 
     def save_config(self, config: Dict[str, Any]) -> None:
         """Save the current configuration to the config file."""
-        config_file = pkg_resources.files('LBLDataAccess').joinpath('config/config.json')
+        config_file = pkg_resources.files('Consensus').joinpath('config/config.json')
         with config_file.open('w') as f:
             json.dump(config, f, indent=4)
 

@@ -9,12 +9,11 @@ The main purpose of this Python package is to allow easier navigation of the NOM
 This package also includes a class to help with selecting data from LG Inform Plus, if your institution is a subscriber.
 
 ### The caveats
-The current version of the package relies on access to Open Geography Portal, but their servers are not always available, so you may have to wait to run the queries at the correct time. 
+The current version of the package relies on access to Open Geography Portal, but their ESRI servers are not always available. The official response from ONS and ESRI was that we can only keep trying, which means that occasionally the download times will take somewhat long. The package automatically retries whenever connection is lost.   
 
-The output from SmartGeocoder class is not guaranteed to contain the correct tables for joining as you may prefer to use exact fit instead of best fit lookups. You may also be more interested in population weighted joins, which this package does not perform (only simple left joins are supported).
-However, the FeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
+The second caveat is that the output from SmartGeocoder class is not guaranteed to contain the correct tables, but there is built-in capability to choose which tables you want to merge. This requires some knowledge of the data in the tables themselves, however. You may also be more interested in population weighted joins, which this package does not perform (only left joins are supported at the moment). However, the AsyncFeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
 
-Note that this package does not create any sort of file caches, so you should implement your own.
+Note that this package does not create any sort of file caches, so you should implement your own. This is in the todo pile for the package, however.
 
 ## Getting started
 To install this package:
@@ -23,22 +22,22 @@ To install this package:
 
 Or 
 
-`python -m pip install LBLDataAccess==1.0.1`
+`python -m pip install Consensus==1.0.0`
 
 If using Conda, you may need to just write:
 
-`pip install git+https://github.com/Ilkka-LBL/LBLDataAccess.git`
+`pip install git+https://github.com/Ilkka-LBL/Consensus.git`
 
 or 
 
-`pip install LBLDataAccess==1.0.1`
+`pip install Consensus==1.0.0`
 
 
 ### Configuration
 To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
 
 ```
-from LBLDataAccess.ConfigManager import ConfigManager
+from Consensus.ConfigManager import ConfigManager
 ```
 
 This class has three methods for saving, updating, and resetting the `config.json` file. The `config.json` file resides in the folder `config` inside the package installation folder.
@@ -59,7 +58,7 @@ For the `DownloadFromNomis` class to function, you must provide at least the API
 
 Minimum example:
 ```
-from LBLDataAccess.ConfigManager import ConfigManager
+from Consensus.ConfigManager import ConfigManager
 
 config_dict = {"nomis_api_key": "your_new_api_key_value"}
 
@@ -70,7 +69,7 @@ conf.update_config(config_dict)
 If you also want to add proxies:
 
 ```
-from LBLDataAccess.ConfigManager import ConfigManager
+from Consensus.ConfigManager import ConfigManager
 
 config_dict = {
                 "nomis_api_key": "your_new_api_key_value", 
@@ -82,7 +81,8 @@ conf = ConfigManager()
 conf.update_config(config_dict)
 ```
 
-Note that the modules and classes in this package rely on the keys provided in this config file.
+### NB! The config.json file requirements
+Note that the modules and classes in this package rely on the keys provided in this config file. However, you can extend the `config.json` file with the `.update_config()` method, just remember to pass in the old     
 
 
 ### Getting help selecting geocodes:
@@ -90,7 +90,7 @@ To get help with selecting geocodes, you must first import `GeoHelper` class
 
 
 ```
-from LBLDataAccess.GeocodeMerger import GeoHelper
+from Consensus.GeocodeMerger import GeoHelper
 
 geo_help = GeoHelper()
 ```
@@ -129,7 +129,7 @@ Please note that you need to select the starting and the ending columns from the
 ## Selecting the geocodes
 Now that you have decided what transformation you want, you're ready to use the `SmartGeocodeLookup` class. To import this class:
 
-`from LBLDataAccess.load_geocodes import SmartGeocodeLookup`
+`from Consensus.load_geocodes import SmartGeocodeLookup`
 
 `SmartGeocodeLookup` class first finds common columns between tables, and then uses graph theory to find the shortest path between all columns, regardless of whether they are in the same or different tables. This class is particularly helpful when the path between columns requires more than one join operation. As the original reason for creating this class was to find the geocodes for local authorities, we also need to provide a list of local authorities. As an example, let's say we want to get the 2022 GSS codes for Lewisham at Ward level, we'd use:
 
@@ -163,7 +163,7 @@ Note that we haven't created a new SmartGeocodeLookup object, but rather are jus
 The pre-requisite for using the NOMIS class is that you'll need to register for NOMIS and find your API key (www.nomisweb.co.uk) in settings. When you first use the `DownloadFromNomis` class, you should set the `api_key` and `proxies` arguments. If you want, you can additionally set `memorize=True`, which will save these variables in the `config.json` file in the `config` folder. The proxies argument has to be set as a dictionary `proxies = {'http': your_http_proxy, 'https': your_https_proxy}`. For example:
 
 ```
-from LBLDataAccess.access_nomis import DownloadFromNomis
+from Consensus.access_nomis import DownloadFromNomis
 
 api_key = 'examplestringthatcouldbeanything'
 proxies = {'http': your_http_proxy, 'https': your_https_proxy}
@@ -175,7 +175,7 @@ conn.connect()
 If you need to change the API key and proxies that are stored in the `config.json` file, you can use the `update_config()` method:
 
 ```
-from LBLDataAccess.access_nomis import DownloadFromNomis
+from Consensus.access_nomis import DownloadFromNomis
 
 api_key = 'example_api_string'
 proxies = {'http': your_http_proxy, 'https': your_https_proxy}
@@ -211,7 +211,7 @@ However, note also that even after calling the `conn.reset_config()` method, you
 ## Get table info from NOMIS
 Once you have the geocodes, you can use them to download census data using the NOMIS API. To do so, you need to import the class for downloading data from NOMIS:
 
-`from LBLDataAccess.access_nomis import DownloadFromNomis`
+`from Consensus.access_nomis import DownloadFromNomis`
 
 To use this class, you need to create an object and call the `connect()` method:
 
@@ -283,7 +283,7 @@ The `DownloadFromNomis` class gives you three main downloading methods: `table_t
 To use `get_bulk()`, you type:
 
 ```
-from LBLDataAccess.access_nomis import DownloadFromNomis
+from Consensus.access_nomis import DownloadFromNomis
 
 conn = DownloadFromNomis()
 conn.connect()
@@ -303,7 +303,7 @@ conn.get_bulk(dataset=dataset, data_format='csv', save_location=save_location)  
 To use `table_to_pandas()` to download data for Lewisham:
 
 ```
-from LBLDataAccess.access_nomis import DownloadFromNomis
+from Consensus.access_nomis import DownloadFromNomis
 
 conn = DownloadFromNomis()
 conn.connect()

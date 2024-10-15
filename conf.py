@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'LBLDataAccess'
+project = 'Consensus'
 copyright = '2024, Ilkka Sipila'
 author = 'Ilkka Sipila'
 
