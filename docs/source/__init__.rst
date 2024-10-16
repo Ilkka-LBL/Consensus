@@ -1,7 +1,7 @@
-LGInform
+__init__
 ========
 
-.. automodule:: Consensus.LGInform
+.. automodule:: Consensus.__init__
    :members:
    :undoc-members:
    :show-inheritance:

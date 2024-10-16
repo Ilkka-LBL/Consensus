@@ -1,7 +1,7 @@
-GeocodeMerger
+ConfigManager
 =============
 
-.. automodule:: Consensus.GeocodeMerger
+.. automodule:: Consensus.ConfigManager
    :members:
    :undoc-members:
    :show-inheritance:

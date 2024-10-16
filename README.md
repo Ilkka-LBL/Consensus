@@ -1,7 +1,7 @@
 # Combining NOMIS data and ONS Geoportal GSS codes
 ---
 ### TODO:
-The next stage in the development is to create a DuckDB database cache backend that is searched before a query to Open Geography Portal is made and extended with every new call of `FeatureServer` class.
+The next stage in the development is to create a DuckDB database cache backend that is searched before a query to Open Geography Portal is made and extended with every new call of `FeatureServer` class. Likewise, this database could be made use of to build a local storage of Nomis and other APIs.
 
 ### Purpose
 The main purpose of this Python package is to allow easier navigation of the NOMIS API and easier collection of GSS geocodes from ONS Open Geography Portal. The GSS geocodes are necessary for selecting the right tables in the NOMIS API, which can otherwise be very difficult to navigate.
