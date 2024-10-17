@@ -15,7 +15,7 @@ import pandas as pd
 from typing import Any, Dict, List, Tuple
 import json
 import importlib.resources as pkg_resources
-from Consensus import OpenGeographyPortal, AsyncOGP, lookups
+from Consensus import AsyncOGP, lookups
 import aiohttp
 import asyncio
 from numpy import random
@@ -24,15 +24,15 @@ random.seed(42)
 
 def BFS_SP(graph: Dict, start: str, goal: str) -> List[Any]:
     """
-    
-        Breadth-first search.
+    Breadth-first search.
 
-        Arguments:
-            graph {Dict}    -   Dictionary of connected tables based on shared columns.
-            start {str} -   Starting table and column.
-            goal {str}  -   Final table and column. 
+    Args:
+        graph (Dict): Dictionary of connected tables based on shared columns.
+        start (str): Starting table and column.
+        goal (str): Final table and column. 
 
-            
+    Returns:
+        List[Any]: A path as a list 
     """
     explored = []
      
@@ -86,8 +86,8 @@ class SmartGeocoder:
         Uses graph theory (breadth-first search) to find shortest path between table columns.
 
         Methods:
-            run_graph   -   This method creates the graph by searching through the lookup.json file for data with shared column names, given the names of the starting and ending columns.
-            geocodes    -   This method outputs the geocodes given the 
+            run_graph: This method creates the graph by searching through the lookup.json file for data with shared column names, given the names of the starting and ending columns.
+            geocodes: This method outputs the geocodes given the start and end columns 
 
         Usage:
             This class works as follows. The user provides the names of the starting and ending columns, and an optional list of local authorities when using the run_graph() method. 
@@ -109,33 +109,41 @@ class SmartGeocoder:
     """
     
     def __init__(self, lookup_location: Path = None, **kwargs):
-        """Initialize SmartGeocoder."""
+        """Initialise SmartGeocoder."""
         self.lookup_location = lookup_location
         self.ogp = None
         self.fs_service_table = None
         self.initial_lookup = None
         self.lookup = None
 
-        # Initialize attributes that don't require async operations
+        # Initialise attributes that don't require async operations
         self.initial_lookup = self.read_lookup(lookup_folder=lookup_location)  # read a json file as Pandas
         self.lookup = self.initial_lookup
 
-    async def initialize(self, **kwargs):
+    async def initialise(self, **kwargs) -> None:
+        """
+        Initialise the async.
+
+        Returns:
+            None
+        """
         self.ogp = AsyncOGP.OpenGeography(**kwargs)
-        await self.ogp.initialize()
+        await self.ogp.initialise()
         self.fs_service_table = self.ogp.service_table
         self.fs = AsyncOGP.AsyncFeatureServer()
 
-    def allow_geometry(self, setting: str = None):
+    def allow_geometry(self, setting: str = None) -> None:
         """
-            Use this method to limit the graph search space, which slightly speeds up the process, but also limits the possible connections that can be made. If you're only interested in geographic areas with geometries (say, you need ward boundaries), 
-            then set the 'setting' argument to 'geometry_only'. 
+        Use this method to limit the graph search space, which slightly speeds up the process, but also limits the possible connections that can be made. If you're only interested in geographic areas with geometries (say, you need ward boundaries), 
+        then set the 'setting' argument to 'geometry_only'. 
 
-            If a setting has been chosen, you may find that you need to reset it so that you can search a wider space. To do so, simply run the method without any arguments and it will reset the lookup space to default.
+        If a setting has been chosen, you may find that you need to reset it so that you can search a wider space. To do so, simply run the method without any arguments and it will reset the lookup space to default.
 
-            Arguments:
-                setting {str}   -   Either 'geometry_only' or 'non_geometry'. Anything else will use the default, which is that both geometry and non-geometry tables are used.
+        Args:
+            setting (str): Either 'geometry_only' or 'non_geometry'. Anything else will use the default, which is that both geometry and non-geometry tables are used.
         
+        Returns:
+            None
         """
         self.lookup = self.initial_lookup
         
@@ -453,7 +461,11 @@ class GeoHelper(SmartGeocoder):
     """
     
     def __init__(self):
-        """Initialise GeoHelper by inherting from SmartGeocoder."""
+        """
+        Initialise GeoHelper by inherting from SmartGeocoder.
+        
+        :meta private:
+        """
         super().__init__()
     
     

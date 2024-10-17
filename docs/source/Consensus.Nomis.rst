@@ -1,5 +1,5 @@
-Nomis
-=====
+Consensus.Nomis module
+======================
 
 .. automodule:: Consensus.Nomis
    :members:

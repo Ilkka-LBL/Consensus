@@ -2,14 +2,14 @@ Consensus
 =========
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Contents:
+   :maxdepth: 2
 
-   AsyncOGP
-   ConfigManager
-   config_utils
-   GeocodeMerger
-   LGInform
-   LocalMerger
-   Nomis
-   __init__
+   Consensus.AsyncOGP
+   Consensus.ConfigManager
+   Consensus.GeocodeMerger
+   Consensus.LGInform
+   Consensus.LocalMerger
+   Consensus.Nomis
+   Consensus.config_utils
+   Consensus.config
+   Consensus.lookups

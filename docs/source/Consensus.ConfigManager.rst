@@ -1,5 +1,5 @@
-ConfigManager
-=============
+Consensus.ConfigManager module
+==============================
 
 .. automodule:: Consensus.ConfigManager
    :members:

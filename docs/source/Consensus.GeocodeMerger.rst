@@ -1,5 +1,5 @@
-GeocodeMerger
-=============
+Consensus.GeocodeMerger module
+==============================
 
 .. automodule:: Consensus.GeocodeMerger
    :members:

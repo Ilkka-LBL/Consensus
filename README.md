@@ -18,7 +18,7 @@ Note that this package does not create any sort of file caches, so you should im
 ## Installation
 To install this package:
 
-`python -m pip install git+https://github.com/Ilkka-LBL/LBLDataAccess.git`
+`python -m pip install git+https://github.com/Ilkka-LBL/Consensus.git`
 
 Or 
 

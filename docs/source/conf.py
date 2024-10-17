@@ -7,7 +7,6 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import os
 import sys
-
 # Add the parent directory to sys.path to allow imports
 sys.path.insert(0, os.path.abspath('../../'))
 
@@ -26,8 +25,6 @@ extensions = [
 'm2r2',
 ]
 
-templates_path = ['_templates']
-exclude_patterns = []
 
 autodoc_default_options = {
     'members': True,
@@ -36,6 +33,11 @@ autodoc_default_options = {
     'special-members': '__init__',
     'inherited-members': True,
 }
+
+templates_path = ['_templates']
+exclude_patterns = []
+
+
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

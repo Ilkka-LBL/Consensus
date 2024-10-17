@@ -1,5 +1,5 @@
-LGInform
-========
+Consensus.LGInform module
+=========================
 
 .. automodule:: Consensus.LGInform
    :members:

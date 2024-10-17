@@ -13,7 +13,7 @@ api_key argument. If you need proxies to access the data, provide the informatio
     connect_to_nomis = DownloadFromNomis(api_key=api_key, proxies=proxies)
     connect_to_nomis.connect()
 
-Alternatively, you can use the ConfigManager to store API keys:
+Alternatively, you can use the `ConfigManager` to store API keys:
 
 .. code-block:: python
 
@@ -46,16 +46,16 @@ class ConnectToNomis:
         base_url (str): Attribute. Base URL for the NOMIS API.
         url (str): Attribute. Complete URL for API requests.
         r (requests.Response): Attribute. Response object from API requests.
-        config (dict): Attribute. Loaded configuration details from :code: `Consensus.config_utils.load_config()`, including API key and proxies.
+        config (dict): Attribute. Loaded configuration details from `Consensus.config_utils.load_config()`, including API key and proxies.
     """
     
     def __init__(self, api_key: str = None, proxies: Dict[str, str] = None):
         """
-        Initialize ConnectToNomis with API key and proxies.
+        Initialise ConnectToNomis with API key and proxies.
 
         Args:
-            api_key (str, optional): NOMIS API key. Defaults to None, in which case it loads from the config file.
-            proxies (Dict[str, str], optional): Proxy addresses. Defaults to None, in which case it loads from the config file.
+            api_key (str): NOMIS API key. Defaults to None, in which case it loads from the config file.
+            proxies (Dict[str, str]): Proxy addresses. Defaults to None, in which case it loads from the config file.
 
         Raises:
             AssertionError: If no API key is provided or found in the config.
@@ -86,6 +86,8 @@ class ConnectToNomis:
             
         Returns:
             None
+
+        :meta private:
         """
         if not dataset:
             self.url = f"{self.base_url}def.sdmx.json{self.uid}"
@@ -198,6 +200,8 @@ class ConnectToNomis:
 
         Returns:
             Any: The matching NOMIS table.
+
+        :meta private:
         """
         tables = self.get_all_tables()
         for table in tables:
@@ -213,6 +217,8 @@ class ConnectToNomis:
 
         Returns:
             List[Any]: List of start and end pairs representing ranges.
+
+        :meta private:
         """
         nums = sorted(set(nums))
         gaps = [[s, e] for s, e in zip(nums, nums[1:]) if s + 1 < e]
@@ -228,6 +234,8 @@ class ConnectToNomis:
 
         Returns:
             str: GSS code in the format 'Exxxxxxxx'.
+
+        :meta private:
         """
         return f"E{val:08}"
 
@@ -240,6 +248,8 @@ class ConnectToNomis:
 
         Returns:
             str: Formatted string for the URL.
+
+        :meta private:
         """
         edited_geo = [int(i[1:]) for i in sorted(geographies)]
         edges_list = self._geography_edges(edited_geo)
@@ -276,7 +286,7 @@ class DownloadFromNomis(ConnectToNomis):
 
     def __init__(self, *args, **kwargs):
         """
-        Initializes the `DownloadFromNomis` instance.
+        Initialises the `DownloadFromNomis` instance.
 
         Args:
             *args: Variable length argument list passed to the parent class.
@@ -293,6 +303,8 @@ class DownloadFromNomis(ConnectToNomis):
         
         Returns:
             None
+        
+        :meta private:
         """
         self.url = f"{self.base_url}{dataset}.bulk.csv{self.uid}"
 
@@ -308,6 +320,8 @@ class DownloadFromNomis(ConnectToNomis):
         
         Returns:
             None
+        
+        :meta private:
         """
         if params is None:
             params = {'geography': None}
@@ -333,9 +347,9 @@ class DownloadFromNomis(ConnectToNomis):
         
         Returns:
             None
+        
+        :meta private:
         """
-
-
         self._download_checks(dataset, params, value_or_percent, table_columns)
 
         if file_name is None:
@@ -399,7 +413,10 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             None
+        
+        :meta private:
         """
+
         try:
             with request_get(self.url, proxies=self.proxies, stream=True) as response:
                 with open(file_path, 'wb') as file:
@@ -415,6 +432,8 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             pd.DataFrame: The downloaded data as a Pandas DataFrame.
+
+        :meta private:
         """
         try:
             with request_get(self.url, proxies=self.proxies, stream=True) as response:

@@ -1,5 +1,5 @@
-LocalMerger
-===========
+Consensus.LocalMerger module
+============================
 
 .. automodule:: Consensus.LocalMerger
    :members:

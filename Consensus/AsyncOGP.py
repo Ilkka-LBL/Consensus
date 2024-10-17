@@ -20,16 +20,16 @@ class Service:
         Dataclass for services. 
 
         Attributes:
-            name {str}  -   Name of service.
-            type {str}  -   One of 'FeatureServer', 'MapServer', 'WFSServer'.
-            url {str}   -   URL.
-            description {str}   -   Description of the service.
-            layers {List[Dict[str, Any]]}   -   Data available through service. If empty, it is likely that the 'tables' attribute contains the desired data.
-            tables {List[Dict[str, Any]]}   -   Data available through service. If empty, it is likely that the 'layers' attribute contains the desired data.
-            output_formats {List[str]}  -   List of formats available for the data.
-            metadata {json} -   Metadata as JSON.
-            fields {List[str]}  -   List of fields for the data.
-            primary_key {str}   -   Primary key for the data.
+            name (str): Name of service.
+            type (str): One of 'FeatureServer', 'MapServer', 'WFSServer'.
+            url (str): URL.
+            description (str): Description of the service.
+            layers (List[Dict[str, Any]]): Data available through service. If empty, it is likely that the 'tables' attribute contains the desired data.
+            tables (List[Dict[str, Any]]): Data available through service. If empty, it is likely that the 'layers' attribute contains the desired data.
+            output_formats (List[str]): List of formats available for the data.
+            metadata (json): Metadata as JSON.
+            fields (List[str]): List of fields for the data.
+            primary_key (str): Primary key for the data.
     """
 
     name: str = None
@@ -45,7 +45,9 @@ class Service:
 
     def featureservers(self) -> 'Service':
         """
-            Self-filtering method.
+        Self-filtering method.
+
+        :meta private:
         """
         if self.type == 'FeatureServer':
             self.feature_server = True
@@ -53,7 +55,9 @@ class Service:
 
     def mapservers(self) -> 'Service':
         """
-            Self-filtering method.
+        Self-filtering method.
+
+        :meta private:
         """
         if self.type == 'MapServer':
             self.map_server = True
@@ -61,7 +65,9 @@ class Service:
 
     def wfsservers(self) -> 'Service':
         """
-            Self-filtering method.
+        Self-filtering method.
+
+        :meta private:
         """
         if self.type == 'WFSServer':
             self.wfs_server = True
@@ -71,6 +77,8 @@ class Service:
     async def _fetch(self, session: aiohttp.ClientSession, url: str, params: Dict[str, str] = None) -> Dict[str, Any]:
         """
         Helper method for asynchronous GET requests using aiohttp.
+
+        :meta private:
         """
         if params:
         # Convert boolean values to strings
@@ -81,6 +89,8 @@ class Service:
     async def service_details(self, session: aiohttp.ClientSession) -> Dict[str, Any]:
         """
         Returns high-level details for the data as JSON.
+
+        :meta private:
         """
         service_url = f"{self.url}?&f=json"
         return await self._fetch(session, service_url)
@@ -88,6 +98,8 @@ class Service:
     async def service_metadata(self, session: aiohttp.ClientSession) -> Dict[str, Any]:
         """
         Returns metadata as JSON.
+
+        :meta private:
         """
         service_url = f"{self.url}/0?f=json"
         return await self._fetch(session, service_url)
@@ -95,6 +107,11 @@ class Service:
     async def _service_attributes(self, session: aiohttp.ClientSession) -> None:
         """
         Fills attribute fields using the JSON information from service_details and service_metadata methods.
+
+        Returns:
+            None
+
+        :meta private:
         """
         service_info = await self.service_details(session)
         self.description = service_info.get('description')
@@ -116,6 +133,10 @@ class Service:
     async def lookup_format(self, session: aiohttp.ClientSession) -> Dict:
         """
         Returns a Pandas-ready dictionary of the service's metadata.
+
+        Returns:
+            Dict: A dictionary of the FeatureService's metadata.
+
         """
         await self._service_attributes(session)
         
@@ -137,6 +158,11 @@ class Service:
     async def _record_count(self, session: aiohttp.ClientSession, url: str, params: Dict[str, str]) -> int:
         """
         Helper method for counting records.
+
+        Returns:
+            int: The count of records for the chosen FeatureService
+
+        :meta private:
         """
         temp_params = deepcopy(params)
         temp_params['returnCountOnly'] = True
@@ -150,6 +176,14 @@ class OpenGeography:
     Main class for connecting to Open Geography API.
     """
     def __init__(self, max_retries:int =10, retry_delay:int =2) -> None:
+        """
+        Initialise class.
+
+        Returns:
+            None
+
+        :meta private:
+        """
         print("Connecting to Open Geography Portal")
         self.base_url = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json"
         self.max_retries = max_retries
@@ -158,7 +192,13 @@ class OpenGeography:
         self.services = []
         self.service_table = None
 
-    async def initialize(self):
+    async def initialise(self) -> None:
+        """ 
+        Run this method to initialise the class session.
+        
+        Returns:
+            None
+        """
         await self._validate_response()
 
     async def _fetch_response(self, session: aiohttp.ClientSession) -> dict:
