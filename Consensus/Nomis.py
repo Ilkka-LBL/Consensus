@@ -1,17 +1,15 @@
 """
-Created on Wed Dec 14 10:50:56 2022.
-
-@author: ISipila
-
-Get a NOMIS api key by registering with NOMIS. When initialising the DownloadFromNomis class, provide the api key as a parameter to the 
+API keys and connecting to NOMIS
+--------------------------------
+Get a NOMIS api key by registering with `NOMIS <https://www.nomisweb.co.uk>`. When initialising the DownloadFromNomis class, provide the api key as a parameter to the 
 api_key argument. If you need proxies to access the data, provide the information as a dictionary to proxies:
 
 .. code-block:: python
 
-    api_key = '02bdlfsjkd3idk32j3jeaasd2'                                # this is an example of random string from NOMIS website
+    api_key = '02bdlfsjkd3idk32j3jeaasd2'                                # this is an example of an API key
     proxies = {'http': your_proxy_address, 'https': your_proxy_address}  # proxy dictionary must follow this pattern. If you only have http proxy, copy it to the https without changing it
-    connect_to_nomis = DownloadFromNomis(api_key=api_key, proxies=proxies)
-    connect_to_nomis.connect()
+    nomis = DownloadFromNomis(api_key=api_key, proxies=proxies)
+    nomis.connect()
 
 Alternatively, you can use the `ConfigManager` to store API keys:
 
@@ -22,10 +20,56 @@ Alternatively, you can use the `ConfigManager` to store API keys:
     api_key = environ.get("NOMIS_API")
     proxy = environ.get("PROXY")
 
-    self.conf = ConfigManager()
-    self.conf.save_config({"nomis_api_key": api_key, "proxies.http": proxy, "proxies.https": proxy})
+    conf = ConfigManager()
+    conf.save_config({"nomis_api_key": api_key, "proxies.http": proxy, "proxies.https": proxy})
 
-    
+
+Example usage
+-------------
+
+.. code-block:: python
+
+    from Consensus.Nomis import DownloadFromNomis
+    from Consensus.ConfigManager import ConfigManager
+    from dotenv import load_dotenv
+    from pathlib import Path
+    from os import environ
+
+    # get your API keys and proxy settings from .env file
+    dotenv_path = Path('.env')  # assuming .env file is in your working directory
+    load_dotenv(dotenv_path)
+    api_key = environ.get("NOMIS_API")  # assuming you've saved the API key to a variable called NOMIS_API
+    proxy = environ.get("PROXY") # assuming you've saved the proxy address to a variable called PROXY
+
+    # set up your config.json file - only necessary the first time you use the package
+    config = {
+              "nomis_api_key": api_key,  # the key for NOMIS must be 'nomis_api_key' 
+              "proxies.http": proxy,  # you may not need to provide anything for proxy
+              "proxies.https": proxy  # the http and https proxies can be different if your setup requires it
+              } 
+    conf = ConfigManager()
+    conf.save_config()
+
+    # establish connection
+    nomis = DownloadFromNomis()
+    nomis.connect()
+
+    # print all tables from NOMIS
+    nomis.print_table_info()
+
+    # Get more detailed information about a specific table. Use the string starting with NM_* when selecting a table. 
+    # In this case, we choose TS054 - Tenure from Census 2021:
+    nomis.detailed_info_for_table('NM_2072_1')  #  TS054 - Tenure
+
+    # If you want the data for the whole country:
+    df_bulk = nomis.bulk_download('NM_2072_1')
+    print(df_bulk)
+
+    # And if you want just an extract for a specific geography, in our case England:
+    geography = {'geography': ['E92000001']}  # you can extend this list 
+    df_england = nomis.download('NM_2072_1', params=geography)
+    print(df_england)
+
 """
 from pathlib import Path
 from requests import get as request_get

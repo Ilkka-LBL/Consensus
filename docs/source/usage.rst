@@ -21,7 +21,12 @@ or from Github:
 
 Configuration
 -------------
-To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
+To make full use of this package, you need to do two things: 1) configure your API keys and proxies. To help with this, there is a `ConfigManager` class. And 2) build a lookup file of the tables stored in Open Geography Portal. 
+
+
+Creating the config.json file
+"""""""""""""""""""""""""""""
+Note that the modules and classes in Consensus rely on the keys provided in this config file. However, you can extend the `config.json` file with the `update_config()` method to use any other API keys and secrets that you may want. The file is stored as a json file and in Python you can work with nested dictionaries. 
 
 .. code-block:: python
 
@@ -29,7 +34,7 @@ To begin using this package, you need to configure your API keys and proxies. To
 
 This class has three methods for saving, updating, and resetting the `config.json` file. The `config.json` file resides in the folder `config` inside the package installation folder.
 
-The default `config.json` file contents are:
+The default `config.json` contents are:
 
 .. code-block:: python
 
@@ -74,11 +79,6 @@ If you also want to add proxies:
    conf.update_config(config_dict)
 
 
-NB! The config.json file requirements
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Note that the modules and classes in this package rely on the keys provided in this config file. However, you can extend the `config.json` file with the `update_config()` method.
-
-
 Building a lookup table for Open Geography Portal
 """""""""""""""""""""""""""""""""""""""""""""""""
 Building a `lookup.json` file is necessary if you want to make use of the capabilities of this package. The `lookup.json` file is used by the `SmartGeocoder` class in `GeocodeMerger` module to search for the quickest path from your starting column to the ending column. 
@@ -113,10 +113,8 @@ or inside Jupyter notebook cells:
    # and then run the code in a new cell:
    await main()
 
-NB! The lookup.json file
-^^^^^^^^^^^^^^^^^^^^^^^^
 Note that Open Geography Portal uses ESRI web servers and they do not always respond to queries. To circumnvent the non-responsiveness, we set `max_retries=30`. On rare occasions, this is not enough and you may have to increase the number of retries. 
-Another, related idiosyncrasy with this approach is that the connection may drop during the building of the `lookup.json` file resulting in some, but not all, datasets being left out of the final final. In these cases, the package will report on failures, but will not try to rectify it. We may fix this later.  
+Another, related idiosyncrasy with this approach is that the connection may drop during the building of the `lookup.json` file resulting in some, but not all, datasets being left out of the final lookup file. In these cases, the package will report failures, but will not try to rectify it. We may fix this behaviour later.  
 
 
 
