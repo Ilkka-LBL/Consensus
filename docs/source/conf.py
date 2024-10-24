@@ -18,12 +18,11 @@ release = '1.0.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = [
-'sphinx.ext.autodoc',
-'sphinx.ext.napoleon',
-'sphinx_autodoc_typehints',
-'m2r2',
-]
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.napoleon',
+              'sphinx_autodoc_typehints',
+              'm2r2'
+              ]
 
 
 autodoc_default_options = {
@@ -36,7 +35,6 @@ autodoc_default_options = {
 
 templates_path = ['_templates']
 exclude_patterns = []
-
 
 
 # -- Options for HTML output -------------------------------------------------

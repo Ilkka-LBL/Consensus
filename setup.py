@@ -12,6 +12,7 @@ from setuptools import setup, find_packages, Command
 with open('README.md') as f:
     long_description = f.read()
 
+
 class CleanCommand(Command):
     """Custom clean command to tidy up the project root."""
     user_options = []
@@ -29,12 +30,14 @@ class CleanCommand(Command):
                 print(f"Removing {directory} directory")
                 shutil.rmtree(directory)
 
+
 def package_files(directory):
     paths = []
     for (path, directories, filenames) in os.walk(directory):
         for filename in filenames:
             paths.append(os.path.join('..', path, filename))
     return paths
+
 
 extra_files = package_files('Consensus/lookups')
 config = package_files('Consensus/config')
@@ -79,7 +82,3 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown'
 )
-
-
-
-
