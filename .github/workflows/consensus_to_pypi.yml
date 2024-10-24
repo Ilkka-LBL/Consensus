@@ -34,7 +34,7 @@ jobs:
           python-version: 3.x
       - name: Install dependencies
         run: |
-          pip install sphinx
+          pip install sphinx sphinx_autodoc_typehints sphinx-rtd-theme m2r2
       - name: Build Documentation
         run: |
           cd docs
