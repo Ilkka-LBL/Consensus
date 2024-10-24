@@ -9,6 +9,9 @@ import shutil
 import os
 from setuptools import setup, find_packages, Command
 
+with open('README.md') as f:
+    long_description = f.read()
+
 class CleanCommand(Command):
     """Custom clean command to tidy up the project root."""
     user_options = []
@@ -73,6 +76,8 @@ setup(
     cmdclass={
         'clean': CleanCommand,
     },
+    long_description=long_description,
+    long_description_content_type='text/markdown'
 )
 
 
