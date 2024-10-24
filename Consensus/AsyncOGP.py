@@ -1,23 +1,18 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List
 import geopandas as gpd
-import pandas as pd 
+import pandas as pd
 from copy import deepcopy
 from pathlib import Path
-from Consensus import lookups
-from Consensus.config_utils import load_config
-from pkg_resources import resource_stream
-import importlib.resources as pkg_resources
 import aiohttp
 import asyncio
 import aiofiles
 
 
-
 @dataclass
 class Service:
     """
-        Dataclass for services. 
+        Dataclass for services.
 
         Attributes:
             name (str): Name of service.

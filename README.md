@@ -13,6 +13,9 @@ The package previously known as LBLDataAccess has now been rebranded as Consensu
 2. Implement geometry search for Open Geography Portal.
 3. Add more APIs, for instance ONS, EPC, MetOffice.
 4. Improve GeocodeMerger.py by adding the ability to choose additional nodes in the graph so that the graph is guided through these columns.
+5. Clean up code - currently all files fail flake8.
+6. Improve documentation.
+7. Add more test cases.
 
 ### Purpose
 The main purpose of this Python package is to allow easier navigation of the NOMIS API and easier collection of GSS geocodes from ONS Open Geography Portal. The GSS geocodes are necessary for selecting the right tables in the NOMIS API, which can otherwise be very difficult to navigate.
