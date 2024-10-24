@@ -152,14 +152,27 @@ cython_debug/
 #.idea/
 
 
-/Case studies
-/database_structure
-/powerbi_draft_relationships
-/TestFolder
-/lookups
-/config
-/LBLDataAccess/lookups/*.json
-/LBLDataAccess/config/*.json
+/Test*
+/Lookups
+/Config
+#/LBLDataAccess/Lookups/*.json
+/LBLDataAccess/Config/*.json
+/lg_inform_test_output
+
+
+/dist_archive/*.whl
+/dist_archive/*.tar.gz
 
 settings.txt
 .settings.txt
+
+Consensus/config/config.json
+trash.py
+tests.py
+nomis_test.py
+lg_inform_test.py
+config_manager_test.py
+build_lookup.py
+trash.py
+unittests.py
+tests.py

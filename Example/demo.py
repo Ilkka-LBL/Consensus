@@ -17,8 +17,8 @@ To install LBLDataAccess:
 
 """
 #%%
-from LBLDataAccess.load_geocodes import GeoHelper, SmartGeocodeLookup
-from LBLDataAccess.access_nomis import DownloadFromNomis
+from Consensus.GeocodeMerger import GeoHelper, SmartGeocodeLookup
+from Consensus.Nomis import DownloadFromNomis
 from pathlib import Path
 import json 
 import pandas as pd
@@ -37,7 +37,7 @@ nomis_api = environ.get("NOMIS_API")
 print(proxies)
 #%%
 # we initialize the SmartGeocodeLookup (but you can of course also create a new object with different parameters)
-from LBLDataAccess.load_geocodes import SmartGeocodeLookup
+from Consensus.GeocodeMerger import SmartGeocodeLookup
 
 gss = SmartGeocodeLookup(end_column_max_value_search=True, local_authority_constraint=True, verbose=True)  # changing end_column_max_value_search to True gives different results from setting it False
 gss.run_graph(starting_column='WD22CD', ending_column='LSOA21CD', local_authorities=['Lewisham']) # try changing WD22CD to WD21CD and WD23CD to see how this affects the results
