@@ -42,7 +42,7 @@ all_files = extra_files + config
 
 setup(
     name='Consensus',
-    version='1.0.0',
+    version='1.0.1',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     packages=find_packages(),
