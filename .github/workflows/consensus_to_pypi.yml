@@ -26,7 +26,7 @@ jobs:
   deploy_docs:
     name: Deploy Documentation to GitHub Pages
     runs-on: ubuntu-latest
-    needs: docs
+    needs: lint
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -47,8 +47,9 @@ jobs:
           publish_dir: ./docs/build/html
           
   build:
+    name: Build and upload package to PyPI
     runs-on: ubuntu-latest
-
+    needs: [lint, deploy_docs]
     steps:
     # Step 1: Check out the repository
     - name: Check out repository
