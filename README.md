@@ -24,14 +24,6 @@ Or
 
 `python -m pip install Consensus==1.0.0`
 
-If using Conda, you may need to just write:
-
-`pip install git+https://github.com/Ilkka-LBL/Consensus.git`
-
-or 
-
-`pip install Consensus==1.0.0`
-
 
 ## Configuration
 To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
