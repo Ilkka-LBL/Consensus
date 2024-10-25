@@ -18,10 +18,12 @@ Submodules
 
    Consensus.AsyncOGP
    Consensus.ConfigManager
+   Consensus.EsriConnector
    Consensus.GeocodeMerger
    Consensus.LGInform
    Consensus.LocalMerger
    Consensus.Nomis
+   Consensus.TFL
    Consensus.config_utils
 
 Module contents

@@ -1,8 +1,10 @@
-# Combining NOMIS data and ONS Geoportal GSS codes
+# A single package for accessing Nomis, Open Geography Portal, TfL Open Data Hub, and more
 ---
 ## New name
-The package previously known as LBLDataAccess has now been rebranded as Consensus. The package aims to create a single pipeline from Open Geography Portal to Nomis and other UK public data APIs. Currently, there are five modules: 
-1. AsyncOGP (Asynchronous Open Geography Portal, enabling downloading any dataset from Open Geography Portal);
+The package previously known as LBLDataAccess has now been rebranded as Consensus. The package aims to create a single pipeline from Open Geography Portal to Nomis and other UK public data APIs. Currently, there are seven modules: 
+1. EsriConnector (extendable module to connect to ESRI FeatureServers);
+2. AsyncOGP (Asynchronous Open Geography Portal connector that inherits from EsriConnector, enabling downloading any dataset from Open Geography Portal and building a lookup table);
+3. TFL (TfL Open Data Hub connector that inherits from EsriConnector, enabling downloads)
 2. Nomis (API tool to download data from www.nomisweb.co.uk);
 3. GeocodeMerger (a graph theory-based tool that helps with downloading and merging multiple tables from Open Geography Portal);
 4. LocalMerger (a local version of GeocodeMerger designed to help you with building a DuckDB database from an assortment of local files based on shared column names); and
@@ -11,9 +13,9 @@ The package previously known as LBLDataAccess has now been rebranded as Consensu
 ### TODO and help needed:
 1. The next stage in the development is to create a DuckDB database cache backend that is searched before a query to Open Geography Portal is made and extended with every new call of `FeatureServer` class. Likewise, this database could be made use of to build a local storage of Nomis and other APIs.
 2. Implement geometry search for Open Geography Portal.
-3. Add more APIs, for instance ONS, EPC, MetOffice.
+3. Add more APIs, for instance ONS, EPC, MetOffice. Easy wins would be to add more ESRI servers as they can be easily plugged in with the EsriConnector class (see how it is done with TFL module, for instance).
 4. Improve GeocodeMerger.py by adding the ability to choose additional nodes in the graph so that the graph is guided through these columns.
-5. Clean up code - currently all files fail flake8.
+5. Clean up code - currently most files fail flake8. I have relaxed the conditions to ignore PEP8:E501 and PEP8:E402
 6. Improve documentation.
 7. Add more test cases and examples.
 
@@ -25,7 +27,7 @@ This package also includes a class to help with selecting data from LG Inform Pl
 ### The caveats
 The current version of the package relies on access to Open Geography Portal, but their ESRI servers are not always available. The official response from ONS and ESRI was that we can only keep trying, which means that occasionally the download times will take somewhat long. The package automatically retries whenever connection is lost.   
 
-The second caveat is that the output from SmartGeocoder class is not guaranteed to contain the correct tables, but there is built-in capability to choose which tables you want to merge. This requires some knowledge of the data in the tables themselves, however. You may also be more interested in population weighted joins, which this package does not perform (only left joins are supported at the moment). However, the AsyncFeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
+The second caveat is that the output from SmartLinker class is not guaranteed to contain the correct tables, but there is built-in capability to choose which tables you want to merge. This requires some knowledge of the data in the tables themselves, however. You may also be more interested in population weighted joins, which this package does not perform (only left joins are supported at the moment). However, the AsyncFeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
 
 Note that this package does not create any sort of file caches, so you should implement your own. This is in the todo pile for the package, however.
 
@@ -106,8 +108,11 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
 or inside Jupyter notebook cells:
+
 ```
+from Consensus.AsyncOGP import OpenGeographyLookup
 async def main():
     ogl = OpenGeographyLookup(max_retries=30)
     await ogl.initialise()

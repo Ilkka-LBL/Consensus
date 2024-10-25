@@ -1,0 +1,25 @@
+name: PEP8 checks excl. line length
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [published]
+
+jobs:
+  lint:
+    name: Run Flake8 Linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          pip install flake8
+      - name: Run Flake8
+        run: |
+          flake8 . --ignore E501,E402
