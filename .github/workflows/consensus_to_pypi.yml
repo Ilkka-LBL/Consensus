@@ -26,6 +26,12 @@ jobs:
   deploy_docs:
     name: Deploy Documentation to GitHub Pages
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -34,7 +40,9 @@ jobs:
           python-version: 3.x
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx_autodoc_typehints sphinx-rtd-theme m2r2
+          python -m pip install -U sphinx 
+          python -m pip install sphinx_autodoc_typehints 
+          python -m pip install sphinx-rtd-theme
       - name: Build Documentation
         run: |
           cd docs
