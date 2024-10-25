@@ -81,7 +81,7 @@ If you also want to add proxies:
 
 Building a lookup table for Open Geography Portal
 """""""""""""""""""""""""""""""""""""""""""""""""
-Building a `lookup.json` file is necessary if you want to make use of the capabilities of this package. The `lookup.json` file is used by the `SmartGeocoder` class in `GeocodeMerger` module to search for the quickest path from your starting column to the ending column. 
+Building a `lookup.json` file is necessary if you want to make use of the capabilities of this package. The `lookup.json` file is used by the `SmartLinker` class in `GeocodeMerger` module to search for the quickest path from your starting column to the ending column. 
 
 You can create `lookup.json` (or update it) by running the below snippet:
 
