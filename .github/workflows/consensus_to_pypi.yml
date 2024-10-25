@@ -26,10 +26,8 @@ jobs:
   deploy_docs:
     name: Deploy Documentation to GitHub Pages
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
+      contents: write      # Necessary to push new branches and commit files
       pages: write
       id-token: write
     steps:
@@ -52,6 +50,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/html
+          publish_branch: gh-pages
           
   build:
     name: Build and upload package to PyPI
