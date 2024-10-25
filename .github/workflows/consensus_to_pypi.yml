@@ -36,7 +36,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/html
           publish_branch: gh-pages
-          
   build:
     name: Build and upload package to PyPI
     runs-on: ubuntu-latest
