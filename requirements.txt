@@ -16,4 +16,4 @@ sphinx-autodoc-typehints==2.3.0
 sphinx-rtd-theme==3.0.1
 pytest==7.1.2
 duckdb==1.1.0
-
+networkx==3.2.1

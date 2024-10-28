@@ -1,4 +1,4 @@
-from pathlib import Path 
+from pathlib import Path
 import pandas as pd
 import hmac
 import hashlib
@@ -16,7 +16,7 @@ class LGInform:
 
     """
         The class takes a dictionary of LG Inform datasets (such as {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}), finds all metrics, downloads the data, and merges them into one. The dictionary keys can be any string of your choosing, but the integer values must be one of https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-        The main method to download data for multiple datasets is the mp_download() method, which uses multiprocessing to download data from multiple datasets simultaneously. However, this requires that the class is called within "if __name__ == '__main__'" clause. 
+        The main method to download data for multiple datasets is the mp_download() method, which uses multiprocessing to download data from multiple datasets simultaneously. However, this requires that the class is called within "if __name__ == '__main__'" clause.
         If multiprocessing is not necessary, it's better to use download() method, which is what the multiprocessing wrapper method also calls.
 
         Arguments:
@@ -50,31 +50,31 @@ class LGInform:
 
             lg_key = environ.get("LG_KEY")  # public key to LG Inform Plus
             lg_secret = environ.get("LG_SECRET")  # secret to LG Inform Plus
-            conf = ConfigManager()  # Use ConfigManager to save environment variables and proxy address if you want the information to be stored with this package 
+            conf = ConfigManager()  # Use ConfigManager to save environment variables and proxy address if you want the information to be stored with this package
             conf.update_config("lg_inform_key", lg_key)
             conf.update_config("lg_inform_secret", lg_secret)
             out_folder = Path('./data/mp_test/')  # folder to store final data
             datasets = {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}  # a dictionary of datasets. The key can be any string, but the integer value must be an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-            
+
             if __name__ '__main__':  # when using the multiprocessing wrapper method, you have to run it under if __name__ '__main__' statement.
                 api_call = LGInform(area='E09000023,Lewisham_CIPFA_Near_Neighbours')
                 #api_call.download(datasets=datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False)  # normal, single threaded download
-                api_call.mp_download(datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False, max_workers=8)  
-            
+                api_call.mp_download(datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False, max_workers=8)
+
 
     """
 
-    def __init__(self, api_key: str = None, api_secret: str = None, proxies: Dict[str, str] = {}, area:str='E09000023,Lewisham_CIPFA_Near_Neighbours') -> None:
+    def __init__(self, api_key: str = None, api_secret: str = None, proxies: Dict[str, str] = {}, area: str = 'E09000023,Lewisham_CIPFA_Near_Neighbours') -> None:
         mp.set_start_method('spawn')
 
         self.config = load_config()
         self.api_key = api_key or self.config.get('lg_inform_key', None).strip()
         self.api_secret = api_secret or self.config.get('lg_inform_secret', None).strip()
         self.proxies = proxies or self.config.get('proxies', {})
-        
+
         assert self.api_key, 'Please provide Application Key to LG Inform Plus - if using ContextManager, name variable as "lg_inform_key"'
         assert self.api_secret, 'Please provide Application Secret to LG Inform Plus - if using ContextManager, name variable as "lg_inform_secret"'
-        
+
         self.area = area
 
         self.base_url = "https://webservices.esd.org.uk"
@@ -92,16 +92,16 @@ class LGInform:
         """
 
         column_names = [col['period']['label'] for col in json_data['columns']]
-        data = {i['area']['label']:[val['formatted'] for val in i['values']] for i in json_data['rows']}
+        data = {i['area']['label']: [val['formatted'] for val in i['values']] for i in json_data['rows']}
         return pd.DataFrame.from_dict(data, orient='index', columns=column_names)
 
-    def sign_url(self, url:str) -> str:
+    def sign_url(self, url: str) -> str:
         """
             Each url needs to be signed.
 
-            Arguments: 
+            Arguments:
                 url {str}   -   URL to be signed.
-            
+
             Returns:
                 str -   URL.
 
@@ -109,7 +109,7 @@ class LGInform:
 
         url = url + 'ApplicationKey=' + self.api_key
         byteSecret = bytes(self.api_secret, 'utf-8')
-        digest = hmac.digest(byteSecret,bytes(url, 'utf-8'), hashlib.sha1)
+        digest = hmac.digest(byteSecret, bytes(url, 'utf-8'), hashlib.sha1)
         signature = base64.b64encode(digest).decode('UTF-8')
         signature = '&Signature=' + signature
         url = url + signature
@@ -122,7 +122,7 @@ class LGInform:
             Arguments:
                 identifier {int}    -   metricType integer.
                 latest_n {int}  -   Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.
-            
+
             Returns:
                 JSONDict -   Downloaded data as JSON.
 
@@ -133,7 +133,7 @@ class LGInform:
         output = requests.get(data_url).json()
         return output
 
-    def download_data_for_many_variables(self, variables:JSONDict, latest_n:int=20, arraytype:str='metricType-array') -> List[JSONDict]:
+    def download_data_for_many_variables(self, variables: JSONDict, latest_n: int = 20, arraytype: str = 'metricType-array') -> List[JSONDict]:
         """
             Download the variables for an array of metricTypes using download_variable_data method.
 
@@ -154,13 +154,13 @@ class LGInform:
             outputs.append(output)
         return outputs
 
-    def get_dataset_table_variables(self, dataset:int) -> JSONDict:
+    def get_dataset_table_variables(self, dataset: int) -> JSONDict:
         """
-            Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON. 
+            Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON.
 
             Arguments:
                 dataset {int}   -   The number of the dataset from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-            
+
             Returns:
                 JSONDict    -   A JSON dictionary object
         """
@@ -170,7 +170,7 @@ class LGInform:
         variables = requests.get(data_url, proxies=self.proxies).json()
         return variables
 
-    def format_tables(self, outputs:List[JSONDict], drop_discontinued:bool=True) -> None:
+    def format_tables(self, outputs: List[JSONDict], drop_discontinued: bool = True) -> None:
         """
             Format the data for each variable and create a metadata table.
 
@@ -180,19 +180,19 @@ class LGInform:
 
         """
 
-        table_headers = {'MetricType':[], 'Column name':[], 'Original table name': [], 'Alternative table name(s)': [], 'Short label': [], 'Discontinued': [], 'Metric help text': [], 'Notes': []}
+        table_headers = {'MetricType': [], 'Column name': [], 'Original table name': [], 'Alternative table name(s)': [], 'Short label': [], 'Discontinued': [], 'Metric help text': [], 'Notes': []}
         tables_excluded = 0
         for download in outputs:
             if download['columns']:
                 metrictype_identifier = download['columns'][0]['metricType']['identifier']
                 table_name = download['columns'][0]['metricType']['label']
-            
+
                 try:
                     dl_df = self.json_to_pandas(download)
                     dl_df.reset_index(inplace=True, names=['Area'])
-                    
+
                     df_melt = pd.melt(dl_df, id_vars=['Area'], value_vars=dl_df.columns, var_name='Time period', value_name=table_name)
-                    
+
                     # check if data is discontinued:
                     metric_data = f"{self.base_url}/metricTypes/{metrictype_identifier}?"
                     metadata_url = self.sign_url(metric_data)
@@ -221,7 +221,7 @@ class LGInform:
                             table_headers['Short label'].append(table_label)
                         except KeyError:
                             table_headers['Short label'].append('')
-                        
+
                         table_headers['Column name'].append(table_name)
                         table_headers['MetricType'].append(metrictype_identifier)
                         table_headers['Notes'].append('')
@@ -236,15 +236,14 @@ class LGInform:
                     table_headers['Discontinued'].append('')
                     table_headers['Metric help text'].append('help_text')
                     table_headers['Notes'].append('TypeError, data omitted from final dataset')
-                    print(f'Error with table', table_name)
+                    print('Error with table', table_name)
                     tables_excluded += 1
-                
+
         table_name_lookup = pd.DataFrame.from_dict(table_headers)
         table_name_lookup.to_csv(self.dataset_specific_output_folder.joinpath('metadata.csv'))
         print(f'Finished formatting table for dataset {self.dataset_key}, number of columns dropped due to errors: {tables_excluded}')
-                                    
 
-    def merge_tables(self, dataset_name:str) -> pd.DataFrame:
+    def merge_tables(self, dataset_name: str) -> pd.DataFrame:
         """
             Merge the variables to form a table for a given dataset.
             Arguments:
@@ -268,14 +267,13 @@ class LGInform:
             print(f"No data found in {self.raw_data_folder}. Maybe the variables are discontinued? Try changing drop_discontinued parameter to False.")
             return None
 
-
-    def download(self, datasets: Dict[str, int], output_folder:Path, latest_n:int=5, drop_discontinued:bool=True) -> None:
+    def download(self, datasets: Dict[str, int], output_folder: Path, latest_n: int = 5, drop_discontinued: bool = True) -> None:
         """
-           Download all variables for many datasets, merging the variables to one table by area and time period.  
+           Download all variables for many datasets, merging the variables to one table by area and time period.
 
            Arguments:
 
-                datasets {Dict[str,int]}    -   Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4= 
+                datasets {Dict[str,int]}    -   Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
                 latest_n {int}  -   The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).
                 drop_discontinued {bool}    -   If you set this to False, the downloaded data will include discontinued metrics. Default is True.
 
@@ -297,16 +295,14 @@ class LGInform:
                 self.raw_data_folder.mkdir(parents=True)
             variables = self.get_dataset_table_variables(d)
             output = self.download_data_for_many_variables(variables, latest_n=latest_n)
-            
             self.format_tables(output, drop_discontinued=drop_discontinued)
             merged_df = self.merge_tables(self.dataset_key)
             if merged_df is not None:
                 print(f"Dataset {dataset_key} downloaded, merged, and stored in {self.dataset_specific_output_folder}")
 
-
     def _multiprocessing_wrapper(self, input_queue: mp.Queue) -> None:
         """
-            This is just the same as download() method, but wrapped to be used with multiprocessing library. 
+            This is just the same as download() method, but wrapped to be used with multiprocessing library.
 
             Arguments:
                 input_queue {mp.Queue}  -   A multiprocessing queue.
@@ -316,33 +312,31 @@ class LGInform:
         (datasets, latest_n, drop_discontinued) = args
         self.download(datasets, latest_n, drop_discontinued)
 
-
-    def mp_download(self, datasets:Dict[str,int], output_folder:Path, latest_n:int=20, drop_discontinued:bool=True, max_workers:int=8) -> None:
+    def mp_download(self, datasets: Dict[str, int], output_folder: Path, latest_n: int = 20, drop_discontinued: bool = True, max_workers: int = 8) -> None:
         """
             Multiprocessing method for downloading data for multiple datasets. Use max_workers to split the dataset dictionary to chunks of size max_workers.
 
             Arguments:
-                datasets {Dict[str,int]}    -   Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4= 
+                datasets {Dict[str,int]}    -   Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
                 latest_n {int}  -   The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).
                 drop_discontinued {bool}    -   If you set this to False, the downloaded data will include discontinued metrics. Default is True.
-                max_workers {int}   -   Set the number of workers for multiprocessing. Typically this would be the number of logical CPUs in your system. This will also process the datasets in chunks, so that if you list 16 datasets in your datasets dictionary and have 8 workers, the script will work through the datasets in two steps (16/8 = 2). 
+                max_workers {int}   -   Set the number of workers for multiprocessing. Typically this would be the number of logical CPUs in your system. This will also process the datasets in chunks, so that if you list 16 datasets in your datasets dictionary and have 8 workers, the script will work through the datasets in two steps (16/8 = 2).
 
         """
         sliding_dataset = more_itertools.windowed([{i: k} for i, k in datasets.items()], n=max_workers, step=max_workers)
-        
+
         for enum, subset in enumerate(sliding_dataset):
             print(f"Step {enum+1} of {round(len(datasets)/max_workers)+1}")
             new_subset = [item for item in subset if item is not None]
-            
+
             print(f"Employing workers {1 + max_workers*enum} to {max_workers + max_workers*enum}")
             q = mp.Queue()
             workers = []
 
             for data_set in new_subset:
                 q.put((data_set, output_folder, latest_n, drop_discontinued))
-            
 
-            for i in range(len(new_subset)):       
+            for i in range(len(new_subset)):
                 p = mp.Process(target=self._multiprocessing_wrapper, args=(q,))
                 workers.append(p)
                 p.start()
@@ -357,4 +351,3 @@ class LGInform:
             print(f"Completed step {enum+1}")
 
         print('Done')
-

@@ -49,7 +49,6 @@ class ConfigManager:
             d[keys[-1]] = value
         self.save_config(config)
 
-
     def reset_config(self) -> None:
         """Reset configuration to the default values."""
         self.default_config = {

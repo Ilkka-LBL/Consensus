@@ -4,10 +4,10 @@
 """
 
 import pandas as pd
-import networkx as nx
 from pathlib import Path
 from typing import List, Dict
 import duckdb
+import networkx as nx
 
 
 class DatabaseManager:
@@ -73,10 +73,9 @@ class DatabaseManager:
         for table in tables[1:]:
             df_to_join = dfs[table]
             print(f"Joining with table {table} using {join_type} join")
-            # Use the first common column of the result_df 
+            # Use the first common column of the result_df
             # and df_to_join to perform the join
-            common_columns = list(set(result_df.columns) &
-                                  set(df_to_join.columns))
+            common_columns = list(set(result_df.columns) & set(df_to_join.columns))
             if not common_columns:
                 raise ValueError(f"No common columns to join on between \
                                  {result_df.columns} and {df_to_join.columns}")
@@ -157,8 +156,7 @@ class GraphBuilder:
             return paths
 
         if by == 'column':
-            columns = {node for node, data in self.graph.nodes(data=True) if 
-                       'columns' in data}
+            columns = {node for node, data in self.graph.nodes(data=True) if 'columns' in data}
             if start not in columns or end not in columns:
                 return []
             return bfs_paths(start, end)
