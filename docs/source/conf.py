@@ -10,7 +10,7 @@ import sys
 # Add the parent directory to sys.path to allow imports
 sys.path.insert(0, os.path.abspath('../../'))
 
-with open('release.txt') as f:
+with open('./release.txt') as f:
     version = f.read()
 
 project = 'Consensus'
