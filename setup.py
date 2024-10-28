@@ -12,6 +12,9 @@ from setuptools import setup, find_packages, Command
 with open('README.md') as f:
     long_description = f.read()
 
+with open('release.txt') as f:
+    version = f.read()
+
 
 class CleanCommand(Command):
     """Custom clean command to tidy up the project root."""
@@ -45,7 +48,7 @@ all_files = extra_files + config
 
 setup(
     name='Consensus',
-    version='1.0.3',
+    version=version,
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     website='https://ilkka-lbl.github.io/Consensus/',

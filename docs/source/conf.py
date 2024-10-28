@@ -10,10 +10,13 @@ import sys
 # Add the parent directory to sys.path to allow imports
 sys.path.insert(0, os.path.abspath('../../'))
 
+with open('release.txt') as f:
+    version = f.read()
+
 project = 'Consensus'
 copyright = '2024, Ilkka Sipila - Lewisham Council Data Science and Insight team'
 author = 'Ilkka Sipila'
-release = '1.0.3'
+release = version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
