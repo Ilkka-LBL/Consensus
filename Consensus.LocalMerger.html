@@ -50,7 +50,31 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LGInform.html">Consensus.LGInform module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.LocalMerger module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.LocalMerger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager"><code class="docutils literal notranslate"><span class="pre">DatabaseManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.__init__"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager._join_tables"><code class="docutils literal notranslate"><span class="pre">DatabaseManager._join_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.close"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.create_database"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.create_database()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.list_all_tables"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.list_all_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.query_tables_from_path"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.query_tables_from_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder"><code class="docutils literal notranslate"><span class="pre">GraphBuilder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.__init__"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._build_graph"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._build_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._process_csv"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._process_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._process_dataframe"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._process_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._process_excel"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._process_excel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.choose_path"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.choose_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.find_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.find_paths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_all_possible_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_all_possible_paths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_full_graph"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_full_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_table_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_table_paths()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
@@ -86,8 +110,131 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="consensus-localmerger-module">
-<h1>Consensus.LocalMerger module<a class="headerlink" href="#consensus-localmerger-module" title="Link to this heading"></a></h1>
+  <section id="module-Consensus.LocalMerger">
+<span id="consensus-localmerger-module"></span><h1>Consensus.LocalMerger module<a class="headerlink" href="#module-Consensus.LocalMerger" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager._join_tables">
+<span class="sig-name descname"><span class="pre">_join_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager._join_tables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.close" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.create_database">
+<span class="sig-name descname"><span class="pre">create_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_paths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.create_database" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.list_all_tables">
+<span class="sig-name descname"><span class="pre">list_all_tables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.list_all_tables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.query_tables_from_path">
+<span class="sig-name descname"><span class="pre">query_tables_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outer'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.query_tables_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">GraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._build_graph">
+<span class="sig-name descname"><span class="pre">_build_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._build_graph" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._process_csv">
+<span class="sig-name descname"><span class="pre">_process_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._process_csv" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._process_dataframe">
+<span class="sig-name descname"><span class="pre">_process_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._process_dataframe" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._process_excel">
+<span class="sig-name descname"><span class="pre">_process_excel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._process_excel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.choose_path">
+<span class="sig-name descname"><span class="pre">choose_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.choose_path" title="Link to this definition"></a></dt>
+<dd><p>Allows the user to choose a path from a list of paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.find_paths">
+<span class="sig-name descname"><span class="pre">find_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'table'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.find_paths" title="Link to this definition"></a></dt>
+<dd><p>Find all paths from start to end using BFS.
+Can be by table name or column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_all_possible_paths">
+<span class="sig-name descname"><span class="pre">get_all_possible_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'table'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_all_possible_paths" title="Link to this definition"></a></dt>
+<dd><p>Outputs all possible paths based on start and end, by table or column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_full_graph">
+<span class="sig-name descname"><span class="pre">get_full_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_full_graph" title="Link to this definition"></a></dt>
+<dd><p>Returns the full graph with all connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_table_paths">
+<span class="sig-name descname"><span class="pre">get_table_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_table_paths" title="Link to this definition"></a></dt>
+<dd><p>Returns a dictionary of table names and their corresponding file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
