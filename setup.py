@@ -8,15 +8,9 @@ Created on Wed Jan 25 10:44:34 2023
 import shutil
 import os
 from setuptools import setup, find_packages, Command
-from pathlib import Path
 
 with open('README.md') as f:
     long_description = f.read()
-
-
-def read_release_version():
-    # Get the path to the release.txt file
-    return (Path(__file__).parent / 'release.txt').read_text().strip()
 
 
 class CleanCommand(Command):
@@ -51,7 +45,7 @@ all_files = extra_files + config
 
 setup(
     name='Consensus',
-    version=read_release_version(),
+    version='1.0.4',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     url='https://ilkka-lbl.github.io/Consensus/',
