@@ -10,8 +10,13 @@ import sys
 # Add the parent directory to sys.path to allow imports
 sys.path.insert(0, os.path.abspath('../../'))
 
-with open('./release.txt') as f:
-    version = f.read()
+from pathlib import Path
+
+# Get the path to the release.txt file
+release_file = Path(__file__).resolve().parent.parent / 'release.txt'
+
+with open(release_file) as f:
+    version = f.read().strip()
 
 project = 'Consensus'
 copyright = '2024, Ilkka Sipila - Lewisham Council Data Science and Insight team'
