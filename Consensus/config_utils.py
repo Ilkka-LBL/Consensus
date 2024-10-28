@@ -10,6 +10,6 @@ def load_config() -> Dict[str, Any]:
     try:
         with pkg_resources.files('Consensus').joinpath('config/config.json').open('r') as f:
             return json.load(f)
-    
+
     except FileNotFoundError:
         return {}

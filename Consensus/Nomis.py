@@ -1,7 +1,7 @@
 """
 API keys and connecting to NOMIS
 --------------------------------
-Get a NOMIS api key by registering with `NOMIS <https://www.nomisweb.co.uk>`. When initialising the DownloadFromNomis class, provide the api key as a parameter to the 
+Get a NOMIS api key by registering with `NOMIS <https://www.nomisweb.co.uk>`. When initialising the DownloadFromNomis class, provide the api key as a parameter to the
 api_key argument. If you need proxies to access the data, provide the information as a dictionary to proxies:
 
 .. code-block:: python
@@ -43,10 +43,10 @@ Example usage
 
     # set up your config.json file - only necessary the first time you use the package
     config = {
-              "nomis_api_key": api_key,  # the key for NOMIS must be 'nomis_api_key' 
+              "nomis_api_key": api_key,  # the key for NOMIS must be 'nomis_api_key'
               "proxies.http": proxy,  # you may not need to provide anything for proxy
               "proxies.https": proxy  # the http and https proxies can be different if your setup requires it
-              } 
+              }
     conf = ConfigManager()
     conf.save_config()
 
@@ -57,7 +57,7 @@ Example usage
     # print all tables from NOMIS
     nomis.print_table_info()
 
-    # Get more detailed information about a specific table. Use the string starting with NM_* when selecting a table. 
+    # Get more detailed information about a specific table. Use the string starting with NM_* when selecting a table.
     # In this case, we choose TS054 - Tenure from Census 2021:
     nomis.detailed_info_for_table('NM_2072_1')  #  TS054 - Tenure
 
@@ -66,7 +66,7 @@ Example usage
     print(df_bulk)
 
     # And if you want just an extract for a specific geography, in our case England:
-    geography = {'geography': ['E92000001']}  # you can extend this list 
+    geography = {'geography': ['E92000001']}  # you can extend this list
     df_england = nomis.download('NM_2072_1', params=geography)
     print(df_england)
 
@@ -78,6 +78,7 @@ from typing import List, Dict, Any, Optional, Tuple
 from shutil import copyfileobj
 import pandas as pd
 from Consensus.config_utils import load_config
+
 
 class ConnectToNomis:
     """
@@ -92,7 +93,7 @@ class ConnectToNomis:
         r (requests.Response): Attribute. Response object from API requests.
         config (dict): Attribute. Loaded configuration details from `Consensus.config_utils.load_config()`, including API key and proxies.
     """
-    
+
     def __init__(self, api_key: str = None, proxies: Dict[str, str] = None):
         """
         Initialise ConnectToNomis with API key and proxies.
@@ -106,15 +107,13 @@ class ConnectToNomis:
         """
         self.config = load_config()
         self.api_key = api_key or self.config.get('nomis_api_key', '').strip()
-        
+
         assert self.api_key, "nomis_api_key key not provided or found in config/config.json."
 
         self.uid = f"?uid={self.api_key}"  # This comes at the end of each API call
         self.base_url = "http://www.nomisweb.co.uk/api/v01/dataset/"
         self.url = None
         self.proxies = proxies or self.config.get('proxies', {})
-        
-    
 
     def url_creator(self, dataset: str, params: Dict[str, List[str]] = None, select_columns: List[str] = None) -> None:
         """
@@ -127,7 +126,7 @@ class ConnectToNomis:
 
         Raises:
             AssertionError: If values for each key of params are not a list
-            
+
         Returns:
             None
 
@@ -136,9 +135,9 @@ class ConnectToNomis:
         if not dataset:
             self.url = f"{self.base_url}def.sdmx.json{self.uid}"
             return
-        
+
         table_url = f"{self.base_url}{dataset}.data.csv?"
-        
+
         if params:
             for keyword, qualifier_codes in params.items():
                 assert isinstance(qualifier_codes, list), "params should be of type Dict[str, List[str]]."
@@ -147,11 +146,11 @@ class ConnectToNomis:
                 else:
                     search_string = ','.join(qualifier_codes)
                 table_url += f"{keyword}={search_string}&"
-                    
+
         if select_columns:
             selection = 'select=' + ','.join(select_columns) + '&'
             table_url += selection
-        
+
         self.url = f"{table_url}{self.uid[1:]}".strip()
 
     def connect(self, url: str = None) -> None:
@@ -171,13 +170,13 @@ class ConnectToNomis:
             self.url = url
         else:
             self.url_creator(dataset=None)
-            
+
         try:
             self.r = request_get(self.url, proxies=self.proxies)
         except KeyError:
             print("Proxies not set, attempting to connect without proxies.")
             self.r = request_get(self.url)
-        
+
         if self.r.status_code == 200:
             print("Connection successful.")
         else:
@@ -221,8 +220,8 @@ class ConnectToNomis:
         """
         table = self._find_exact_table(table_name)
         table.detailed_description()
-    
-    def get_table_columns(self, table_name:str) -> List[Tuple[str, str]]:
+
+    def get_table_columns(self, table_name: str) -> List[Tuple[str, str]]:
         """
         Get the columns of a specific table as a list of tuples.
 
@@ -230,7 +229,7 @@ class ConnectToNomis:
             table_name (str): Name of the table to get details for.
 
         Returns:
-            List[Tuple[str, str]]: List of tuples of columns and column codes. 
+            List[Tuple[str, str]]: List of tuples of columns and column codes.
         """
         table = self._find_exact_table(table_name)
         return table.get_table_cols()
@@ -251,7 +250,7 @@ class ConnectToNomis:
         for table in tables:
             if table.id == table_name:
                 return table
-            
+
     def _geography_edges(self, nums: List[int]) -> List[Any]:
         """
         Find edges in a list of integers to create ranges for geography codes.
@@ -313,7 +312,7 @@ class ConnectToNomis:
 class DownloadFromNomis(ConnectToNomis):
     """
     Wrapper class for downloading data from the NOMIS API.
-    
+
     Inherits from `ConnectToNomis` to utilize the NOMIS API for downloading datasets
     as CSV files or Pandas DataFrames.
 
@@ -344,10 +343,10 @@ class DownloadFromNomis(ConnectToNomis):
 
         Args:
             dataset (str): The dataset identifier (e.g., NM_2021_1).
-        
+
         Returns:
             None
-        
+
         :meta private:
         """
         self.url = f"{self.base_url}{dataset}.bulk.csv{self.uid}"
@@ -361,10 +360,10 @@ class DownloadFromNomis(ConnectToNomis):
             params (Dict[str, List]): Dictionary of parameters for the query (e.g., {'geography': ['E00016136']}). Defaults to None.
             value_or_percent (str): Specifies whether to retrieve 'value' or 'percent' data.
             table_columns (List[str]): List of columns to include in the query.
-        
+
         Returns:
             None
-        
+
         :meta private:
         """
         if params is None:
@@ -388,10 +387,10 @@ class DownloadFromNomis(ConnectToNomis):
             table_columns (List[str], optional): List of columns to include in the dataset. Defaults to None.
             save_location (str, optional): Directory to save the downloaded CSV file. Defaults to '../nomis_download/'.
             value_or_percent (str, optional): Specifies whether to download 'value' or 'percent'. Defaults to None.
-        
+
         Returns:
             None
-        
+
         :meta private:
         """
         self._download_checks(dataset, params, value_or_percent, table_columns)
@@ -457,7 +456,7 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             None
-        
+
         :meta private:
         """
 
@@ -490,14 +489,12 @@ class DownloadFromNomis(ConnectToNomis):
             print('Try using the get_bulk() method instead.')
 
 
-
-    
 @dataclass
 class NomisTable:
     """
     A dataclass representing a structured output from NOMIS.
 
-    This class is designed to encapsulate the metadata and structure of a table retrieved from the NOMIS API. 
+    This class is designed to encapsulate the metadata and structure of a table retrieved from the NOMIS API.
     It provides methods for accessing detailed descriptions, annotations, and column information in a readable format.
 
     Attributes:
@@ -513,17 +510,17 @@ class NomisTable:
 
     agencyid: str
     annotations: Dict[str, Any]
-    id: str 
+    id: str
     components: Dict[str, Any]
     name: Dict[str, Any]
     uri: str
     version: str
     description: Optional[str] = None
-    
+
     def detailed_description(self) -> None:
         """
         Prints a detailed and cleaned overview of the table, including its ID, description, annotations, and columns.
-        
+
         Returns:
             None
         """
@@ -534,11 +531,11 @@ class NomisTable:
         print("\n")
         for column_codes in self.table_cols():
             print(column_codes)
-    
+
     def clean_annotations(self) -> List[str]:
         """
         Cleans the annotations for more readable presentation and returns them as a list of strings.
-        
+
         Returns:
             List[str]: List of cleaned annotations
         """
@@ -548,11 +545,11 @@ class NomisTable:
             text_per_line = f"{item['annotationtitle']}: {item['annotationtext']}"
             cleaned_annotations.append(text_per_line)
         return cleaned_annotations
-    
+
     def table_cols(self) -> List[str]:
         """
         Cleans and returns the column information for the table in a readable format.
-        
+
         Returns:
             List[str]: A list of column descriptions as strings
         """
@@ -562,21 +559,21 @@ class NomisTable:
             text_per_line = f"Column: {col['conceptref']}, column code: {col['codelist']}"
             col_descriptions_and_codes.append(text_per_line)
         return col_descriptions_and_codes
-    
+
     def get_table_cols(self) -> List[Tuple[str, str]]:
         """
         Returns a list of tuples, where each tuple contains a column code and its corresponding description.
-        
+
         Returns:
             List[Tuple[str, str]]: A list of tuples of columns
         """
         columns = self.components['dimension']
         list_of_columns = [(col['conceptref'], col['codelist']) for col in columns]
         return list_of_columns
-        
+
     def table_shorthand(self) -> None:
         """Returns a shorthand description of the table, including its ID and name.
-        
+
         Returns:
             None
         """

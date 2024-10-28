@@ -48,6 +48,7 @@ setup(
     version='1.0.3',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
+    website='https://ilkka-lbl.github.io/Consensus/',
     packages=find_packages(),
     include_package_data=True,
     package_data={
