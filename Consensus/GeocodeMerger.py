@@ -18,8 +18,6 @@ import importlib.resources as pkg_resources
 from Consensus.AsyncOGP import OpenGeography, OpenGeographyLookup
 from Consensus import lookups
 from Consensus.EsriConnector import AsyncFeatureServer
-import aiohttp
-import asyncio
 from numpy import random
 
 random.seed(42)
@@ -134,7 +132,7 @@ class SmartLinker:
 
     async def initialise(self, **kwargs) -> None:
         """
-        Initialise the async.
+        Initialise the connections to Open Geography Portal and prepare Async Feature Server.
 
         Returns:
             None
@@ -161,11 +159,11 @@ class SmartLinker:
 
         if setting == 'non_geometry':
             print('The graph search space has been set to use only the tables without geometries.')
-            self.lookup = self.lookup[self.lookup['has_geometry'] == False]
+            self.lookup = self.lookup[self.lookup['has_geometry'] is False]
 
         elif setting == 'geometry_only':
             print('The graph search space has been set to use only the tables with geometries.')
-            self.lookup = self.lookup[self.lookup['has_geometry'] == True]
+            self.lookup = self.lookup[self.lookup['has_geometry'] is True]
 
         else:
             print('The graph search space has been reset. Using all available tables.')

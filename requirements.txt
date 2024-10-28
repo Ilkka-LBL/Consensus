@@ -1,6 +1,6 @@
-pandas==1.5.2
+pandas
+geopandas
 openpyxl==3.0.10
-geopandas==1.0.1
 more-itertools==10.4.0
 numpy==1.26.4
 aiofiles==24.1.0
@@ -14,7 +14,6 @@ shapely==2.0.5
 Sphinx==7.3.7
 sphinx-autodoc-typehints==2.3.0
 sphinx-rtd-theme==3.0.1
-twine==5.1.1
 pytest==7.1.2
 duckdb==1.1.0
 
