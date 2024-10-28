@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consensus.Nomis module &mdash; Consensus 1.0.3 documentation</title>
@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=baaebd52"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -51,7 +51,85 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LGInform.html">Consensus.LGInform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html">Consensus.LocalMerger module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.Nomis module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.Nomis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-keys-and-connecting-to-nomis">API keys and connecting to NOMIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-usage">Example usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.api_key"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.api_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.proxies"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.proxies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.uid"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.base_url"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.base_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.url"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.r"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.r</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.config"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.__init__"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis._create_geography_e_code"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis._create_geography_e_code()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis._find_exact_table"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis._find_exact_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis._geography_edges"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis._geography_edges()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis._unpack_geography_list"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis._unpack_geography_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.connect"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.detailed_info_for_table"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.detailed_info_for_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.get_all_tables"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.get_all_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.get_table_columns"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.get_table_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.print_table_info"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.print_table_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.ConnectToNomis.url_creator"><code class="docutils literal notranslate"><span class="pre">ConnectToNomis.url_creator()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.api_key"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.api_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.proxies"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.proxies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.uid"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.base_url"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.base_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.url"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.r"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.r</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.config"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.__init__"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._bulk_download_url"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._bulk_download_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._create_geography_e_code"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._create_geography_e_code()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._download_checks"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._download_checks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._download_file"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._download_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._download_to_pandas"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._download_to_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._find_exact_table"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._find_exact_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._geography_edges"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._geography_edges()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis._unpack_geography_list"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis._unpack_geography_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.bulk_download"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.bulk_download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.connect"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.detailed_info_for_table"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.detailed_info_for_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.download"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.get_all_tables"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.get_all_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.get_table_columns"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.get_table_columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.print_table_info"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.print_table_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.table_to_csv"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.table_to_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.DownloadFromNomis.url_creator"><code class="docutils literal notranslate"><span class="pre">DownloadFromNomis.url_creator()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.Nomis.NomisTable"><code class="docutils literal notranslate"><span class="pre">NomisTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.agencyid"><code class="docutils literal notranslate"><span class="pre">NomisTable.agencyid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.annotations"><code class="docutils literal notranslate"><span class="pre">NomisTable.annotations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.id"><code class="docutils literal notranslate"><span class="pre">NomisTable.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.components"><code class="docutils literal notranslate"><span class="pre">NomisTable.components</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.name"><code class="docutils literal notranslate"><span class="pre">NomisTable.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.uri"><code class="docutils literal notranslate"><span class="pre">NomisTable.uri</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.version"><code class="docutils literal notranslate"><span class="pre">NomisTable.version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.description"><code class="docutils literal notranslate"><span class="pre">NomisTable.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.__init__"><code class="docutils literal notranslate"><span class="pre">NomisTable.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">NomisTable.agencyid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">NomisTable.annotations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.clean_annotations"><code class="docutils literal notranslate"><span class="pre">NomisTable.clean_annotations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">NomisTable.components</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">NomisTable.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.detailed_description"><code class="docutils literal notranslate"><span class="pre">NomisTable.detailed_description()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.get_table_cols"><code class="docutils literal notranslate"><span class="pre">NomisTable.get_table_cols()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">NomisTable.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">NomisTable.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.table_cols"><code class="docutils literal notranslate"><span class="pre">NomisTable.table_cols()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.Nomis.NomisTable.table_shorthand"><code class="docutils literal notranslate"><span class="pre">NomisTable.table_shorthand()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">NomisTable.uri</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">NomisTable.version</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
@@ -86,8 +164,981 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="consensus-nomis-module">
-<h1>Consensus.Nomis module<a class="headerlink" href="#consensus-nomis-module" title="Link to this heading"></a></h1>
+  <section id="module-Consensus.Nomis">
+<span id="consensus-nomis-module"></span><h1>Consensus.Nomis module<a class="headerlink" href="#module-Consensus.Nomis" title="Link to this heading"></a></h1>
+<section id="api-keys-and-connecting-to-nomis">
+<h2>API keys and connecting to NOMIS<a class="headerlink" href="#api-keys-and-connecting-to-nomis" title="Link to this heading"></a></h2>
+<p>Get a NOMIS api key by registering with <cite>NOMIS &lt;https://www.nomisweb.co.uk&gt;</cite>. When initialising the DownloadFromNomis class, provide the api key as a parameter to the
+api_key argument. If you need proxies to access the data, provide the information as a dictionary to proxies:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">&#39;02bdlfsjkd3idk32j3jeaasd2&#39;</span>                                <span class="c1"># this is an example of an API key</span>
+<span class="n">proxies</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;http&#39;</span><span class="p">:</span> <span class="n">your_proxy_address</span><span class="p">,</span> <span class="s1">&#39;https&#39;</span><span class="p">:</span> <span class="n">your_proxy_address</span><span class="p">}</span>  <span class="c1"># proxy dictionary must follow this pattern. If you only have http proxy, copy it to the https without changing it</span>
+<span class="n">nomis</span> <span class="o">=</span> <span class="n">DownloadFromNomis</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">)</span>
+<span class="n">nomis</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Alternatively, you can use the <cite>ConfigManager</cite> to store API keys:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.env&#39;</span><span class="p">)</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="p">)</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NOMIS_API&quot;</span><span class="p">)</span>
+<span class="n">proxy</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PROXY&quot;</span><span class="p">)</span>
+
+<span class="n">conf</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">()</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">save_config</span><span class="p">({</span><span class="s2">&quot;nomis_api_key&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span> <span class="s2">&quot;proxies.http&quot;</span><span class="p">:</span> <span class="n">proxy</span><span class="p">,</span> <span class="s2">&quot;proxies.https&quot;</span><span class="p">:</span> <span class="n">proxy</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="example-usage">
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.Nomis</span> <span class="kn">import</span> <span class="n">DownloadFromNomis</span>
+<span class="kn">from</span> <span class="nn">Consensus.ConfigManager</span> <span class="kn">import</span> <span class="n">ConfigManager</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+
+<span class="c1"># get your API keys and proxy settings from .env file</span>
+<span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.env&#39;</span><span class="p">)</span>  <span class="c1"># assuming .env file is in your working directory</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="p">)</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NOMIS_API&quot;</span><span class="p">)</span>  <span class="c1"># assuming you&#39;ve saved the API key to a variable called NOMIS_API</span>
+<span class="n">proxy</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PROXY&quot;</span><span class="p">)</span> <span class="c1"># assuming you&#39;ve saved the proxy address to a variable called PROXY</span>
+
+<span class="c1"># set up your config.json file - only necessary the first time you use the package</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="s2">&quot;nomis_api_key&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>  <span class="c1"># the key for NOMIS must be &#39;nomis_api_key&#39;</span>
+          <span class="s2">&quot;proxies.http&quot;</span><span class="p">:</span> <span class="n">proxy</span><span class="p">,</span>  <span class="c1"># you may not need to provide anything for proxy</span>
+          <span class="s2">&quot;proxies.https&quot;</span><span class="p">:</span> <span class="n">proxy</span>  <span class="c1"># the http and https proxies can be different if your setup requires it</span>
+          <span class="p">}</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">()</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">save_config</span><span class="p">()</span>
+
+<span class="c1"># establish connection</span>
+<span class="n">nomis</span> <span class="o">=</span> <span class="n">DownloadFromNomis</span><span class="p">()</span>
+<span class="n">nomis</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="c1"># print all tables from NOMIS</span>
+<span class="n">nomis</span><span class="o">.</span><span class="n">print_table_info</span><span class="p">()</span>
+
+<span class="c1"># Get more detailed information about a specific table. Use the string starting with NM_* when selecting a table.</span>
+<span class="c1"># In this case, we choose TS054 - Tenure from Census 2021:</span>
+<span class="n">nomis</span><span class="o">.</span><span class="n">detailed_info_for_table</span><span class="p">(</span><span class="s1">&#39;NM_2072_1&#39;</span><span class="p">)</span>  <span class="c1">#  TS054 - Tenure</span>
+
+<span class="c1"># If you want the data for the whole country:</span>
+<span class="n">df_bulk</span> <span class="o">=</span> <span class="n">nomis</span><span class="o">.</span><span class="n">bulk_download</span><span class="p">(</span><span class="s1">&#39;NM_2072_1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_bulk</span><span class="p">)</span>
+
+<span class="c1"># And if you want just an extract for a specific geography, in our case England:</span>
+<span class="n">geography</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;geography&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;E92000001&#39;</span><span class="p">]}</span>  <span class="c1"># you can extend this list</span>
+<span class="n">df_england</span> <span class="o">=</span> <span class="n">nomis</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;NM_2072_1&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">geography</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_england</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.Nomis.</span></span><span class="sig-name descname"><span class="pre">ConnectToNomis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to connect and retrieve data from the NOMIS API.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.api_key">
+<span class="sig-name descname"><span class="pre">api_key</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.api_key" title="Link to this definition"></a></dt>
+<dd><p>Attribute. NOMIS API key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.proxies">
+<span class="sig-name descname"><span class="pre">proxies</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.proxies" title="Link to this definition"></a></dt>
+<dd><p>Attribute. HTTP and HTTPS proxy addresses as a dictionary {‘http’: http_addr, ‘https’: https_addr} (optional).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.uid" title="Link to this definition"></a></dt>
+<dd><p>Attribute. Unique identifier for API calls using the API key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.base_url">
+<span class="sig-name descname"><span class="pre">base_url</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.base_url" title="Link to this definition"></a></dt>
+<dd><p>Attribute. Base URL for the NOMIS API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.url">
+<span class="sig-name descname"><span class="pre">url</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.url" title="Link to this definition"></a></dt>
+<dd><p>Attribute. Complete URL for API requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.r">
+<span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.r" title="Link to this definition"></a></dt>
+<dd><p>Attribute. Response object from API requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>requests.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.config" title="Link to this definition"></a></dt>
+<dd><p>Attribute. Loaded configuration details from <cite>Consensus.config_utils.load_config()</cite>, including API key and proxies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialise ConnectToNomis with API key and proxies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_key</strong> (<em>str</em>) – NOMIS API key. Defaults to None, in which case it loads from the config file.</p></li>
+<li><p><strong>proxies</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Proxy addresses. Defaults to None, in which case it loads from the config file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If no API key is provided or found in the config.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis._create_geography_e_code">
+<span class="sig-name descname"><span class="pre">_create_geography_e_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis._create_geography_e_code" title="Link to this definition"></a></dt>
+<dd><p>Create a nine-character GSS code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<em>int</em>) – Value for the GSS code.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>GSS code in the format ‘Exxxxxxxx’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis._find_exact_table">
+<span class="sig-name descname"><span class="pre">_find_exact_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis._find_exact_table" title="Link to this definition"></a></dt>
+<dd><p>Find and return the matching table for the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> (<em>str</em>) – Name of the table to search for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The matching NOMIS table.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis._geography_edges">
+<span class="sig-name descname"><span class="pre">_geography_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nums</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis._geography_edges" title="Link to this definition"></a></dt>
+<dd><p>Find edges in a list of integers to create ranges for geography codes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nums</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – List of geographical codes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of start and end pairs representing ranges.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis._unpack_geography_list">
+<span class="sig-name descname"><span class="pre">_unpack_geography_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geographies</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis._unpack_geography_list" title="Link to this definition"></a></dt>
+<dd><p>Unpack a list of GSS codes, find edges, and format them for a URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>geographies</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of geographical codes (as GSS codes).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted string for the URL.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.connect" title="Link to this definition"></a></dt>
+<dd><p>Connect to the NOMIS API and fetch table structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em><em>, </em><em>optional</em>) – Custom URL for API connection. Defaults to None.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If proxies are not set and the connection fails without proxies.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.detailed_info_for_table">
+<span class="sig-name descname"><span class="pre">detailed_info_for_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.detailed_info_for_table" title="Link to this definition"></a></dt>
+<dd><p>Print detailed information for a specific table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> (<em>str</em>) – Name of the table to get details for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.get_all_tables">
+<span class="sig-name descname"><span class="pre">get_all_tables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.get_all_tables" title="Link to this definition"></a></dt>
+<dd><p>Get all available tables from NOMIS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If the API connection was not successful.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of NOMIS tables.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.get_table_columns">
+<span class="sig-name descname"><span class="pre">get_table_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.get_table_columns" title="Link to this definition"></a></dt>
+<dd><p>Get the columns of a specific table as a list of tuples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> (<em>str</em>) – Name of the table to get details for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of tuples of columns and column codes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.print_table_info">
+<span class="sig-name descname"><span class="pre">print_table_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.print_table_info" title="Link to this definition"></a></dt>
+<dd><p>Print brief information for all available tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.ConnectToNomis.url_creator">
+<span class="sig-name descname"><span class="pre">url_creator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.ConnectToNomis.url_creator" title="Link to this definition"></a></dt>
+<dd><p>Create a URL string for data download from NOMIS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>str</em>) – Name of the dataset to download.</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Dictionary of query parameters for filtering data. Defaults to None.</p></li>
+<li><p><strong>select_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of columns to select in the API response. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If values for each key of params are not a list</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.Nomis.</span></span><span class="sig-name descname"><span class="pre">DownloadFromNomis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Consensus.Nomis.ConnectToNomis" title="Consensus.Nomis.ConnectToNomis"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectToNomis</span></code></a></p>
+<p>Wrapper class for downloading data from the NOMIS API.</p>
+<p>Inherits from <cite>ConnectToNomis</cite> to utilize the NOMIS API for downloading datasets
+as CSV files or Pandas DataFrames.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.api_key">
+<span class="sig-name descname"><span class="pre">api_key</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.api_key" title="Link to this definition"></a></dt>
+<dd><p>NOMIS API key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.proxies">
+<span class="sig-name descname"><span class="pre">proxies</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.proxies" title="Link to this definition"></a></dt>
+<dd><p>HTTP and HTTPS proxy addresses as a dictionary {‘http’: http_addr, ‘https’: https_addr} (optional).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.uid" title="Link to this definition"></a></dt>
+<dd><p>Unique identifier for API calls using the API key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.base_url">
+<span class="sig-name descname"><span class="pre">base_url</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.base_url" title="Link to this definition"></a></dt>
+<dd><p>Base URL for the NOMIS API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.url">
+<span class="sig-name descname"><span class="pre">url</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.url" title="Link to this definition"></a></dt>
+<dd><p>Complete URL for API requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.r">
+<span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.r" title="Link to this definition"></a></dt>
+<dd><p>Response object from API requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>requests.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.config">
+<span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.config" title="Link to this definition"></a></dt>
+<dd><p>Loaded configuration details, including API key and proxies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialises the <cite>DownloadFromNomis</cite> instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Variable length argument list passed to the parent class.</p></li>
+<li><p><strong>**kwargs</strong> – Arbitrary keyword arguments passed to the parent class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._bulk_download_url">
+<span class="sig-name descname"><span class="pre">_bulk_download_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._bulk_download_url" title="Link to this definition"></a></dt>
+<dd><p>Creates a URL for bulk downloading a dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset</strong> (<em>str</em>) – The dataset identifier (e.g., NM_2021_1).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._create_geography_e_code">
+<span class="sig-name descname"><span class="pre">_create_geography_e_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._create_geography_e_code" title="Link to this definition"></a></dt>
+<dd><p>Create a nine-character GSS code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<em>int</em>) – Value for the GSS code.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>GSS code in the format ‘Exxxxxxxx’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._download_checks">
+<span class="sig-name descname"><span class="pre">_download_checks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_or_percent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._download_checks" title="Link to this definition"></a></dt>
+<dd><p>Prepares the parameters and URL for downloading data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>str</em>) – The dataset identifier (e.g., NM_2021_1).</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>]</em>) – Dictionary of parameters for the query (e.g., {‘geography’: [‘E00016136’]}). Defaults to None.</p></li>
+<li><p><strong>value_or_percent</strong> (<em>str</em>) – Specifies whether to retrieve ‘value’ or ‘percent’ data.</p></li>
+<li><p><strong>table_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of columns to include in the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._download_file">
+<span class="sig-name descname"><span class="pre">_download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._download_file" title="Link to this definition"></a></dt>
+<dd><p>Downloads a file to the specified path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>Path</em>) – The file path where the downloaded file will be saved.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._download_to_pandas">
+<span class="sig-name descname"><span class="pre">_download_to_pandas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._download_to_pandas" title="Link to this definition"></a></dt>
+<dd><p>Downloads data directly into a Pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The downloaded data as a Pandas DataFrame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._find_exact_table">
+<span class="sig-name descname"><span class="pre">_find_exact_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._find_exact_table" title="Link to this definition"></a></dt>
+<dd><p>Find and return the matching table for the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> (<em>str</em>) – Name of the table to search for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The matching NOMIS table.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._geography_edges">
+<span class="sig-name descname"><span class="pre">_geography_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nums</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._geography_edges" title="Link to this definition"></a></dt>
+<dd><p>Find edges in a list of integers to create ranges for geography codes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nums</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – List of geographical codes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of start and end pairs representing ranges.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis._unpack_geography_list">
+<span class="sig-name descname"><span class="pre">_unpack_geography_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geographies</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis._unpack_geography_list" title="Link to this definition"></a></dt>
+<dd><p>Unpack a list of GSS codes, find edges, and format them for a URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>geographies</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of geographical codes (as GSS codes).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted string for the URL.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.bulk_download">
+<span class="sig-name descname"><span class="pre">bulk_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pandas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../nomis_download/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.bulk_download" title="Link to this definition"></a></dt>
+<dd><p>Performs a bulk download of a dataset as either CSV or a Pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>str</em>) – The dataset identifier (e.g., NM_2021_1).</p></li>
+<li><p><strong>data_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Format of the downloaded data. Can be ‘csv’, ‘download’, ‘pandas’, or ‘df’. Defaults to ‘pandas’.</p></li>
+<li><p><strong>save_location</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save the CSV file if <cite>data_format</cite> is ‘csv’. Defaults to ‘../nomis_download/’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If data_format is not in the specified format</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The downloaded data as a Pandas DataFrame if <cite>data_format</cite> is ‘pandas’.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.connect" title="Link to this definition"></a></dt>
+<dd><p>Connect to the NOMIS API and fetch table structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em><em>, </em><em>optional</em>) – Custom URL for API connection. Defaults to None.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If proxies are not set and the connection fails without proxies.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.detailed_info_for_table">
+<span class="sig-name descname"><span class="pre">detailed_info_for_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.detailed_info_for_table" title="Link to this definition"></a></dt>
+<dd><p>Print detailed information for a specific table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> (<em>str</em>) – Name of the table to get details for.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.download">
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_or_percent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.download" title="Link to this definition"></a></dt>
+<dd><p>Downloads a dataset as a Pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>str</em>) – The dataset identifier (e.g., NM_2021_1).</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>]</em><em>, </em><em>optional</em>) – Dictionary of parameters (e.g., {‘geography’: [‘E00016136’], ‘age’: [0, 2, 3]}). Defaults to None.</p></li>
+<li><p><strong>table_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of columns to include in the dataset. Defaults to None.</p></li>
+<li><p><strong>value_or_percent</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies whether to download ‘value’ or ‘percent’. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The downloaded data as a Pandas DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.get_all_tables">
+<span class="sig-name descname"><span class="pre">get_all_tables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.get_all_tables" title="Link to this definition"></a></dt>
+<dd><p>Get all available tables from NOMIS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If the API connection was not successful.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of NOMIS tables.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.get_table_columns">
+<span class="sig-name descname"><span class="pre">get_table_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.get_table_columns" title="Link to this definition"></a></dt>
+<dd><p>Get the columns of a specific table as a list of tuples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_name</strong> (<em>str</em>) – Name of the table to get details for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of tuples of columns and column codes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.print_table_info">
+<span class="sig-name descname"><span class="pre">print_table_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.print_table_info" title="Link to this definition"></a></dt>
+<dd><p>Print brief information for all available tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.table_to_csv">
+<span class="sig-name descname"><span class="pre">table_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../nomis_download/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_or_percent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.table_to_csv" title="Link to this definition"></a></dt>
+<dd><p>Downloads a dataset as a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>str</em>) – The dataset identifier (e.g., NM_2021_1).</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>]</em><em>, </em><em>optional</em>) – Dictionary of parameters (e.g., {‘geography’: [‘E00016136’], ‘age’: [0, 2, 3]}). Defaults to None.</p></li>
+<li><p><strong>file_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Custom name for the saved CSV file. Defaults to None.</p></li>
+<li><p><strong>table_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of columns to include in the dataset. Defaults to None.</p></li>
+<li><p><strong>save_location</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save the downloaded CSV file. Defaults to ‘../nomis_download/’.</p></li>
+<li><p><strong>value_or_percent</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies whether to download ‘value’ or ‘percent’. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.DownloadFromNomis.url_creator">
+<span class="sig-name descname"><span class="pre">url_creator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.DownloadFromNomis.url_creator" title="Link to this definition"></a></dt>
+<dd><p>Create a URL string for data download from NOMIS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>str</em>) – Name of the dataset to download.</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Dictionary of query parameters for filtering data. Defaults to None.</p></li>
+<li><p><strong>select_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of columns to select in the API response. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If values for each key of params are not a list</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.Nomis.</span></span><span class="sig-name descname"><span class="pre">NomisTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agencyid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A dataclass representing a structured output from NOMIS.</p>
+<p>This class is designed to encapsulate the metadata and structure of a table retrieved from the NOMIS API.
+It provides methods for accessing detailed descriptions, annotations, and column information in a readable format.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.agencyid">
+<span class="sig-name descname"><span class="pre">agencyid</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.agencyid" title="Link to this definition"></a></dt>
+<dd><p>The ID of the agency that owns the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.annotations">
+<span class="sig-name descname"><span class="pre">annotations</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.annotations" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing annotations related to the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.components">
+<span class="sig-name descname"><span class="pre">components</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.components" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing information about the components (columns) of the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.name" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing the name of the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.uri">
+<span class="sig-name descname"><span class="pre">uri</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.uri" title="Link to this definition"></a></dt>
+<dd><p>The URI that links to more information about the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.version" title="Link to this definition"></a></dt>
+<dd><p>The version number of the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#Consensus.Nomis.NomisTable.description" title="Link to this definition"></a></dt>
+<dd><p>An optional description of the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agencyid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">agencyid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">annotations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code><span class="pre">]</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.clean_annotations">
+<span class="sig-name descname"><span class="pre">clean_annotations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable.clean_annotations" title="Link to this definition"></a></dt>
+<dd><p>Cleans the annotations for more readable presentation and returns them as a list of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of cleaned annotations</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">components</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code><span class="pre">]</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.detailed_description">
+<span class="sig-name descname"><span class="pre">detailed_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable.detailed_description" title="Link to this definition"></a></dt>
+<dd><p>Prints a detailed and cleaned overview of the table, including its ID, description, annotations, and columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.get_table_cols">
+<span class="sig-name descname"><span class="pre">get_table_cols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable.get_table_cols" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of tuples, where each tuple contains a column code and its corresponding description.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of tuples of columns</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Tuple[str, str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code><span class="pre">]</span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.table_cols">
+<span class="sig-name descname"><span class="pre">table_cols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable.table_cols" title="Link to this definition"></a></dt>
+<dd><p>Cleans and returns the column information for the table in a readable format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of column descriptions as strings</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.Nomis.NomisTable.table_shorthand">
+<span class="sig-name descname"><span class="pre">table_shorthand</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.Nomis.NomisTable.table_shorthand" title="Link to this definition"></a></dt>
+<dd><p>Returns a shorthand description of the table, including its ID and name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">uri</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 

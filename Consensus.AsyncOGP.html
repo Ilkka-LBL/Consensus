@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consensus.AsyncOGP module &mdash; Consensus 1.0.3 documentation</title>
@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=baaebd52"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -45,7 +45,33 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Consensus</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.AsyncOGP module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.AsyncOGP module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography"><code class="docutils literal notranslate"><span class="pre">OpenGeography</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography.__init__"><code class="docutils literal notranslate"><span class="pre">OpenGeography.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography._fetch_response"><code class="docutils literal notranslate"><span class="pre">OpenGeography._fetch_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography._load_all_services"><code class="docutils literal notranslate"><span class="pre">OpenGeography._load_all_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography._validate_response"><code class="docutils literal notranslate"><span class="pre">OpenGeography._validate_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography.initialise"><code class="docutils literal notranslate"><span class="pre">OpenGeography.initialise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography.print_all_services"><code class="docutils literal notranslate"><span class="pre">OpenGeography.print_all_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography.print_services_by_server_type"><code class="docutils literal notranslate"><span class="pre">OpenGeography.print_services_by_server_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup.__init__"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup._fetch_response"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup._fetch_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup._fetch_service_metadata"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup._fetch_service_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup._fetch_services"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup._fetch_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup._load_all_services"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup._load_all_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup._validate_response"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup._validate_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup.build_lookup"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup.build_lookup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup.initialise"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup.initialise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup.metadata_as_pandas"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup.metadata_as_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup.print_all_services"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup.print_all_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.AsyncOGP.OpenGeographyLookup.print_services_by_server_type"><code class="docutils literal notranslate"><span class="pre">OpenGeographyLookup.print_services_by_server_type()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
@@ -86,8 +112,221 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="consensus-asyncogp-module">
-<h1>Consensus.AsyncOGP module<a class="headerlink" href="#consensus-asyncogp-module" title="Link to this heading"></a></h1>
+  <section id="module-Consensus.AsyncOGP">
+<span id="consensus-asyncogp-module"></span><h1>Consensus.AsyncOGP module<a class="headerlink" href="#module-Consensus.AsyncOGP" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.AsyncOGP.</span></span><span class="sig-name descname"><span class="pre">OpenGeography</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector" title="Consensus.EsriConnector.EsriConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">EsriConnector</span></code></a></p>
+<p>Uses EsriConnector class to connect to Open Geography Portal API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialise class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography._fetch_response">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography._fetch_response" title="Link to this definition"></a></dt>
+<dd><p>Helper method to fetch the response from the Esri server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography._load_all_services">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography._load_all_services" title="Link to this definition"></a></dt>
+<dd><p>Load services into a dictionary asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography._validate_response">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_validate_response</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography._validate_response" title="Link to this definition"></a></dt>
+<dd><p>Validate access to the base URL asynchronously using aiohttp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography.initialise">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography.initialise" title="Link to this definition"></a></dt>
+<dd><p>Run this method to initialise the class session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography.print_all_services">
+<span class="sig-name descname"><span class="pre">print_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography.print_all_services" title="Link to this definition"></a></dt>
+<dd><p>Print name, type, and URL of all services available through Esri server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeography.print_services_by_server_type">
+<span class="sig-name descname"><span class="pre">print_services_by_server_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeography.print_services_by_server_type" title="Link to this definition"></a></dt>
+<dd><p>Print services given a server type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.AsyncOGP.</span></span><span class="sig-name descname"><span class="pre">OpenGeographyLookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Consensus.AsyncOGP.OpenGeography" title="Consensus.AsyncOGP.OpenGeography"><code class="xref py py-class docutils literal notranslate"><span class="pre">OpenGeography</span></code></a></p>
+<p>Class to build and update a JSON lookup table for the Open Geography Portal’s FeatureServers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialise class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup._fetch_response">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup._fetch_response" title="Link to this definition"></a></dt>
+<dd><p>Helper method to fetch the response from the Esri server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup._fetch_service_metadata">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_service_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup._fetch_service_metadata" title="Link to this definition"></a></dt>
+<dd><p>Fetch service metadata for a specific service.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup._fetch_services">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup._fetch_services" title="Link to this definition"></a></dt>
+<dd><p>Fetch services from the base URL and load them into the service table asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup._load_all_services">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup._load_all_services" title="Link to this definition"></a></dt>
+<dd><p>Load services into a dictionary asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup._validate_response">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_validate_response</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup._validate_response" title="Link to this definition"></a></dt>
+<dd><p>Validate access to the base URL asynchronously using aiohttp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup.build_lookup">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_old</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup.build_lookup" title="Link to this definition"></a></dt>
+<dd><p>Build a lookup table from scratch and save it to a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup.initialise">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup.initialise" title="Link to this definition"></a></dt>
+<dd><p>Run this method to initialise the class session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup.metadata_as_pandas">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata_as_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup.metadata_as_pandas" title="Link to this definition"></a></dt>
+<dd><p>Asynchronously create a Pandas DataFrame of selected tables based on the service type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup.print_all_services">
+<span class="sig-name descname"><span class="pre">print_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup.print_all_services" title="Link to this definition"></a></dt>
+<dd><p>Print name, type, and URL of all services available through Esri server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.AsyncOGP.OpenGeographyLookup.print_services_by_server_type">
+<span class="sig-name descname"><span class="pre">print_services_by_server_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.AsyncOGP.OpenGeographyLookup.print_services_by_server_type" title="Link to this definition"></a></dt>
+<dd><p>Print services given a server type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

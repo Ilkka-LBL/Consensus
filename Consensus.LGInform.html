@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consensus.LGInform module &mdash; Consensus 1.0.3 documentation</title>
@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=baaebd52"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -49,7 +49,23 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.LGInform module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.LGInform module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.LGInform.LGInform"><code class="docutils literal notranslate"><span class="pre">LGInform</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.__init__"><code class="docutils literal notranslate"><span class="pre">LGInform.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform._multiprocessing_wrapper"><code class="docutils literal notranslate"><span class="pre">LGInform._multiprocessing_wrapper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.download"><code class="docutils literal notranslate"><span class="pre">LGInform.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.download_data_for_many_variables"><code class="docutils literal notranslate"><span class="pre">LGInform.download_data_for_many_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.download_variable_data"><code class="docutils literal notranslate"><span class="pre">LGInform.download_variable_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.format_tables"><code class="docutils literal notranslate"><span class="pre">LGInform.format_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.get_dataset_table_variables"><code class="docutils literal notranslate"><span class="pre">LGInform.get_dataset_table_variables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.json_to_pandas"><code class="docutils literal notranslate"><span class="pre">LGInform.json_to_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.merge_tables"><code class="docutils literal notranslate"><span class="pre">LGInform.merge_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.mp_download"><code class="docutils literal notranslate"><span class="pre">LGInform.mp_download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LGInform.LGInform.sign_url"><code class="docutils literal notranslate"><span class="pre">LGInform.sign_url()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html">Consensus.LocalMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
@@ -86,8 +102,300 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="consensus-lginform-module">
-<h1>Consensus.LGInform module<a class="headerlink" href="#consensus-lginform-module" title="Link to this heading"></a></h1>
+  <section id="module-Consensus.LGInform">
+<span id="consensus-lginform-module"></span><h1>Consensus.LGInform module<a class="headerlink" href="#module-Consensus.LGInform" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LGInform.</span></span><span class="sig-name descname"><span class="pre">LGInform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E09000023,Lewisham_CIPFA_Near_Neighbours'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The class takes a dictionary of LG Inform datasets (such as {‘IMD_2010’: 841, ‘IMD_2009’: 842, ‘Death_of_enterprises’: 102}), finds all metrics, downloads the data, and merges them into one. The dictionary keys can be any string of your choosing, but the integer values must be one of <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a>
+The main method to download data for multiple datasets is the mp_download() method, which uses multiprocessing to download data from multiple datasets simultaneously. However, this requires that the class is called within “if __name__ == ‘__main__’” clause.
+If multiprocessing is not necessary, it’s better to use download() method, which is what the multiprocessing wrapper method also calls.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>location.</strong> (<em>output_folder {Path}    -   pathlib Path object</em><em> of </em><em>the storage</em>)</p></li>
+<li><p><strong>Plus.</strong> (<em>api_secret {str}    -   Application Secret to LG Inform</em>)</p></li>
+<li><p><strong>Plus.</strong></p></li>
+<li><p><strong>{Dict</strong><strong>[</strong><strong>str</strong> (<em>proxies</em>)</p></li>
+<li><p><strong>known.</strong> (<em>str</em><em>]</em><em>}    -   Proxy address if</em>)</p></li>
+<li><p><strong>areas</strong> (<em>area {str}  -   a comma separated string of</em>)</p></li>
+<li><p><strong>instance</strong> (<em>excluding whitespace. You can either use GSS codes</em><em> or </em><em>use LG Inform's off-the-shelf groups for areas. For</em>)</p></li>
+<li><p><strong>'E09000023</strong> (<em>Lewisham GSS code is E09000023 and it's CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as</em>)</p></li>
+<li><p><strong>Lewisham_CIPFA_Near_Neighbours'.</strong></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">json_to_pandas</span>&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Transform</span> <span class="pre">downloaded</span> <span class="pre">json</span> <span class="pre">data</span> <span class="pre">to</span> <span class="pre">Pandas</span> <span class="pre">dataframe.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sign_url</span>&#160;&#160;&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Sign</span> <span class="pre">all</span> <span class="pre">url</span> <span class="pre">calls</span> <span class="pre">with</span> <span class="pre">your</span> <span class="pre">unique</span> <span class="pre">secret</span> <span class="pre">and</span> <span class="pre">key.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">download_variable_data</span>&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Download</span> <span class="pre">data</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">given</span> <span class="pre">metricType,</span> <span class="pre">area,</span> <span class="pre">and</span> <span class="pre">period.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">download_data_for_many_variables</span>&#160;&#160;&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Download</span> <span class="pre">the</span> <span class="pre">variables</span> <span class="pre">for</span> <span class="pre">an</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">metricTypes.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_dataset_table_variables</span> <span class="pre">-</span>&#160;&#160; <span class="pre">Given</span> <span class="pre">a</span> <span class="pre">dataset,</span> <span class="pre">output</span> <span class="pre">all</span> <span class="pre">the</span> <span class="pre">metricType</span> <span class="pre">numbers</span> <span class="pre">(dataset</span> <span class="pre">columns).</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">format_tables</span>&#160;&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Format</span> <span class="pre">the</span> <span class="pre">data</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">variable</span> <span class="pre">and</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">metadata</span> <span class="pre">table.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">merge_tables</span>&#160;&#160;&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Merge</span> <span class="pre">the</span> <span class="pre">variables</span> <span class="pre">to</span> <span class="pre">form</span> <span class="pre">a</span> <span class="pre">table</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">given</span> <span class="pre">dataset.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">download</span>&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Download</span> <span class="pre">data</span> <span class="pre">for</span> <span class="pre">one</span> <span class="pre">or</span> <span class="pre">more</span> <span class="pre">datasets.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">mp_download</span>&#160;&#160; <span class="pre">-</span>&#160;&#160; <span class="pre">Multiprocessing</span> <span class="pre">wrapper</span> <span class="pre">to</span> <span class="pre">download</span> <span class="pre">data</span> <span class="pre">for</span> <span class="pre">multiple</span> <span class="pre">datasets</span> <span class="pre">simultaneously.</span></span></dt>
+<dd></dd></dl>
+
+<p>Usage:</p>
+<blockquote>
+<div><p>from Consensus.LGInform import LGInform
+from Consensus.ConfigManager import ConfigManager
+from dotenv import load_dotenv
+from os import environ
+from pathlib import Path
+dotenv_path = Path(‘.env’)
+load_dotenv(dotenv_path)</p>
+<p>lg_key = environ.get(“LG_KEY”)  # public key to LG Inform Plus
+lg_secret = environ.get(“LG_SECRET”)  # secret to LG Inform Plus
+conf = ConfigManager()  # Use ConfigManager to save environment variables and proxy address if you want the information to be stored with this package
+conf.update_config(“lg_inform_key”, lg_key)
+conf.update_config(“lg_inform_secret”, lg_secret)
+out_folder = Path(‘./data/mp_test/’)  # folder to store final data
+datasets = {‘IMD_2010’: 841, ‘IMD_2009’: 842, ‘Death_of_enterprises’: 102}  # a dictionary of datasets. The key can be any string, but the integer value must be an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p>
+<dl class="simple">
+<dt>if __name__ ‘__main__’:  # when using the multiprocessing wrapper method, you have to run it under if __name__ ‘__main__’ statement.</dt><dd><p>api_call = LGInform(area=’E09000023,Lewisham_CIPFA_Near_Neighbours’)
+#api_call.download(datasets=datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False)  # normal, single threaded download
+api_call.mp_download(datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False, max_workers=8)</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E09000023,Lewisham_CIPFA_Near_Neighbours'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform._multiprocessing_wrapper">
+<span class="sig-name descname"><span class="pre">_multiprocessing_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_queue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform._multiprocessing_wrapper" title="Link to this definition"></a></dt>
+<dd><p>This is just the same as download() method, but wrapped to be used with multiprocessing library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>queue.</strong> (<em>input_queue {mp.Queue}  -   A multiprocessing</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.download">
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latest_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_discontinued</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.download" title="Link to this definition"></a></dt>
+<dd><p>Download all variables for many datasets, merging the variables to one table by area and time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>{Dict</strong><strong>[</strong><strong>str</strong> (<em>datasets</em>) – some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
+<li><p><strong>{&quot;some_name&quot;</strong> (<em>int</em><em>]</em><em>}    -   Dictionary</em><em> of </em><em>format</em>) – some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
+<li><p><strong>years</strong> (<em>latest_n {int}  -   The period is currently restricted to using the latest n periods. This means that the period can be</em>)</p></li>
+<li><p><strong>quarters</strong> (<em>e.g. for Indices</em><em> of </em><em>Multiple Deprivation</em><em>, </em><em>the period refers to publications so that latest_n=2 would get data for 2019 and 2015</em>)</p></li>
+<li><p><strong>months</strong> (<em>e.g. for Indices</em><em> of </em><em>Multiple Deprivation</em><em>, </em><em>the period refers to publications so that latest_n=2 would get data for 2019 and 2015</em>)</p></li>
+<li><p><strong>period</strong> (<em>weeks</em><em> or </em><em>some other</em>)</p></li>
+<li><p><strong>False</strong> (<em>drop_discontinued {bool}    -   If you set this to</em>)</p></li>
+<li><p><strong>True.</strong> (<em>the downloaded data will include discontinued metrics. Default is</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.download_data_for_many_variables">
+<span class="sig-name descname"><span class="pre">download_data_for_many_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latest_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arraytype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'metricType-array'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.download_data_for_many_variables" title="Link to this definition"></a></dt>
+<dd><p>Download the variables for an array of metricTypes using download_variable_data method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method.</strong> (<em>variables {JSONDict}}  -   variables JSON from get_dataset_table_variables</em>)</p></li>
+<li><p><strong>year</strong> (<em>latest_n {int}  -   Latest n periods. Period could be</em>)</p></li>
+<li><p><strong>quarter</strong></p></li>
+<li><p><strong>month</strong></p></li>
+<li><p><strong>week</strong></p></li>
+<li><p><strong>publications.</strong> (<em>or some other period such as the latest n</em>)</p></li>
+<li><p><strong>metricType-array.</strong> (<em>arraytype {str} -   Type</em><em> of </em><em>variables to download. Default is</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[JSONDict]   -   A list of JSON variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.download_variable_data">
+<span class="sig-name descname"><span class="pre">download_variable_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latest_n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.download_variable_data" title="Link to this definition"></a></dt>
+<dd><p>Download data for a given metricType, area, and period (latest n periods).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>integer.</strong> (<em>identifier {int}    -   metricType</em>)</p></li>
+<li><p><strong>year</strong> (<em>latest_n {int}  -   Latest n periods. Period could be</em>)</p></li>
+<li><p><strong>quarter</strong></p></li>
+<li><p><strong>month</strong></p></li>
+<li><p><strong>week</strong></p></li>
+<li><p><strong>publications.</strong> (<em>or some other period such as the latest n</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSONDict -   Downloaded data as JSON.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.format_tables">
+<span class="sig-name descname"><span class="pre">format_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_discontinued</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.format_tables" title="Link to this definition"></a></dt>
+<dd><p>Format the data for each variable and create a metadata table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objects.</strong> (<em>outputs {List</em><em>[</em><em>JSONDict</em><em>]</em><em>}    -   A list</em><em> of </em><em>JSONDict</em>)</p></li>
+<li><p><strong>metrics.</strong> (<em>drop_discontinued {bool}    -   Boolean to select whether to include discontinued</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.get_dataset_table_variables">
+<span class="sig-name descname"><span class="pre">get_dataset_table_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.get_dataset_table_variables" title="Link to this definition"></a></dt>
+<dd><p>Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>https</strong> (<em>dataset {int}   -   The number</em><em> of </em><em>the dataset from</em>) – //webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JSONDict    -   A JSON dictionary object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.json_to_pandas">
+<span class="sig-name descname"><span class="pre">json_to_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.json_to_pandas" title="Link to this definition"></a></dt>
+<dd><p>Transform downloaded json data to Pandas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>transform.</strong> (<em>json_data {JSONDict}    -   JSON data to</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame    -   Downloaded data as Pandas dataframe.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.merge_tables">
+<span class="sig-name descname"><span class="pre">merge_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.merge_tables" title="Link to this definition"></a></dt>
+<dd><p>Merge the variables to form a table for a given dataset.
+:param dataset_name {str}  -   Dataset name string.:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame    -   All variables of the dataset merged as one Pandas dataframe.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.mp_download">
+<span class="sig-name descname"><span class="pre">mp_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latest_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_discontinued</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.mp_download" title="Link to this definition"></a></dt>
+<dd><p>Multiprocessing method for downloading data for multiple datasets. Use max_workers to split the dataset dictionary to chunks of size max_workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>{Dict</strong><strong>[</strong><strong>str</strong> (<em>datasets</em>) – some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
+<li><p><strong>{&quot;some_name&quot;</strong> (<em>int</em><em>]</em><em>}    -   Dictionary</em><em> of </em><em>format</em>) – some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
+<li><p><strong>years</strong> (<em>latest_n {int}  -   The period is currently restricted to using the latest n periods. This means that the period can be</em>)</p></li>
+<li><p><strong>quarters</strong> (<em>e.g. for Indices</em><em> of </em><em>Multiple Deprivation</em><em>, </em><em>the period refers to publications so that latest_n=2 would get data for 2019 and 2015</em>)</p></li>
+<li><p><strong>months</strong> (<em>e.g. for Indices</em><em> of </em><em>Multiple Deprivation</em><em>, </em><em>the period refers to publications so that latest_n=2 would get data for 2019 and 2015</em>)</p></li>
+<li><p><strong>period</strong> (<em>weeks</em><em> or </em><em>some other</em>)</p></li>
+<li><p><strong>False</strong> (<em>drop_discontinued {bool}    -   If you set this to</em>)</p></li>
+<li><p><strong>True.</strong> (<em>the downloaded data will include discontinued metrics. Default is</em>)</p></li>
+<li><p><strong>chunks</strong> (<em>max_workers {int}   -   Set the number</em><em> of </em><em>workers for multiprocessing. Typically this would be the number</em><em> of </em><em>logical CPUs in your system. This will also process the datasets in</em>)</p></li>
+<li><p><strong>workers</strong> (<em>so that if you list 16 datasets in your datasets dictionary and have 8</em>)</p></li>
+<li><p><strong>steps</strong> (<em>the script will work through the datasets in two</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LGInform.LGInform.sign_url">
+<span class="sig-name descname"><span class="pre">sign_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform.sign_url" title="Link to this definition"></a></dt>
+<dd><p>Each url needs to be signed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>signed.</strong> (<em>url {str}   -   URL to be</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str -   URL.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
