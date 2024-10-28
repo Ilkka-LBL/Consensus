@@ -40,10 +40,10 @@ jobs:
         env:
           PYTHONPATH: .  # Add root directory to PYTHONPATH for imports
         run: |
-          python -m unittest discover -s tests -p "test_*.py"  # Discover and run tests in 'tests'
+          python -m unittest discover -s ./tests -p "test_*.py"  # Discover and run tests in 'tests'
 
       # Run a single test file as a backup in case of discovery issues
       - name: Run Single Test (Fallback)
         if: failure()
         run: |
-          run: python -m unittest discover -s ./tests -p "test_*.py"  # Replace with an actual test file in your 'tests' directory
+          python -m unittest discover -s ./tests -p "test_TFL.py"  # Replace with an actual test file in your 'tests' directory
