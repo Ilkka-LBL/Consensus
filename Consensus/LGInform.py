@@ -326,10 +326,10 @@ class LGInform:
         sliding_dataset = more_itertools.windowed([{i: k} for i, k in datasets.items()], n=max_workers, step=max_workers)
 
         for enum, subset in enumerate(sliding_dataset):
-            print(f"Step {enum+1} of {round(len(datasets)/max_workers)+1}")
+            print(f"Step {enum+1} of {round(len(datasets) / max_workers) + 1}")
             new_subset = [item for item in subset if item is not None]
 
-            print(f"Employing workers {1 + max_workers*enum} to {max_workers + max_workers*enum}")
+            print(f"Employing workers {1 + max_workers * enum} to {max_workers + max_workers * enum}")
             q = mp.Queue()
             workers = []
 
@@ -348,6 +348,6 @@ class LGInform:
             for w in workers:
                 w.join()
 
-            print(f"Completed step {enum+1}")
+            print(f"Completed step {enum + 1}")
 
         print('Done')

@@ -151,6 +151,10 @@ cython_debug/
 #.idea/
 
 
+
+/Example
+*/demo.py
+
 /Test*
 /Lookups
 /Config

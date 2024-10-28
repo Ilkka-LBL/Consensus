@@ -15,7 +15,7 @@ class DatabaseManager:
         self.db_path = db_path
         self.conn = duckdb.connect(database=self.db_path, read_only=False)
 
-    def create_database(self, table_paths):
+    def create_database(self, table_paths: Dict[str, Path]):
         for node, path in table_paths.items():
             file_path = str(path)  # Convert Path object to string
 
@@ -36,7 +36,7 @@ class DatabaseManager:
             else:
                 print(f"Node {node} does not have a corresponding file path.")
 
-    def query_tables_from_path(self, path, table_paths, join_type='outer'):
+    def query_tables_from_path(self, path, table_paths: Dict[str, Path], join_type='outer'):
         tables = [node for node in path if node in table_paths]
         if not tables:
             raise ValueError("No valid tables found in the provided path.")
@@ -118,8 +118,7 @@ class GraphBuilder:
         df = pd.read_excel(file_path)
         self._process_dataframe(df, file_path.stem, file_path)
 
-    def _process_dataframe(self, df: pd.DataFrame, table_name: str,
-                           file_path: Path):
+    def _process_dataframe(self, df: pd.DataFrame, table_name: str, file_path: Path):
         df.columns = [col.upper() for col in df.columns]
         self.graph.add_node(table_name, columns=df.columns.tolist())
         self.table_paths[table_name] = file_path  # Store path
@@ -133,8 +132,7 @@ class GraphBuilder:
         """
         return self.table_paths
 
-    def find_paths(self, start: str, end: str, 
-                   by: str = 'table') -> List[List[str]]:
+    def find_paths(self, start: str, end: str, by: str = 'table') -> List[List[str]]:
         """
         Find all paths from start to end using BFS.
         Can be by table name or column name.
@@ -169,8 +167,7 @@ class GraphBuilder:
         """Returns the full graph with all connections."""
         return self.graph
 
-    def get_all_possible_paths(self, start: str, end: str, 
-                               by: str = 'table') -> List[List[str]]:
+    def get_all_possible_paths(self, start: str, end: str, by: str = 'table') -> List[List[str]]:
         """
         Outputs all possible paths based on start and end, by table or column.
         """
