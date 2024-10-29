@@ -130,7 +130,6 @@ class ConnectToNomis:
         Returns:
             None
 
-        :meta private:
         """
         if not dataset:
             self.url = f"{self.base_url}def.sdmx.json{self.uid}"
@@ -243,8 +242,6 @@ class ConnectToNomis:
 
         Returns:
             Any: The matching NOMIS table.
-
-        :meta private:
         """
         tables = self.get_all_tables()
         for table in tables:
@@ -260,8 +257,6 @@ class ConnectToNomis:
 
         Returns:
             List[Any]: List of start and end pairs representing ranges.
-
-        :meta private:
         """
         nums = sorted(set(nums))
         gaps = [[s, e] for s, e in zip(nums, nums[1:]) if s + 1 < e]
@@ -277,8 +272,6 @@ class ConnectToNomis:
 
         Returns:
             str: GSS code in the format 'Exxxxxxxx'.
-
-        :meta private:
         """
         return f"E{val:08}"
 
@@ -291,8 +284,6 @@ class ConnectToNomis:
 
         Returns:
             str: Formatted string for the URL.
-
-        :meta private:
         """
         edited_geo = [int(i[1:]) for i in sorted(geographies)]
         edges_list = self._geography_edges(edited_geo)
@@ -324,7 +315,6 @@ class DownloadFromNomis(ConnectToNomis):
         url (str): Complete URL for API requests.
         r (requests.Response): Response object from API requests.
         config (dict): Loaded configuration details, including API key and proxies.
-
     """
 
     def __init__(self, *args, **kwargs):
@@ -346,8 +336,6 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             None
-
-        :meta private:
         """
         self.url = f"{self.base_url}{dataset}.bulk.csv{self.uid}"
 
@@ -363,8 +351,6 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             None
-
-        :meta private:
         """
         if params is None:
             params = {'geography': None}
@@ -390,8 +376,6 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             None
-
-        :meta private:
         """
         self._download_checks(dataset, params, value_or_percent, table_columns)
 
@@ -456,8 +440,6 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             None
-
-        :meta private:
         """
 
         try:
@@ -475,8 +457,6 @@ class DownloadFromNomis(ConnectToNomis):
 
         Returns:
             pd.DataFrame: The downloaded data as a Pandas DataFrame.
-
-        :meta private:
         """
         try:
             with request_get(self.url, proxies=self.proxies, stream=True) as response:

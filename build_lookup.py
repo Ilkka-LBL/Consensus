@@ -1,4 +1,4 @@
-from Consensus.AsyncOGP import OpenGeographyLookup
+from Consensus.OGP import OpenGeographyLookup
 
 import asyncio
 

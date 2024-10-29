@@ -27,7 +27,7 @@ This package also includes a class to help with selecting data from LG Inform Pl
 ### The caveats
 The current version of the package relies on access to Open Geography Portal, but their ESRI servers are not always available. The official response from ONS and ESRI was that we can only keep trying, which means that occasionally the download times will take somewhat long. The package automatically retries whenever connection is lost.   
 
-The second caveat is that the output from SmartLinker class is not guaranteed to contain the correct tables, but there is built-in capability to choose which tables you want to merge. This requires some knowledge of the data in the tables themselves, however. You may also be more interested in population weighted joins, which this package does not perform (only left joins are supported at the moment). However, the AsyncFeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
+The second caveat is that the output from SmartLinker class is not guaranteed to contain the correct tables, but there is built-in capability to choose which tables you want to merge. This requires some knowledge of the data in the tables themselves, however. You may also be more interested in population weighted joins, which this package does not perform (only left joins are supported at the moment). However, the FeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
 
 Note that this package does not create any sort of file caches, so you should implement your own. This is in the todo pile for the package, however.
 
@@ -38,7 +38,7 @@ To install this package:
 
 Or 
 
-`python -m pip install Consensus==1.0.0`
+`python -m pip install Consensus`
 
 ## Configuration
 To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:

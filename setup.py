@@ -45,7 +45,7 @@ all_files = extra_files + config
 
 setup(
     name='Consensus',
-    version='1.0.4',
+    version='1.0.5',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     url='https://ilkka-lbl.github.io/Consensus/',

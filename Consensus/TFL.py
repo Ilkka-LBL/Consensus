@@ -1,3 +1,58 @@
+"""
+This module contains the TFL class, which is a subclass of EsriConnector.
+It is used to connect to the TfL Open Data Hub and retrieve data.
+
+Classes:
+    TFL(EsriConnector): A subclass of EsriConnector used to connect to the TfL Open Data Hub.
+
+
+
+
+Usage:
+
+.. code-block:: python
+
+    from Consensus.TFL import TFL
+    tfl = TFL(max_retries=30, retry_delay=2)
+    await tfl.initialise()  # initialise the connection
+    tfl.print_all_services()  # a method to help you choose which service you'd like to download data for.
+
+The above code will connect to the TfL Open Data Hub and print all available services. You select the service you want to connect to by copying the service name string that comes after "Service name:" in the output.
+
+Let's say you want to view the bus stops data and explore the metadata:
+
+.. code-block:: python
+
+    from Consensus.TFL import TFL
+    tfl = TFL(max_retries=30, retry_delay=2)
+    await tfl.initialise()
+    metadata = await tfl.metadata_as_pandas(included_services=['Bus_Stops'])
+    print(metadata)
+
+This will connect to the TfL Open Data Hub and retrieve all available data for Bus_Stops service. From here, you can create a `where` clause to further fine-tune your query:
+
+.. code-block:: python
+
+    from Consensus.TFL import TFL
+
+    tfl = TFL(max_retries=30, retry_delay=2)
+    await tfl.initialise()
+
+    fs_service_table = tfl.service_table
+    fs = FeatureServer()
+
+    column_name = 'STOP_NAME'
+    geographic_areas = ['Hazel Mead']
+    where_clause = f"{column_name} IN ('{str(geographic_areas[0])}')"
+
+    await fs.setup(service_name='Bus_Stops', service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+    output = await fs.download(where_clause=where_clause, return_geometry=True)
+    print(output)
+
+
+"""
+
+
 from Consensus.EsriConnector import EsriConnector
 
 

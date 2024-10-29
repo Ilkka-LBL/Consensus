@@ -1,3 +1,52 @@
+"""
+Extending `EsriConnector()` class
+---------------------------------
+
+This module provides a class for interacting with the Esri REST API. It creates a dictionary of Service objects given the URL of the server and add methods to extract the metadata for any of them.
+You can apply the `EsriConnector()` class to a new server by calling `my_new_connection=EsriConnector(base_url=your_new_server)` or by creating a separate class if you so wish:
+
+.. code-block:: python
+
+    from Consensus.EsriConnector import EsriConnector
+
+    class NewClass(EsriConnector):
+        def __init__(self, max_retries: int = 10, retry_delay: int = 2) -> None:
+            super().__init__(max_retries, retry_delay)
+            self.base_url = your_new_server
+            print(f"Connecting to {your_new_server}")
+
+This is the basic building block that the Consensus package uses to interact with Esri REST APIs such as Open Geography Portal and TfL Open Data Hub. It is designed to be extended to provide additional functionality, such as custom methods for specific use cases.
+
+
+`FeatureServer()` class example
+-------------------------------
+
+`FeatureServer()` class on the other hand is used to download data from the Esri REST API. For example, to download the ward 2023 boundary data for Brockley in Lewisham from Open Geography Portal:
+
+.. code-block:: python
+
+    from Consensus.EsriConnector import FeatureServer
+    from Consensus.OGP import OpenGeography
+    from Consensus.utils import where_clause_maker
+
+    og = OpenGeography(max_retries=30, retry_delay=2)
+    await og.initialise()
+
+    fs_service_table = og.service_table
+    fs = FeatureServer()
+
+    column_name = 'WD23NM'
+    geographic_areas = ['Brockley']
+    service_name = 'Wards_December_2023_Boundaries_UK_BSC'
+    where_clause = where_clause_maker(self, string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
+
+    await fs.setup(service_name=service_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+    output = await fs.download(where_clause=where_clause, return_geometry=True)
+    print(output)
+
+"""
+
+
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from copy import deepcopy
@@ -10,19 +59,19 @@ import pandas as pd
 @dataclass
 class Service:
     """
-        Dataclass for services.
+    Dataclass for services.
 
-        Attributes:
-            name (str): Name of service.
-            type (str): One of 'FeatureServer', 'MapServer', 'WFSServer'.
-            url (str): URL.
-            description (str): Description of the service.
-            layers (List[Dict[str, Any]]): Data available through service. If empty, it is likely that the 'tables' attribute contains the desired data.
-            tables (List[Dict[str, Any]]): Data available through service. If empty, it is likely that the 'layers' attribute contains the desired data.
-            output_formats (List[str]): List of formats available for the data.
-            metadata (json): Metadata as JSON.
-            fields (List[str]): List of fields for the data.
-            primary_key (str): Primary key for the data.
+    Attributes:
+        name (str): Name of service.
+        type (str): One of 'FeatureServer', 'MapServer', 'WFSServer'.
+        url (str): URL.
+        description (str): Description of the service.
+        layers (List[Dict[str, Any]]): Data available through service. If empty, it is likely that the 'tables' attribute contains the desired data.
+        tables (List[Dict[str, Any]]): Data available through service. If empty, it is likely that the 'layers' attribute contains the desired data.
+        output_formats (List[str]): List of formats available for the data.
+        metadata (json): Metadata as JSON.
+        fields (List[str]): List of fields for the data.
+        primary_key (str): Primary key for the data.
     """
 
     name: str = None
@@ -40,7 +89,8 @@ class Service:
         """
         Self-filtering method.
 
-        :meta private:
+        Returns:
+            Service: Self if type is 'FeatureServer' else None.
         """
         if self.type == 'FeatureServer':
             self.feature_server = True
@@ -48,9 +98,10 @@ class Service:
 
     def mapservers(self) -> 'Service':
         """
-        Self-filtering method.
+        Self-filtering method. Currently unused.
 
-        :meta private:
+        Returns:
+            Service: Self if type is 'MapServer' else None.
         """
         if self.type == 'MapServer':
             self.map_server = True
@@ -58,9 +109,10 @@ class Service:
 
     def wfsservers(self) -> 'Service':
         """
-        Self-filtering method.
+        Self-filtering method. Currently unused.
 
-        :meta private:
+        Returns:
+            Service: Self if type is 'WFSServer' else None.
         """
         if self.type == 'WFSServer':
             self.wfs_server = True
@@ -70,7 +122,13 @@ class Service:
         """
         Helper method for asynchronous GET requests using aiohttp.
 
-        :meta private:
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
+            url (str): The URL to fetch.
+            params (Dict[str, str], optional): Query parameters. Defaults to None.
+
+        Returns:
+            Dict[str, Any]: The response as a JSON object.
         """
         if params:
             # Convert boolean values to strings
@@ -82,7 +140,11 @@ class Service:
         """
         Returns high-level details for the data as JSON.
 
-        :meta private:
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
+
+        Returns:
+            Dict[str, Any]: The service details as a JSON object.
         """
         service_url = f"{self.url}?&f=json"
         return await self._fetch(session, service_url)
@@ -91,7 +153,11 @@ class Service:
         """
         Returns metadata as JSON.
 
-        :meta private:
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
+
+        Returns:
+            Dict[str, Any]: The metadata as a JSON object.
         """
         service_url = f"{self.url}/0?f=json"
         return await self._fetch(session, service_url)
@@ -100,10 +166,11 @@ class Service:
         """
         Fills attribute fields using the JSON information from service_details and service_metadata methods.
 
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
+
         Returns:
             None
-
-        :meta private:
         """
         service_info = await self.service_details(session)
         self.description = service_info.get('description')
@@ -122,13 +189,15 @@ class Service:
         self.schemalasteditdate = lastedit.get('schemaLastEditDate', '')
         self.datalasteditdate = lastedit.get('dataLastEditDate', '')
 
-    async def lookup_format(self, session: aiohttp.ClientSession) -> Dict:
+    async def lookup_format(self, session: aiohttp.ClientSession) -> Dict[str, List]:
         """
         Returns a Pandas-ready dictionary of the service's metadata.
 
-        Returns:
-            Dict: A dictionary of the FeatureService's metadata.
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
 
+        Returns:
+            Dict[str, List]: A dictionary of the FeatureService's metadata.
         """
         await self._service_attributes(session)
 
@@ -160,10 +229,13 @@ class Service:
         """
         Helper method for counting records.
 
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
+            url (str): The URL to fetch.
+            params (Dict[str, str]): Query parameters.
+
         Returns:
             int: The count of records for the chosen FeatureService
-
-        :meta private:
         """
         temp_params = deepcopy(params)
         temp_params['returnCountOnly'] = True
@@ -175,17 +247,28 @@ class Service:
 class EsriConnector:
     """
     Main class for connecting to Esri servers.
+
+    Attributes:
+        base_url (str): The base URL of the Esri server. Built-in modules that use `EsriConnector()` class set their own base_url.
+        max_retries (int): The maximum number of retries for HTTP requests.
+        retry_delay (int): The delay in seconds between retries.
+        server_types (dict): A dictionary of server types and their corresponding suffixes.
+        services (list): A list of Service objects.
+        service_table (DataFrame): A Pandas DataFrame containing the service metadata.
     """
     def __init__(self, max_retries: int = 10, retry_delay: int = 2, base_url: str = "") -> None:
         """
         Initialise class.
 
+        Args:
+            max_retries (int): The maximum number of retries for HTTP requests. Defaults to 10.
+            retry_delay (int): The delay in seconds between retries. Defaults to 2.
+            base_url (str): The base URL of the Esri server. Defaults to "". Built-in modules that use `EsriConnector()` class set their own base_url.
+
         Returns:
             None
-
-        :meta private:
         """
-        self.base_url = ""
+        self.base_url = base_url
         self.max_retries = max_retries
         self.retry_delay = retry_delay
         self.server_types = {'feature': 'FeatureServer',
@@ -203,16 +286,44 @@ class EsriConnector:
         """
         await self._validate_response()
 
-    async def _fetch_response(self, session: aiohttp.ClientSession) -> dict:
+    async def _fetch_response(self, session: aiohttp.ClientSession) -> Dict:
         """
         Helper method to fetch the response from the Esri server.
+
+        Args:
+            session (aiohttp.ClientSession): The aiohttp.ClientSession object.
+
+        Returns:
+            Dict: The JSON response from the Esri server.
         """
         async with session.get(self.base_url) as response:
             return await response.json() if response.status == 200 else {}
 
+    async def _fetch_service_metadata(self, service_obj: Service, lookup_table: List[pd.DataFrame], service_name: str, session: aiohttp.ClientSession) -> None:
+        """
+        Fetch service metadata for a specific service.
+
+        Args:
+            service_obj (Service): The Service object to fetch metadata for.
+            lookup_table (List[pd.DataFrame]): The list to append the metadata to.
+            service_name (str): The name of the service.
+            session (aiohttp.ClientSession): The aiohttp.ClientSession object.
+
+        Returns:
+            None
+        """
+        try:
+            print(f"Fetching metadata for service {service_name}")
+            lookup_table.append(await service_obj.lookup_format(session))
+        except Exception as e:
+            print(f"Error fetching metadata for service {service_name}: {e}")
+
     async def _validate_response(self) -> None:
         """
-        Validate access to the base URL asynchronously using aiohttp.
+        Validate access to the base URL asynchronously using aiohttp. When a response is received, call `_load_all_services()` to load services into a dictionary.
+
+        Returns:
+            None
         """
         print(f"Requesting services from URL: {self.base_url}")
         async with aiohttp.ClientSession() as session:
@@ -221,7 +332,7 @@ class EsriConnector:
                     response = await self._fetch_response(session)
                     self.services = response.get('services', [])
                     if self.services:
-                        await self._load_all_services(session)
+                        await self._load_all_services()
                         return
                     print("No services found, retrying...")
                 except Exception as e:
@@ -230,9 +341,12 @@ class EsriConnector:
                 await asyncio.sleep(self.retry_delay)
         print(f"Failed to retrieve services after {self.max_retries} attempts.")
 
-    async def _load_all_services(self, session: aiohttp.ClientSession) -> None:
+    async def _load_all_services(self) -> None:
         """
-        Load services into a dictionary asynchronously.
+        Load services into a dictionary.
+
+        Returns:
+            None
         """
         self.service_table = {service['name']: Service(service['name'], service['type'], service['url']) for service in self.services if service['type'] == self.server_types['feature']}
         print("Services loaded. Ready to go.")
@@ -240,13 +354,22 @@ class EsriConnector:
     def print_all_services(self) -> None:
         """
         Print name, type, and URL of all services available through Esri server.
+
+        Returns:
+            None
         """
         for service_name, service_obj in self.service_table.items():
-            print(f"Service: {service_name}\nURL: {service_obj.url}\nService type: {service_obj.type}")
+            print(f"Service name: {service_name}\nURL: {service_obj.url}\nService type: {service_obj.type}\n")
 
     def print_services_by_server_type(self, server_type: str = 'feature') -> None:
         """
         Print services given a server type.
+
+        Args:
+            server_type (str): The type of server to filter by ('feature', 'map', or 'wfs').
+
+        Returns:
+            None
         """
         try:
             server_type_key = self.server_types[server_type]
@@ -256,8 +379,35 @@ class EsriConnector:
         except KeyError:
             print(f"Invalid server type: {server_type}. Valid options are 'feature', 'map', or 'wfs'.")
 
+    async def metadata_as_pandas(self, service_type: str = 'feature', included_services: List[str] = []) -> pd.DataFrame:
+        """
+        Asynchronously create a Pandas DataFrame of selected tables' metadata.
 
-class AsyncFeatureServer():
+        Args:
+            service_type (str): The type of service to include in the DataFrame ('feature', 'map', or 'wfs').
+            included_services (List[str]): A list of service names to include in the DataFrame. If empty, all services are included.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing the metadata of the selected services.
+        """
+        assert service_type in ['feature', 'map', 'wfs'], "Service type must be one of: 'feature', 'map', 'wfs'"
+
+        service_table_to_loop = {k: self.service_table[k] for k in included_services if k in self.service_table} if included_services else self.service_table
+        relevant_services = {name: obj for name, obj in service_table_to_loop.items() if obj.type.lower() == self.server_types[service_type].lower()}
+
+        lookup_table = []
+        async with aiohttp.ClientSession() as session:
+            tasks = [self._fetch_service_metadata(service_obj, lookup_table, name, session) for name, service_obj in relevant_services.items()]
+            await asyncio.gather(*tasks)
+
+        if not lookup_table:
+            print("No valid data found.")
+            return pd.DataFrame()
+
+        return pd.concat([pd.DataFrame(item) for item in lookup_table]).reset_index(drop=True)
+
+
+class FeatureServer():
     """
         Download data from an Esri Feature Server asynchronously.
 
@@ -270,22 +420,48 @@ class AsyncFeatureServer():
         Usage:
             .. code-block:: python
 
+                from Consensus.EsriConnector import FeatureServer
+                from Consensus.OGP import OpenGeography
+                from Consensus.utils import where_clause_maker
+
                 og = OpenGeography(max_retries=30, retry_delay=2)
                 await og.initialise()
 
                 fs_service_table = og.service_table
-                fs = AsyncFeatureServer()
+                fs = FeatureServer()
 
-                await fs.setup(service_name='Wards_December_2023_Boundaries_UK_BSC', service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
                 column_name = 'WD23NM'
                 geographic_areas = ['Brockley']
-                where_clause = f"{column_name} IN ('{str(geographic_areas[0])}')"
+                service_name = 'Wards_December_2023_Boundaries_UK_BSC'
+                where_clause = where_clause_maker(self, string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
+
+                await fs.setup(service_name=service_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
                 output = await fs.download(where_clause=where_clause, return_geometry=True)
+                print(output)
     """
     def __init__(self) -> None:
+        """
+        Initialise class.
+
+        Returns:
+            None
+        """
         pass
 
-    async def setup(self, service_name: str = None, service_table: dict = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50):
+    async def setup(self, service_name: str = None, service_table: Dict[str, Service] = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50):
+        """
+        Set up the FeatureServer Service object for downloading.
+
+        Args:
+            service_name (str): The name of the Feature Server service.
+            service_table (Dict[str, Service]): A dictionary of Feature Server Service objects.
+            max_retries (int): The maximum number of retries for a request.
+            retry_delay (int): The delay in seconds between retries.
+            chunk_size (int): The number of records to download in each chunk.
+
+        Returns:
+            None
+        """
         try:
             self.feature_service = service_table.get(service_name).featureservers()
 
@@ -299,8 +475,18 @@ class AsyncFeatureServer():
         async with aiohttp.ClientSession() as session:
             await self.feature_service.lookup_format(session)
 
-    async def looper(self, session: aiohttp.ClientSession, link_url: str, params: dict) -> dict:
-        """ Keep trying to connect to Feature Service until max_retries or response """
+    async def looper(self, session: aiohttp.ClientSession, link_url: str, params: Dict[str, Any]) -> Dict:
+        """
+        Keep trying to connect to Feature Service until max_retries or response.
+
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session.
+            link_url (str): The URL of the Feature Server service.
+            params (Dict[str, Any]): The parameters for the query.
+
+        Returns:
+            Dict: The downloaded data as a dictionary.
+        """
         retries = 0
         while retries < self.max_retries:
             try:
@@ -319,8 +505,18 @@ class AsyncFeatureServer():
         print("Max retries reached. Request failed. Smaller chunk size may help.")
         return None
 
-    async def chunker(self, session: aiohttp.ClientSession, service_url: str, params: dict) -> dict:
-        """ Download data in chunks asynchronously """
+    async def chunker(self, session: aiohttp.ClientSession, service_url: str, params: Dict[str, Any]) -> Dict:
+        """
+        Download data in chunks asynchronously.
+
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session.
+            service_url (str): The URL of the Feature Server service.
+            params (Dict[str, Any]): The parameters for the query.
+
+        Returns:
+            Dict: The downloaded data as a dictionary.
+        """
         print(params['where'])
         if self.feature_service.tables:
             links_to_visit = self.feature_service.tables
@@ -356,9 +552,20 @@ class AsyncFeatureServer():
 
         return responses
 
-    async def download(self, fileformat: str = 'geojson', return_geometry: bool = False, where_clause: str = '1=1', output_fields: str = '*', params: dict = None, n_sample_rows: int = -1) -> dict:
+    async def download(self, fileformat: str = 'geojson', return_geometry: bool = False, where_clause: str = '1=1', output_fields: str = '*', params: dict = None, n_sample_rows: int = -1) -> pd.DataFrame:
         """
         Download data from Esri server asynchronously.
+
+        Args:
+            fileformat (str): The format of the downloaded data ('geojson', 'json', or 'csv').
+            return_geometry (bool): Whether to include geometry in the downloaded data.
+            where_clause (str): The where clause to filter the data.
+            output_fields (str): The fields to include in the downloaded data.
+            params (dict): Additional parameters for the query.
+            n_sample_rows (int): The number of rows to sample for testing purposes.
+
+        Returns:
+            pd.DataFrame: The downloaded data as a pandas DataFrame or geopandas GeoDataFrame.
         """
         primary_key = self.feature_service.primary_key['name']
 
