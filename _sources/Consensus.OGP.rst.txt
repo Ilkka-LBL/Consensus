@@ -1,7 +1,7 @@
-Consensus.AsyncOGP module
+Consensus.OGP module
 =========================
 
-.. automodule:: Consensus.AsyncOGP
+.. automodule:: Consensus.OGP
    :members:
    :undoc-members:
    :show-inheritance:

@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Consensus 1.0.4 documentation</title>
+  <title>Index &mdash; Consensus 1.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=71272d9f"></script>
+      <script src="_static/documentation_options.js?v=d55fa986"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -99,16 +99,12 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography.__init__">__init__() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.ConfigManager.html#Consensus.ConfigManager.ConfigManager.__init__">__init__() (Consensus.ConfigManager.ConfigManager method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup.__init__">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.ConfigManager.html#Consensus.ConfigManager.ConfigManager.__init__">(Consensus.ConfigManager.ConfigManager method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.__init__">(Consensus.EsriConnector.AsyncFeatureServer method)</a>
-</li>
         <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.__init__">(Consensus.EsriConnector.EsriConnector method)</a>
+</li>
+        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.__init__">(Consensus.EsriConnector.FeatureServer method)</a>
 </li>
         <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.__init__">(Consensus.EsriConnector.Service method)</a>
 </li>
@@ -134,6 +130,8 @@
 </li>
         <li><a href="Consensus.Nomis.html#Consensus.Nomis.NomisTable.__init__">(Consensus.Nomis.NomisTable method)</a>
 </li>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography.__init__">(Consensus.OGP.OpenGeography method)</a>
+</li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL.__init__">(Consensus.TFL.TFL method)</a>
 </li>
       </ul></li>
@@ -155,22 +153,24 @@
 </li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service._fetch">_fetch() (Consensus.EsriConnector.Service method)</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography._fetch_response">_fetch_response() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._fetch_response">_fetch_response() (Consensus.EsriConnector.EsriConnector method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup._fetch_response">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._fetch_response">(Consensus.EsriConnector.EsriConnector method)</a>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography._fetch_response">(Consensus.OGP.OpenGeography method)</a>
 </li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL._fetch_response">(Consensus.TFL.TFL method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup._fetch_service_metadata">_fetch_service_metadata() (Consensus.AsyncOGP.OpenGeographyLookup method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._fetch_service_metadata">_fetch_service_metadata() (Consensus.EsriConnector.EsriConnector method)</a>
+
+      <ul>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography._fetch_service_metadata">(Consensus.OGP.OpenGeography method)</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup._fetch_services">_fetch_services() (Consensus.AsyncOGP.OpenGeographyLookup method)</a>
+        <li><a href="Consensus.TFL.html#Consensus.TFL.TFL._fetch_service_metadata">(Consensus.TFL.TFL method)</a>
 </li>
+      </ul></li>
       <li><a href="Consensus.Nomis.html#Consensus.Nomis.ConnectToNomis._find_exact_table">_find_exact_table() (Consensus.Nomis.ConnectToNomis method)</a>
 
       <ul>
@@ -191,12 +191,10 @@
       </ul></li>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.DatabaseManager._join_tables">_join_tables() (Consensus.LocalMerger.DatabaseManager method)</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography._load_all_services">_load_all_services() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._load_all_services">_load_all_services() (Consensus.EsriConnector.EsriConnector method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup._load_all_services">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._load_all_services">(Consensus.EsriConnector.EsriConnector method)</a>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography._load_all_services">(Consensus.OGP.OpenGeography method)</a>
 </li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL._load_all_services">(Consensus.TFL.TFL method)</a>
 </li>
@@ -225,20 +223,12 @@
         <li><a href="Consensus.Nomis.html#Consensus.Nomis.DownloadFromNomis._unpack_geography_list">(Consensus.Nomis.DownloadFromNomis method)</a>
 </li>
       </ul></li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography._validate_response">_validate_response() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._validate_response">_validate_response() (Consensus.EsriConnector.EsriConnector method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup._validate_response">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._validate_response">(Consensus.EsriConnector.EsriConnector method)</a>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography._validate_response">(Consensus.OGP.OpenGeography method)</a>
 </li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL._validate_response">(Consensus.TFL.TFL method)</a>
-</li>
-      </ul></li>
-      <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper._where_clause_maker">_where_clause_maker() (Consensus.GeocodeMerger.GeoHelper method)</a>
-
-      <ul>
-        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._where_clause_maker">(Consensus.GeocodeMerger.SmartLinker method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -260,13 +250,13 @@
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.allow_geometry">allow_geometry() (Consensus.GeocodeMerger.GeoHelper method)</a>
 
       <ul>
-        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.allow_geometry">(Consensus.GeocodeMerger.SmartLinker method)</a>
+        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.allow_geometry">(Consensus.GeocodeMerger.SmartLinker method)</a>, <a href="Consensus.GeocodeMerger.html#id0">[1]</a>
 </li>
       </ul></li>
-      <li><a href="Consensus.Nomis.html#Consensus.Nomis.NomisTable.annotations">annotations (Consensus.Nomis.NomisTable attribute)</a>, <a href="Consensus.Nomis.html#id1">[1]</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Consensus.Nomis.html#Consensus.Nomis.NomisTable.annotations">annotations (Consensus.Nomis.NomisTable attribute)</a>, <a href="Consensus.Nomis.html#id1">[1]</a>
+</li>
       <li><a href="Consensus.Nomis.html#Consensus.Nomis.ConnectToNomis.api_key">api_key (Consensus.Nomis.ConnectToNomis attribute)</a>
 
       <ul>
@@ -281,8 +271,6 @@
         <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.MissingDataError.args">(Consensus.GeocodeMerger.MissingDataError attribute)</a>
 </li>
       </ul></li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer">AsyncFeatureServer (class in Consensus.EsriConnector)</a>
-</li>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.available_geographies">available_geographies() (Consensus.GeocodeMerger.GeoHelper method)</a>
 </li>
   </ul></td>
@@ -291,9 +279,11 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.Nomis.html#Consensus.Nomis.ConnectToNomis.base_url">base_url (Consensus.Nomis.ConnectToNomis attribute)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.base_url">base_url (Consensus.EsriConnector.EsriConnector attribute)</a>
 
       <ul>
+        <li><a href="Consensus.Nomis.html#Consensus.Nomis.ConnectToNomis.base_url">(Consensus.Nomis.ConnectToNomis attribute)</a>
+</li>
         <li><a href="Consensus.Nomis.html#Consensus.Nomis.DownloadFromNomis.base_url">(Consensus.Nomis.DownloadFromNomis attribute)</a>
 </li>
       </ul></li>
@@ -301,7 +291,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.BFS_SP">BFS_SP() (in module Consensus.GeocodeMerger)</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup.build_lookup">build_lookup() (Consensus.AsyncOGP.OpenGeographyLookup method)</a>
+      <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography.build_lookup">build_lookup() (Consensus.OGP.OpenGeography method)</a>
 </li>
       <li><a href="Consensus.Nomis.html#Consensus.Nomis.DownloadFromNomis.bulk_download">bulk_download() (Consensus.Nomis.DownloadFromNomis method)</a>
 </li>
@@ -313,9 +303,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.GraphBuilder.choose_path">choose_path() (Consensus.LocalMerger.GraphBuilder method)</a>
 </li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.chunk_size">chunk_size (Consensus.EsriConnector.AsyncFeatureServer attribute)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.chunk_size">chunk_size (Consensus.EsriConnector.FeatureServer attribute)</a>
 </li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.chunker">chunker() (Consensus.EsriConnector.AsyncFeatureServer method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.chunker">chunker() (Consensus.EsriConnector.FeatureServer method)</a>
 </li>
       <li><a href="Consensus.Nomis.html#Consensus.Nomis.NomisTable.clean_annotations">clean_annotations() (Consensus.Nomis.NomisTable method)</a>
 </li>
@@ -347,13 +337,6 @@
 </li>
       </ul></li>
       <li>
-    Consensus.AsyncOGP
-
-      <ul>
-        <li><a href="Consensus.AsyncOGP.html#module-Consensus.AsyncOGP">module</a>
-</li>
-      </ul></li>
-      <li>
     Consensus.config
 
       <ul>
@@ -367,8 +350,6 @@
         <li><a href="Consensus.config_utils.html#module-Consensus.config_utils">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     Consensus.ConfigManager
 
@@ -376,6 +357,8 @@
         <li><a href="Consensus.ConfigManager.html#module-Consensus.ConfigManager">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     Consensus.EsriConnector
 
@@ -419,10 +402,24 @@
 </li>
       </ul></li>
       <li>
+    Consensus.OGP
+
+      <ul>
+        <li><a href="Consensus.OGP.html#module-Consensus.OGP">module</a>
+</li>
+      </ul></li>
+      <li>
     Consensus.TFL
 
       <ul>
         <li><a href="Consensus.TFL.html#module-Consensus.TFL">module</a>
+</li>
+      </ul></li>
+      <li>
+    Consensus.utils
+
+      <ul>
+        <li><a href="Consensus.utils.html#module-Consensus.utils">module</a>
 </li>
       </ul></li>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.DatabaseManager.create_database">create_database() (Consensus.LocalMerger.DatabaseManager method)</a>
@@ -457,7 +454,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.download">download() (Consensus.EsriConnector.AsyncFeatureServer method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.download">download() (Consensus.EsriConnector.FeatureServer method)</a>
 
       <ul>
         <li><a href="Consensus.LGInform.html#Consensus.LGInform.LGInform.download">(Consensus.LGInform.LGInform method)</a>
@@ -485,7 +482,9 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.feature_service">feature_service (Consensus.EsriConnector.AsyncFeatureServer attribute)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.feature_service">feature_service (Consensus.EsriConnector.FeatureServer attribute)</a>
+</li>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer">FeatureServer (class in Consensus.EsriConnector)</a>
 </li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.featureservers">featureservers() (Consensus.EsriConnector.Service method)</a>
 </li>
@@ -518,7 +517,7 @@
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.geodata">geodata() (Consensus.GeocodeMerger.GeoHelper method)</a>
 
       <ul>
-        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.geodata">(Consensus.GeocodeMerger.SmartLinker method)</a>, <a href="Consensus.GeocodeMerger.html#id0">[1]</a>
+        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.geodata">(Consensus.GeocodeMerger.SmartLinker method)</a>, <a href="Consensus.GeocodeMerger.html#id1">[1]</a>
 </li>
       </ul></li>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.geographies_filter">geographies_filter() (Consensus.GeocodeMerger.GeoHelper method)</a>
@@ -537,10 +536,10 @@
       </ul></li>
       <li><a href="Consensus.LGInform.html#Consensus.LGInform.LGInform.get_dataset_table_variables">get_dataset_table_variables() (Consensus.LGInform.LGInform method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.GraphBuilder.get_full_graph">get_full_graph() (Consensus.LocalMerger.GraphBuilder method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.get_starting_point">get_starting_point() (Consensus.GeocodeMerger.GeoHelper method)</a>
 
       <ul>
@@ -563,6 +562,8 @@
       </ul></li>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.GraphBuilder.get_table_paths">get_table_paths() (Consensus.LocalMerger.GraphBuilder method)</a>
 </li>
+      <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.graph">graph (Consensus.GeocodeMerger.SmartLinker attribute)</a>
+</li>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.GraphBuilder">GraphBuilder (class in Consensus.LocalMerger)</a>
 </li>
   </ul></td>
@@ -573,16 +574,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.Nomis.html#Consensus.Nomis.NomisTable.id">id (Consensus.Nomis.NomisTable attribute)</a>, <a href="Consensus.Nomis.html#id4">[1]</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography.initialise">initialise() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.initialise">initialise() (Consensus.EsriConnector.EsriConnector method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup.initialise">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.initialise">(Consensus.EsriConnector.EsriConnector method)</a>
-</li>
         <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.initialise">(Consensus.GeocodeMerger.GeoHelper method)</a>
 </li>
-        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.initialise">(Consensus.GeocodeMerger.SmartLinker method)</a>
+        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.initialise">(Consensus.GeocodeMerger.SmartLinker method)</a>, <a href="Consensus.GeocodeMerger.html#id2">[1]</a>
+</li>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography.initialise">(Consensus.OGP.OpenGeography method)</a>
 </li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL.initialise">(Consensus.TFL.TFL method)</a>
 </li>
@@ -613,13 +612,17 @@
 </li>
       <li><a href="Consensus.LocalMerger.html#Consensus.LocalMerger.DatabaseManager.list_all_tables">list_all_tables() (Consensus.LocalMerger.DatabaseManager method)</a>
 </li>
+      <li><a href="Consensus.config_utils.html#Consensus.config_utils.load_config">load_config() (in module Consensus.config_utils)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.config_utils.html#Consensus.config_utils.load_config">load_config() (in module Consensus.config_utils)</a>
+      <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.local_authorities">local_authorities (Consensus.GeocodeMerger.SmartLinker attribute)</a>
+</li>
+      <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.lookup">lookup (Consensus.GeocodeMerger.SmartLinker attribute)</a>
 </li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.lookup_format">lookup_format() (Consensus.EsriConnector.Service method)</a>
 </li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.looper">looper() (Consensus.EsriConnector.AsyncFeatureServer method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.looper">looper() (Consensus.EsriConnector.FeatureServer method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -629,14 +632,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.mapservers">mapservers() (Consensus.EsriConnector.Service method)</a>
 </li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.max_retries">max_retries (Consensus.EsriConnector.AsyncFeatureServer attribute)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.max_retries">max_retries (Consensus.EsriConnector.EsriConnector attribute)</a>
+
+      <ul>
+        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.max_retries">(Consensus.EsriConnector.FeatureServer attribute)</a>
 </li>
+      </ul></li>
       <li><a href="Consensus.LGInform.html#Consensus.LGInform.LGInform.merge_tables">merge_tables() (Consensus.LGInform.LGInform method)</a>
 </li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.metadata">metadata (Consensus.EsriConnector.Service attribute)</a>, <a href="Consensus.EsriConnector.html#id3">[1]</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup.metadata_as_pandas">metadata_as_pandas() (Consensus.AsyncOGP.OpenGeographyLookup method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.metadata_as_pandas">metadata_as_pandas() (Consensus.EsriConnector.EsriConnector method)</a>
+
+      <ul>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography.metadata_as_pandas">(Consensus.OGP.OpenGeography method)</a>
 </li>
+        <li><a href="Consensus.TFL.html#Consensus.TFL.TFL.metadata_as_pandas">(Consensus.TFL.TFL method)</a>
+</li>
+      </ul></li>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.MissingDataError">MissingDataError</a>
 </li>
       <li>
@@ -644,8 +657,6 @@
 
       <ul>
         <li><a href="Consensus.html#module-Consensus">Consensus</a>
-</li>
-        <li><a href="Consensus.AsyncOGP.html#module-Consensus.AsyncOGP">Consensus.AsyncOGP</a>
 </li>
         <li><a href="Consensus.config.html#module-Consensus.config">Consensus.config</a>
 </li>
@@ -665,7 +676,11 @@
 </li>
         <li><a href="Consensus.Nomis.html#module-Consensus.Nomis">Consensus.Nomis</a>
 </li>
+        <li><a href="Consensus.OGP.html#module-Consensus.OGP">Consensus.OGP</a>
+</li>
         <li><a href="Consensus.TFL.html#module-Consensus.TFL">Consensus.TFL</a>
+</li>
+        <li><a href="Consensus.utils.html#module-Consensus.utils">Consensus.utils</a>
 </li>
       </ul></li>
   </ul></td>
@@ -694,12 +709,10 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography">OpenGeography (class in Consensus.AsyncOGP)</a>
+      <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography">OpenGeography (class in Consensus.OGP)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup">OpenGeographyLookup (class in Consensus.AsyncOGP)</a>
-</li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.output_formats">output_formats (Consensus.EsriConnector.Service attribute)</a>, <a href="Consensus.EsriConnector.html#id5">[1]</a>
 </li>
   </ul></td>
@@ -716,24 +729,20 @@
       </ul></li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.primary_key">primary_key (Consensus.EsriConnector.Service attribute)</a>, <a href="Consensus.EsriConnector.html#id6">[1]</a>
 </li>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography.print_all_services">print_all_services() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.print_all_services">print_all_services() (Consensus.EsriConnector.EsriConnector method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup.print_all_services">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.print_all_services">(Consensus.EsriConnector.EsriConnector method)</a>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography.print_all_services">(Consensus.OGP.OpenGeography method)</a>
 </li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL.print_all_services">(Consensus.TFL.TFL method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeography.print_services_by_server_type">print_services_by_server_type() (Consensus.AsyncOGP.OpenGeography method)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.print_services_by_server_type">print_services_by_server_type() (Consensus.EsriConnector.EsriConnector method)</a>
 
       <ul>
-        <li><a href="Consensus.AsyncOGP.html#Consensus.AsyncOGP.OpenGeographyLookup.print_services_by_server_type">(Consensus.AsyncOGP.OpenGeographyLookup method)</a>
-</li>
-        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.print_services_by_server_type">(Consensus.EsriConnector.EsriConnector method)</a>
+        <li><a href="Consensus.OGP.html#Consensus.OGP.OpenGeography.print_services_by_server_type">(Consensus.OGP.OpenGeography method)</a>
 </li>
         <li><a href="Consensus.TFL.html#Consensus.TFL.TFL.print_services_by_server_type">(Consensus.TFL.TFL method)</a>
 </li>
@@ -780,12 +789,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.ConfigManager.html#Consensus.ConfigManager.ConfigManager.reset_config">reset_config() (Consensus.ConfigManager.ConfigManager method)</a>
 </li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.retry_delay">retry_delay (Consensus.EsriConnector.AsyncFeatureServer attribute)</a>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.retry_delay">retry_delay (Consensus.EsriConnector.EsriConnector attribute)</a>
+
+      <ul>
+        <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.retry_delay">(Consensus.EsriConnector.FeatureServer attribute)</a>
 </li>
+      </ul></li>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.GeoHelper.run_graph">run_graph() (Consensus.GeocodeMerger.GeoHelper method)</a>
 
       <ul>
-        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.run_graph">(Consensus.GeocodeMerger.SmartLinker method)</a>, <a href="Consensus.GeocodeMerger.html#id1">[1]</a>
+        <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.run_graph">(Consensus.GeocodeMerger.SmartLinker method)</a>, <a href="Consensus.GeocodeMerger.html#id3">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -796,15 +809,21 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.ConfigManager.html#Consensus.ConfigManager.ConfigManager.save_config">save_config() (Consensus.ConfigManager.ConfigManager method)</a>
 </li>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.server_types">server_types (Consensus.EsriConnector.EsriConnector attribute)</a>
+</li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service">Service (class in Consensus.EsriConnector)</a>
 </li>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.service_details">service_details() (Consensus.EsriConnector.Service method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.service_metadata">service_metadata() (Consensus.EsriConnector.Service method)</a>
 </li>
-      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.AsyncFeatureServer.setup">setup() (Consensus.EsriConnector.AsyncFeatureServer method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.service_table">service_table (Consensus.EsriConnector.EsriConnector attribute)</a>
+</li>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.services">services (Consensus.EsriConnector.EsriConnector attribute)</a>
+</li>
+      <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer.setup">setup() (Consensus.EsriConnector.FeatureServer method)</a>
 </li>
       <li><a href="Consensus.LGInform.html#Consensus.LGInform.LGInform.sign_url">sign_url() (Consensus.LGInform.LGInform method)</a>
 </li>
@@ -878,6 +897,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.wfsservers">wfsservers() (Consensus.EsriConnector.Service method)</a>
 </li>
+      <li><a href="Consensus.utils.html#Consensus.utils.where_clause_maker">where_clause_maker() (in module Consensus.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.InvalidColumnError.with_traceback">with_traceback() (Consensus.GeocodeMerger.InvalidColumnError method)</a>
 
       <ul>

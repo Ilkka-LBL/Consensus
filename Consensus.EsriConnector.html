@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.EsriConnector module &mdash; Consensus 1.0.4 documentation</title>
+  <title>Consensus.EsriConnector module &mdash; Consensus 1.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=71272d9f"></script>
+      <script src="_static/documentation_options.js?v=d55fa986"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -45,29 +45,38 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Consensus</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Consensus.AsyncOGP.html">Consensus.AsyncOGP module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.EsriConnector module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.feature_service"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.feature_service</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.max_retries"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.max_retries</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.retry_delay"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.retry_delay</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.chunk_size"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.chunk_size</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.__init__"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.chunker"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.chunker()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.download"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.download()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.looper"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.looper()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.AsyncFeatureServer.setup"><code class="docutils literal notranslate"><span class="pre">AsyncFeatureServer.setup()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-esriconnector-class">Extending <cite>EsriConnector()</cite> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#featureserver-class-example"><cite>FeatureServer()</cite> class example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector"><code class="docutils literal notranslate"><span class="pre">EsriConnector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.base_url"><code class="docutils literal notranslate"><span class="pre">EsriConnector.base_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.max_retries"><code class="docutils literal notranslate"><span class="pre">EsriConnector.max_retries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.retry_delay"><code class="docutils literal notranslate"><span class="pre">EsriConnector.retry_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.server_types"><code class="docutils literal notranslate"><span class="pre">EsriConnector.server_types</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.services"><code class="docutils literal notranslate"><span class="pre">EsriConnector.services</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.service_table"><code class="docutils literal notranslate"><span class="pre">EsriConnector.service_table</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.__init__"><code class="docutils literal notranslate"><span class="pre">EsriConnector.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector._fetch_response"><code class="docutils literal notranslate"><span class="pre">EsriConnector._fetch_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector._fetch_service_metadata"><code class="docutils literal notranslate"><span class="pre">EsriConnector._fetch_service_metadata()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector._load_all_services"><code class="docutils literal notranslate"><span class="pre">EsriConnector._load_all_services()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector._validate_response"><code class="docutils literal notranslate"><span class="pre">EsriConnector._validate_response()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.initialise"><code class="docutils literal notranslate"><span class="pre">EsriConnector.initialise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.metadata_as_pandas"><code class="docutils literal notranslate"><span class="pre">EsriConnector.metadata_as_pandas()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.print_all_services"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_all_services()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.print_services_by_server_type"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_services_by_server_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer"><code class="docutils literal notranslate"><span class="pre">FeatureServer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.feature_service"><code class="docutils literal notranslate"><span class="pre">FeatureServer.feature_service</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.max_retries"><code class="docutils literal notranslate"><span class="pre">FeatureServer.max_retries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.retry_delay"><code class="docutils literal notranslate"><span class="pre">FeatureServer.retry_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.chunk_size"><code class="docutils literal notranslate"><span class="pre">FeatureServer.chunk_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.__init__"><code class="docutils literal notranslate"><span class="pre">FeatureServer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.chunker"><code class="docutils literal notranslate"><span class="pre">FeatureServer.chunker()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.download"><code class="docutils literal notranslate"><span class="pre">FeatureServer.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.looper"><code class="docutils literal notranslate"><span class="pre">FeatureServer.looper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.FeatureServer.setup"><code class="docutils literal notranslate"><span class="pre">FeatureServer.setup()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.EsriConnector.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a><ul>
@@ -108,9 +117,11 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LGInform.html">Consensus.LGInform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html">Consensus.LocalMerger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html">Consensus.OGP module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups package</a></li>
 </ul>
@@ -145,26 +156,65 @@
              
   <section id="module-Consensus.EsriConnector">
 <span id="consensus-esriconnector-module"></span><h1>Consensus.EsriConnector module<a class="headerlink" href="#module-Consensus.EsriConnector" title="Link to this heading"></a></h1>
+<section id="extending-esriconnector-class">
+<h2>Extending <cite>EsriConnector()</cite> class<a class="headerlink" href="#extending-esriconnector-class" title="Link to this heading"></a></h2>
+<p>This module provides a class for interacting with the Esri REST API. It creates a dictionary of Service objects given the URL of the server and add methods to extract the metadata for any of them.
+You can apply the <cite>EsriConnector()</cite> class to a new server by calling <cite>my_new_connection=EsriConnector(base_url=your_new_server)</cite> or by creating a separate class if you so wish:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.EsriConnector</span> <span class="kn">import</span> <span class="n">EsriConnector</span>
+
+<span class="k">class</span> <span class="nc">NewClass</span><span class="p">(</span><span class="n">EsriConnector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">retry_delay</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">max_retries</span><span class="p">,</span> <span class="n">retry_delay</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">your_new_server</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connecting to </span><span class="si">{</span><span class="n">your_new_server</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is the basic building block that the Consensus package uses to interact with Esri REST APIs such as Open Geography Portal and TfL Open Data Hub. It is designed to be extended to provide additional functionality, such as custom methods for specific use cases.</p>
+</section>
+<section id="featureserver-class-example">
+<h2><cite>FeatureServer()</cite> class example<a class="headerlink" href="#featureserver-class-example" title="Link to this heading"></a></h2>
+<p><cite>FeatureServer()</cite> class on the other hand is used to download data from the Esri REST API. For example, to download the ward 2023 boundary data for Brockley in Lewisham from Open Geography Portal:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.EsriConnector</span> <span class="kn">import</span> <span class="n">FeatureServer</span>
+<span class="kn">from</span> <span class="nn">Consensus.OGP</span> <span class="kn">import</span> <span class="n">OpenGeography</span>
+<span class="kn">from</span> <span class="nn">Consensus.utils</span> <span class="kn">import</span> <span class="n">where_clause_maker</span>
+
+<span class="n">og</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">og</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
+
+<span class="n">fs_service_table</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">service_table</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FeatureServer</span><span class="p">()</span>
+
+<span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD23NM&#39;</span>
+<span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">]</span>
+<span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Wards_December_2023_Boundaries_UK_BSC&#39;</span>
+<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
+
+<span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <dl class="py class">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.EsriConnector.</span></span><span class="sig-name descname"><span class="pre">AsyncFeatureServer</span></span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.EsriConnector.</span></span><span class="sig-name descname"><span class="pre">EsriConnector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Download data from an Esri Feature Server asynchronously.</p>
+<p>Main class for connecting to Esri servers.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.feature_service">
-<span class="sig-name descname"><span class="pre">feature_service</span></span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.feature_service" title="Link to this definition"></a></dt>
-<dd><p>The FeatureServer object.</p>
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.base_url">
+<span class="sig-name descname"><span class="pre">base_url</span></span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.base_url" title="Link to this definition"></a></dt>
+<dd><p>The base URL of the Esri server. Built-in modules that use <cite>EsriConnector()</cite> class set their own base_url.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service">Service</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.max_retries">
-<span class="sig-name descname"><span class="pre">max_retries</span></span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.max_retries" title="Link to this definition"></a></dt>
-<dd><p>The maximum number of retries for a request.</p>
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.max_retries">
+<span class="sig-name descname"><span class="pre">max_retries</span></span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.max_retries" title="Link to this definition"></a></dt>
+<dd><p>The maximum number of retries for HTTP requests.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -173,8 +223,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.retry_delay">
-<span class="sig-name descname"><span class="pre">retry_delay</span></span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.retry_delay" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.retry_delay">
+<span class="sig-name descname"><span class="pre">retry_delay</span></span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.retry_delay" title="Link to this definition"></a></dt>
 <dd><p>The delay in seconds between retries.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -184,89 +234,52 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.chunk_size">
-<span class="sig-name descname"><span class="pre">chunk_size</span></span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.chunk_size" title="Link to this definition"></a></dt>
-<dd><p>The number of records to download in each chunk.</p>
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.server_types">
+<span class="sig-name descname"><span class="pre">server_types</span></span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.server_types" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of server types and their corresponding suffixes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl>
-<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">og</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">await</span> <span class="n">og</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
-
-<span class="n">fs_service_table</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">service_table</span>
-<span class="n">fs</span> <span class="o">=</span> <span class="n">AsyncFeatureServer</span><span class="p">()</span>
-
-<span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;Wards_December_2023_Boundaries_UK_BSC&#39;</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD23NM&#39;</span>
-<span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">]</span>
-<span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> IN (&#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">geographic_areas</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
-<span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.chunker">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chunker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.chunker" title="Link to this definition"></a></dt>
-<dd><p>Download data in chunks asynchronously</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.services">
+<span class="sig-name descname"><span class="pre">services</span></span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.services" title="Link to this definition"></a></dt>
+<dd><p>A list of Service objects.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.download">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileformat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geojson'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_geometry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_clause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1=1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'*'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sample_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.download" title="Link to this definition"></a></dt>
-<dd><p>Download data from Esri server asynchronously.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.service_table">
+<span class="sig-name descname"><span class="pre">service_table</span></span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.service_table" title="Link to this definition"></a></dt>
+<dd><p>A Pandas DataFrame containing the service metadata.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.looper">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">looper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.looper" title="Link to this definition"></a></dt>
-<dd><p>Keep trying to connect to Feature Service until max_retries or response</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.AsyncFeatureServer.setup">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.AsyncFeatureServer.setup" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.EsriConnector.</span></span><span class="sig-name descname"><span class="pre">EsriConnector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Main class for connecting to Esri servers.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.__init__" title="Link to this definition"></a></dt>
 <dd><p>Initialise class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_retries</strong> (<em>int</em>) – The maximum number of retries for HTTP requests. Defaults to 10.</p></li>
+<li><p><strong>retry_delay</strong> (<em>int</em>) – The delay in seconds between retries. Defaults to 2.</p></li>
+<li><p><strong>base_url</strong> (<em>str</em>) – The base URL of the Esri server. Defaults to “”. Built-in modules that use <cite>EsriConnector()</cite> class set their own base_url.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -276,19 +289,50 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector._fetch_response" title="Link to this definition"></a></dt>
 <dd><p>Helper method to fetch the response from the Esri server.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp.ClientSession object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The JSON response from the Esri server.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span></p>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector._fetch_service_metadata">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_service_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lookup_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector._fetch_service_metadata" title="Link to this definition"></a></dt>
+<dd><p>Fetch service metadata for a specific service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service_obj</strong> (<a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service"><em>Service</em></a>) – The Service object to fetch metadata for.</p></li>
+<li><p><strong>lookup_table</strong> (<em>List</em><em>[</em><em>pd.DataFrame</em><em>]</em>) – The list to append the metadata to.</p></li>
+<li><p><strong>service_name</strong> (<em>str</em>) – The name of the service.</p></li>
+<li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp.ClientSession object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector._load_all_services">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector._load_all_services" title="Link to this definition"></a></dt>
-<dd><p>Load services into a dictionary asynchronously.</p>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector._load_all_services" title="Link to this definition"></a></dt>
+<dd><p>Load services into a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -296,10 +340,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector._validate_response">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_validate_response</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector._validate_response" title="Link to this definition"></a></dt>
-<dd><p>Validate access to the base URL asynchronously using aiohttp.</p>
+<dd><p>Validate access to the base URL asynchronously using aiohttp. When a response is received, call <cite>_load_all_services()</cite> to load services into a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -319,12 +366,35 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.metadata_as_pandas">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata_as_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.metadata_as_pandas" title="Link to this definition"></a></dt>
+<dd><p>Asynchronously create a Pandas DataFrame of selected tables’ metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service_type</strong> (<em>str</em>) – The type of service to include in the DataFrame (‘feature’, ‘map’, or ‘wfs’).</p></li>
+<li><p><strong>included_services</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of service names to include in the DataFrame. If empty, all services are included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the metadata of the selected services.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.print_all_services">
 <span class="sig-name descname"><span class="pre">print_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.print_all_services" title="Link to this definition"></a></dt>
 <dd><p>Print name, type, and URL of all services available through Esri server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -334,8 +404,185 @@
 <span class="sig-name descname"><span class="pre">print_services_by_server_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'feature'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.print_services_by_server_type" title="Link to this definition"></a></dt>
 <dd><p>Print services given a server type.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>server_type</strong> (<em>str</em>) – The type of server to filter by (‘feature’, ‘map’, or ‘wfs’).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.EsriConnector.</span></span><span class="sig-name descname"><span class="pre">FeatureServer</span></span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Download data from an Esri Feature Server asynchronously.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.feature_service">
+<span class="sig-name descname"><span class="pre">feature_service</span></span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.feature_service" title="Link to this definition"></a></dt>
+<dd><p>The FeatureServer object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service">Service</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.max_retries">
+<span class="sig-name descname"><span class="pre">max_retries</span></span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.max_retries" title="Link to this definition"></a></dt>
+<dd><p>The maximum number of retries for a request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.retry_delay">
+<span class="sig-name descname"><span class="pre">retry_delay</span></span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.retry_delay" title="Link to this definition"></a></dt>
+<dd><p>The delay in seconds between retries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.chunk_size">
+<span class="sig-name descname"><span class="pre">chunk_size</span></span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.chunk_size" title="Link to this definition"></a></dt>
+<dd><p>The number of records to download in each chunk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.EsriConnector</span> <span class="kn">import</span> <span class="n">FeatureServer</span>
+<span class="kn">from</span> <span class="nn">Consensus.OGP</span> <span class="kn">import</span> <span class="n">OpenGeography</span>
+<span class="kn">from</span> <span class="nn">Consensus.utils</span> <span class="kn">import</span> <span class="n">where_clause_maker</span>
+
+<span class="n">og</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">og</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
+
+<span class="n">fs_service_table</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">service_table</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FeatureServer</span><span class="p">()</span>
+
+<span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD23NM&#39;</span>
+<span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">]</span>
+<span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Wards_December_2023_Boundaries_UK_BSC&#39;</span>
+<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
+
+<span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialise class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.chunker">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chunker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.chunker" title="Link to this definition"></a></dt>
+<dd><p>Download data in chunks asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session.</p></li>
+<li><p><strong>service_url</strong> (<em>str</em>) – The URL of the Feature Server service.</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The parameters for the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The downloaded data as a dictionary.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.download">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileformat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geojson'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_geometry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_clause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1=1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'*'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sample_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.download" title="Link to this definition"></a></dt>
+<dd><p>Download data from Esri server asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fileformat</strong> (<em>str</em>) – The format of the downloaded data (‘geojson’, ‘json’, or ‘csv’).</p></li>
+<li><p><strong>return_geometry</strong> (<em>bool</em>) – Whether to include geometry in the downloaded data.</p></li>
+<li><p><strong>where_clause</strong> (<em>str</em>) – The where clause to filter the data.</p></li>
+<li><p><strong>output_fields</strong> (<em>str</em>) – The fields to include in the downloaded data.</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Additional parameters for the query.</p></li>
+<li><p><strong>n_sample_rows</strong> (<em>int</em>) – The number of rows to sample for testing purposes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The downloaded data as a pandas DataFrame or geopandas GeoDataFrame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.looper">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">looper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.looper" title="Link to this definition"></a></dt>
+<dd><p>Keep trying to connect to Feature Service until max_retries or response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session.</p></li>
+<li><p><strong>link_url</strong> (<em>str</em>) – The URL of the Feature Server service.</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The parameters for the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The downloaded data as a dictionary.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.setup">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.setup" title="Link to this definition"></a></dt>
+<dd><p>Set up the FeatureServer Service object for downloading.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service_name</strong> (<em>str</em>) – The name of the Feature Server service.</p></li>
+<li><p><strong>service_table</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service"><em>Service</em></a><em>]</em>) – A dictionary of Feature Server Service objects.</p></li>
+<li><p><strong>max_retries</strong> (<em>int</em>) – The maximum number of retries for a request.</p></li>
+<li><p><strong>retry_delay</strong> (<em>int</em>) – The delay in seconds between retries.</p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em>) – The number of records to download in each chunk.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -467,8 +714,18 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service._fetch" title="Link to this definition"></a></dt>
 <dd><p>Helper method for asynchronous GET requests using aiohttp.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – The URL to fetch.</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Query parameters. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The response as a JSON object.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+<dd class="field-odd"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -478,11 +735,18 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_record_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service._record_count" title="Link to this definition"></a></dt>
 <dd><p>Helper method for counting records.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The count of records for the chosen FeatureService</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – The URL to fetch.</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Query parameters.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The count of records for the chosen FeatureService</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -492,11 +756,14 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_service_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service._service_attributes" title="Link to this definition"></a></dt>
 <dd><p>Fills attribute fields using the JSON information from service_details and service_metadata methods.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -511,8 +778,11 @@
 <span class="sig-name descname"><span class="pre">featureservers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.featureservers" title="Link to this definition"></a></dt>
 <dd><p>Self-filtering method.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a></span></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Self if type is ‘FeatureServer’ else None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service">Service</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -532,11 +802,14 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lookup_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.lookup_format" title="Link to this definition"></a></dt>
 <dd><p>Returns a Pandas-ready dictionary of the service’s metadata.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary of the FeatureService’s metadata.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of the FeatureService’s metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, List]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -544,10 +817,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.Service.mapservers">
 <span class="sig-name descname"><span class="pre">mapservers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.mapservers" title="Link to this definition"></a></dt>
-<dd><p>Self-filtering method.</p>
+<dd><p>Self-filtering method. Currently unused.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a></span></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Self if type is ‘MapServer’ else None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service">Service</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -577,8 +853,14 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">service_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.service_details" title="Link to this definition"></a></dt>
 <dd><p>Returns high-level details for the data as JSON.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The service details as a JSON object.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+<dd class="field-odd"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -588,8 +870,14 @@
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">service_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.service_metadata" title="Link to this definition"></a></dt>
 <dd><p>Returns metadata as JSON.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The metadata as a JSON object.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+<dd class="field-odd"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -612,10 +900,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.Service.wfsservers">
 <span class="sig-name descname"><span class="pre">wfsservers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.wfsservers" title="Link to this definition"></a></dt>
-<dd><p>Self-filtering method.</p>
+<dd><p>Self-filtering method. Currently unused.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a></span></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Self if type is ‘WFSServer’ else None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#Consensus.EsriConnector.Service" title="Consensus.EsriConnector.Service">Service</a></p>
 </dd>
 </dl>
 </dd></dl>

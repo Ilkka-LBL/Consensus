@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.lookups package &mdash; Consensus 1.0.5 documentation</title>
+  <title>Consensus.utils module &mdash; Consensus 1.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Usage" href="usage.html" />
-    <link rel="prev" title="Consensus.config package" href="Consensus.config.html" /> 
+    <link rel="next" title="Consensus.config package" href="Consensus.config.html" />
+    <link rel="prev" title="Consensus.config_utils module" href="Consensus.config_utils.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -54,12 +54,12 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.lookups package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-Consensus.lookups">Module contents</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.where_clause_maker"><code class="docutils literal notranslate"><span class="pre">where_clause_maker()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
@@ -80,9 +80,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">Consensus</a></li>
-      <li class="breadcrumb-item active">Consensus.lookups package</li>
+      <li class="breadcrumb-item active">Consensus.utils module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Consensus.lookups.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Consensus.utils.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -90,19 +90,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="consensus-lookups-package">
-<h1>Consensus.lookups package<a class="headerlink" href="#consensus-lookups-package" title="Link to this heading"></a></h1>
-<section id="module-Consensus.lookups">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Consensus.lookups" title="Link to this heading"></a></h2>
-</section>
+  <section id="module-Consensus.utils">
+<span id="consensus-utils-module"></span><h1>Consensus.utils module<a class="headerlink" href="#module-Consensus.utils" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="Consensus.utils.where_clause_maker">
+<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">where_clause_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.where_clause_maker" title="Link to this definition"></a></dt>
+<dd><p>Create a SQL where clause based on a list of strings and a column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string_list</strong> (<em>List</em>) – A list of strings to include in the where clause.</p></li>
+<li><p><strong>column_name</strong> (<em>str</em>) – The column name to use in the where clause.</p></li>
+<li><p><strong>service_name</strong> (<em>str</em>) – The table name to use in the where clause.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A SQL where clause.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Consensus.config.html" class="btn btn-neutral float-left" title="Consensus.config package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Consensus.config_utils.html" class="btn btn-neutral float-left" title="Consensus.config_utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Consensus.config.html" class="btn btn-neutral float-right" title="Consensus.config package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
