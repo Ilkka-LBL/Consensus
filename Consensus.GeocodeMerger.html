@@ -49,6 +49,10 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.GeocodeMerger module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#using-smartlinker">Using <cite>SmartLinker()</cite></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#intended-workflow">Intended workflow</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.GeocodeMerger.BFS_SP"><code class="docutils literal notranslate"><span class="pre">BFS_SP()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.GeocodeMerger.GeoHelper"><code class="docutils literal notranslate"><span class="pre">GeoHelper</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.GeoHelper.None"><code class="docutils literal notranslate"><span class="pre">GeoHelper.None</span></code></a></li>
@@ -165,9 +169,10 @@
 SmartLinker class takes a starting and ending column, list of geographic areas and the column where the values of geographic areas should be, and finds the shortest path between the start and end points.
 We do this by using graph theory, specifically the Breadth-first search method between the columns of all tables on Open Geography Portal.
 The end result is not by any means perfect and you are advised to try different paths and to check that the output makes sense.</p>
-<p>Usage:</p>
-<blockquote>
-<div><p>This class works as follows.</p>
+</section>
+<section id="usage">
+<h2>Usage:<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>This class works as follows.</p>
 <p>Internally, on initialising the class with <cite>await SmartLinker().initialise</cite>, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
 Then, using the information contained in the json file, a graph of connections between table columns is created using the <cite>run_graph()</cite> method. At this point the user provides the names of the starting and ending columns,
 an optional list of <cite>geographic_areas</cite> and an optional list of columns for the <cite>geographic_area_columns</cite> that the geographic_areas uses to create a subset of data.</p>
@@ -175,26 +180,30 @@ an optional list of <cite>geographic_areas</cite> and an optional list of column
 To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
 The <cite>run_graph()</cite> method prints out a numbered list of possible paths.</p>
 <p>The user can get their chosen data using the <cite>geodata()</cite> method by providing an integer matching their chosen path to the <cite>selected_path</cite> argument.</p>
-<p>First explore the possible geographies.
-.. code-block:: python</p>
-<blockquote>
-<div><p>from Consensus import SmartLinker, GeoHelper</p>
-<p>gh = GeoHelper()
-print(gh.geography_keys())</p>
-<p>print(gh.available_geographies())</p>
-<p>print(gh.geographies_filter(‘WD’))  # outputs all columns referring to wards.</p>
-</div></blockquote>
-<p>Once you’ve decided you want to look at 2022 wards, you can do the following:
-.. code-block:: python</p>
-<blockquote>
-<div><p>gss = SmartLinker()
-gss.allow_geometry(‘geometry_only’)  # use this method to restrict the graph search space to tables with geometry</p>
-<p>await gss.initialise()
-gss.run_graph(starting_column=’WD22CD’, ending_column=’LAD22CD’, geographic_areas=[‘Lewisham’, ‘Southwark’], geographic_area_columns=[‘LAD22NM’])  # the starting and ending columns should end in CD
-codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by <cite>run_graph()</cite> method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
-print(codes[‘table_date’][0])  # the output is a dictionary of {‘path’: [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], ‘table_data’:[data_for_path1, data_for_path2]}</p>
-</div></blockquote>
-</div></blockquote>
+<section id="intended-workflow">
+<h3>Intended workflow<a class="headerlink" href="#intended-workflow" title="Link to this heading"></a></h3>
+<p>First explore the possible geographies.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus</span> <span class="kn">import</span> <span class="n">SmartLinker</span><span class="p">,</span> <span class="n">GeoHelper</span>
+
+<span class="n">gh</span> <span class="o">=</span> <span class="n">GeoHelper</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">geography_keys</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">available_geographies</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">geographies_filter</span><span class="p">(</span><span class="s1">&#39;WD&#39;</span><span class="p">))</span>  <span class="c1"># outputs all columns referring to wards.</span>
+</pre></div>
+</div>
+<p>Once you’ve decided you want to look at 2022 wards, you can do the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span> <span class="o">=</span> <span class="n">SmartLinker</span><span class="p">()</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">allow_geometry</span><span class="p">(</span><span class="s1">&#39;geometry_only&#39;</span><span class="p">)</span>  <span class="c1"># use this method to restrict the graph search space to tables with geometry</span>
+
+<span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">run_graph</span><span class="p">(</span><span class="n">starting_column</span><span class="o">=</span><span class="s1">&#39;WD22CD&#39;</span><span class="p">,</span> <span class="n">ending_column</span><span class="o">=</span><span class="s1">&#39;LAD22CD&#39;</span><span class="p">,</span> <span class="n">geographic_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Lewisham&#39;</span><span class="p">,</span> <span class="s1">&#39;Southwark&#39;</span><span class="p">],</span> <span class="n">geographic_area_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LAD22NM&#39;</span><span class="p">])</span>  <span class="c1"># the starting and ending columns should end in CD</span>
+<span class="n">codes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">geodata</span><span class="p">(</span><span class="n">selected_path</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>  <span class="c1"># the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;table_date&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># the output is a dictionary of {&#39;path&#39;: [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], &#39;table_data&#39;:[data_for_path1, data_for_path2]}</span>
+</pre></div>
+</div>
+</section>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="Consensus.GeocodeMerger.BFS_SP">
