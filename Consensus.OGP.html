@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.OGP module &mdash; Consensus 1.0.5 documentation</title>
+  <title>Consensus.OGP module &mdash; Consensus 1.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d55fa986"></script>
+      <script src="_static/documentation_options.js?v=e2a723ec"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -52,6 +52,7 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html">Consensus.LocalMerger module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.OGP module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#open-geography-portal">Open Geography Portal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.OGP.OpenGeography"><code class="docutils literal notranslate"><span class="pre">OpenGeography</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.OGP.OpenGeography.__init__"><code class="docutils literal notranslate"><span class="pre">OpenGeography.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.OGP.OpenGeography._fetch_response"><code class="docutils literal notranslate"><span class="pre">OpenGeography._fetch_response()</span></code></a></li>
@@ -110,11 +111,38 @@
 <p>This module provides a class <cite>OpenGeography()</cite> that connects to the Open Geography Portal API
 and a subclass <cite>OpenGeographyLookup()</cite> that builds and updates a JSON lookup table for the portal’s FeatureServers.</p>
 <p><cite>OpenGeographyLookup()</cite> is necessary if you want to make use of the <cite>SmartLinker()</cite> class from the GeocodeMerger module.</p>
-<dl class="simple">
-<dt>Classes:</dt><dd><p>OpenGeography: A class to connect to the Open Geography Portal API.
-OpenGeographyLookup: A class to build and update a JSON lookup table for the Open Geography Portal’s FeatureServers.</p>
-</dd>
-</dl>
+</section>
+<section id="usage">
+<h2>Usage:<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>This module works in the same way as the <cite>EsriConnector</cite> class, but it is specifically designed for the Open Geography Portal API. It provides a <cite>build_lookup()</cite> method that creates a lookup table for the portal’s FeatureServers and saves it to a JSON file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.OGP</span> <span class="kn">import</span> <span class="n">OpenGeography</span>
+<span class="n">ogp</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">ogp</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">ogp</span><span class="o">.</span><span class="n">build_lookup</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Like with TFL module, you can combine OpenGeography with the FeatureServer() class to download data from the portal’s FeatureServers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.OGP</span> <span class="kn">import</span> <span class="n">OpenGeography</span>
+<span class="kn">from</span> <span class="nn">Consensus.EsriConnector</span> <span class="kn">import</span> <span class="n">FeatureServer</span>
+<span class="kn">from</span> <span class="nn">Consensus.utils</span> <span class="kn">import</span> <span class="n">where_clause_maker</span>
+
+<span class="n">ogp</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">ogp</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
+
+<span class="n">fs_service_table</span> <span class="o">=</span> <span class="n">ogp</span><span class="o">.</span><span class="n">service_table</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FeatureServer</span><span class="p">()</span>
+
+<span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Wards_December_2022_Boundaries_GB_BFC&#39;</span>
+<span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD22NM&#39;</span>
+<span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">,</span> <span class="s1">&#39;Sydenham&#39;</span><span class="p">]</span>
+<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
+
+<span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, it is perhaps best to rely on the <cite>SmartLinker()</cite> class from the GeocodeMerger module for more complex operations.</p>
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.OGP.OpenGeography">
@@ -126,8 +154,14 @@ OpenGeographyLookup: A class to build and update a JSON lookup table for the Ope
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.OGP.OpenGeography.__init__" title="Link to this definition"></a></dt>
 <dd><p>Initialise class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_retries</strong> (<em>int</em>) – Maximum number of retries for HTTP requests. Defaults to 10.</p></li>
+<li><p><strong>retry_delay</strong> (<em>int</em>) – Delay in seconds between retries. Defaults to 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,8 +238,18 @@ OpenGeographyLookup: A class to build and update a JSON lookup table for the Ope
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_old</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.OGP.OpenGeography.build_lookup" title="Link to this definition"></a></dt>
 <dd><p>Build a lookup table from scratch and save it to a JSON file.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_path</strong> (<em>Path</em>) – Parent path to save the lookup file.</p></li>
+<li><p><strong>included_services</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of services to include in the lookup. Defaults to [], which is interpreted as as ‘all’.</p></li>
+<li><p><strong>replace_old</strong> (<em>bool</em>) – Whether to replace the old lookup file. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The lookup table as a pandas DataFrame.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>

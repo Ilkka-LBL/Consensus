@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.TFL module &mdash; Consensus 1.0.5 documentation</title>
+  <title>Consensus.TFL module &mdash; Consensus 1.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d55fa986"></script>
+      <script src="_static/documentation_options.js?v=e2a723ec"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -53,6 +53,7 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html">Consensus.OGP module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.TFL module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.TFL.TFL"><code class="docutils literal notranslate"><span class="pre">TFL</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.TFL.TFL.__init__"><code class="docutils literal notranslate"><span class="pre">TFL.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.TFL.TFL._fetch_response"><code class="docutils literal notranslate"><span class="pre">TFL._fetch_response()</span></code></a></li>
@@ -105,11 +106,8 @@
 <span id="consensus-tfl-module"></span><h1>Consensus.TFL module<a class="headerlink" href="#module-Consensus.TFL" title="Link to this heading"></a></h1>
 <p>This module contains the TFL class, which is a subclass of EsriConnector.
 It is used to connect to the TfL Open Data Hub and retrieve data.</p>
-<dl class="simple">
-<dt>Classes:</dt><dd><p>TFL(EsriConnector): A subclass of EsriConnector used to connect to the TfL Open Data Hub.</p>
-</dd>
-</dl>
-<p>Usage:</p>
+<section id="usage">
+<h2>Usage:<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.TFL</span> <span class="kn">import</span> <span class="n">TFL</span>
 <span class="n">tfl</span> <span class="o">=</span> <span class="n">TFL</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">await</span> <span class="n">tfl</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>  <span class="c1"># initialise the connection</span>
@@ -127,6 +125,7 @@ It is used to connect to the TfL Open Data Hub and retrieve data.</p>
 </div>
 <p>This will connect to the TfL Open Data Hub and retrieve all available data for Bus_Stops service. From here, you can create a <cite>where</cite> clause to further fine-tune your query:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.TFL</span> <span class="kn">import</span> <span class="n">TFL</span>
+<span class="kn">from</span> <span class="nn">Consensus.utils</span> <span class="kn">import</span> <span class="n">where_clause_maker</span>
 
 <span class="n">tfl</span> <span class="o">=</span> <span class="n">TFL</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">await</span> <span class="n">tfl</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
@@ -134,15 +133,17 @@ It is used to connect to the TfL Open Data Hub and retrieve data.</p>
 <span class="n">fs_service_table</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">service_table</span>
 <span class="n">fs</span> <span class="o">=</span> <span class="n">FeatureServer</span><span class="p">()</span>
 
+<span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Bus_Stops&#39;</span>
 <span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;STOP_NAME&#39;</span>
 <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Hazel Mead&#39;</span><span class="p">]</span>
-<span class="n">where_clause</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> IN (&#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">geographic_areas</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
 
-<span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;Bus_Stops&#39;</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;service_name&#39;</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.TFL.TFL">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.TFL.</span></span><span class="sig-name descname"><span class="pre">TFL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.TFL.TFL" title="Link to this definition"></a></dt>

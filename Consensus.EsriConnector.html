@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.EsriConnector module &mdash; Consensus 1.0.5 documentation</title>
+  <title>Consensus.EsriConnector module &mdash; Consensus 1.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d55fa986"></script>
+      <script src="_static/documentation_options.js?v=e2a723ec"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -95,6 +95,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.Service._record_count"><code class="docutils literal notranslate"><span class="pre">Service._record_count()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.Service._service_attributes"><code class="docutils literal notranslate"><span class="pre">Service._service_attributes()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Service.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.Service.download_urls"><code class="docutils literal notranslate"><span class="pre">Service.download_urls()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.Service.featureservers"><code class="docutils literal notranslate"><span class="pre">Service.featureservers()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Service.fields</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">Service.layers</span></code></a></li>
@@ -187,7 +188,7 @@ You can apply the <cite>EsriConnector()</cite> class to a new server by calling 
 <span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD23NM&#39;</span>
 <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">]</span>
 <span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Wards_December_2023_Boundaries_UK_BSC&#39;</span>
-<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
+<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
 
 <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -481,7 +482,7 @@ You can apply the <cite>EsriConnector()</cite> class to a new server by calling 
 <span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD23NM&#39;</span>
 <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">]</span>
 <span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Wards_December_2023_Boundaries_UK_BSC&#39;</span>
-<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
+<span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="n">string_list</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column_name</span><span class="o">=</span><span class="n">column_name</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
 
 <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_table</span><span class="o">=</span><span class="n">fs_service_table</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">output</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">where_clause</span><span class="o">=</span><span class="n">where_clause</span><span class="p">,</span> <span class="n">return_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -503,13 +504,12 @@ You can apply the <cite>EsriConnector()</cite> class to a new server by calling 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.chunker">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chunker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.chunker" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chunker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.chunker" title="Link to this definition"></a></dt>
 <dd><p>Download data in chunks asynchronously.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session.</p></li>
-<li><p><strong>service_url</strong> (<em>str</em>) – The URL of the Feature Server service.</p></li>
 <li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The parameters for the query.</p></li>
 </ul>
 </dd>
@@ -569,7 +569,7 @@ You can apply the <cite>EsriConnector()</cite> class to a new server by calling 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.FeatureServer.setup">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.setup" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.FeatureServer.setup" title="Link to this definition"></a></dt>
 <dd><p>Set up the FeatureServer Service object for downloading.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -579,10 +579,14 @@ You can apply the <cite>EsriConnector()</cite> class to a new server by calling 
 <li><p><strong>max_retries</strong> (<em>int</em>) – The maximum number of retries for a request.</p></li>
 <li><p><strong>retry_delay</strong> (<em>int</em>) – The delay in seconds between retries.</p></li>
 <li><p><strong>chunk_size</strong> (<em>int</em>) – The number of records to download in each chunk.</p></li>
+<li><p><strong>layer_number</strong> (<em>int</em>) – The layer number to download (default: 0). Some feature services can have multiple layers (such as this: <a class="reference external" href="https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Pollution_Removal_2007_2011_2015_2030_GeoPackage/FeatureServer">https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Pollution_Removal_2007_2011_2015_2030_GeoPackage/FeatureServer</a>) and you may wish to download a specific version.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -772,6 +776,23 @@ You can apply the <cite>EsriConnector()</cite> class to a new server by calling 
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.Service.download_urls">
+<span class="sig-name descname"><span class="pre">download_urls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.Service.download_urls" title="Link to this definition"></a></dt>
+<dd><p>Returns the download URL for the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of download URLs to visit.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.Service.featureservers">
