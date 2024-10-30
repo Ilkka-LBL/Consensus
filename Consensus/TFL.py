@@ -1,14 +1,10 @@
 """
+
 This module contains the TFL class, which is a subclass of EsriConnector.
 It is used to connect to the TfL Open Data Hub and retrieve data.
 
-Classes:
-    TFL(EsriConnector): A subclass of EsriConnector used to connect to the TfL Open Data Hub.
-
-
-
-
 Usage:
+------
 
 .. code-block:: python
 
@@ -34,6 +30,7 @@ This will connect to the TfL Open Data Hub and retrieve all available data for B
 .. code-block:: python
 
     from Consensus.TFL import TFL
+    from Consensus.utils import where_clause_maker
 
     tfl = TFL(max_retries=30, retry_delay=2)
     await tfl.initialise()
@@ -41,15 +38,14 @@ This will connect to the TfL Open Data Hub and retrieve all available data for B
     fs_service_table = tfl.service_table
     fs = FeatureServer()
 
+    service_name = 'Bus_Stops'
     column_name = 'STOP_NAME'
     geographic_areas = ['Hazel Mead']
-    where_clause = f"{column_name} IN ('{str(geographic_areas[0])}')"
+    where_clause = where_clause_maker(string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
 
-    await fs.setup(service_name='Bus_Stops', service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+    await fs.setup(service_name='service_name', service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
     output = await fs.download(where_clause=where_clause, return_geometry=True)
     print(output)
-
-
 """
 
 

@@ -38,7 +38,7 @@ This is the basic building block that the Consensus package uses to interact wit
     column_name = 'WD23NM'
     geographic_areas = ['Brockley']
     service_name = 'Wards_December_2023_Boundaries_UK_BSC'
-    where_clause = where_clause_maker(self, string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
+    where_clause = where_clause_maker(string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
 
     await fs.setup(service_name=service_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
     output = await fs.download(where_clause=where_clause, return_geometry=True)
@@ -131,7 +131,7 @@ class Service:
             Dict[str, Any]: The response as a JSON object.
         """
         if params:
-            # Convert boolean values to strings
+            # Convert boolean values to strings for params created in _record_count() method.
             params = {k: (str(v) if isinstance(v, bool) else v) for k, v in params.items()}
         async with session.get(url, params=params, timeout=5) as response:
             return await response.json()
@@ -149,6 +149,25 @@ class Service:
         service_url = f"{self.url}?&f=json"
         return await self._fetch(session, service_url)
 
+    def download_urls(self) -> List[str]:
+        """
+        Returns the download URL for the service.
+
+        Args:
+            session (aiohttp.ClientSession): The aiohttp session object.
+
+        Returns:
+            List[str]: List of download URLs to visit.
+        """
+        if self.layers:
+            download_urls = [f"{self.url}/{layer['id']}/query" for layer in self.layers]
+        elif self.tables:
+            download_urls = [f"{self.url}/{table['id']}/query" for table in self.tables]
+        else:
+            download_urls = [f"{self.url}/0/query"]
+        # print(download_urls)
+        return download_urls
+
     async def service_metadata(self, session: aiohttp.ClientSession) -> Dict[str, Any]:
         """
         Returns metadata as JSON.
@@ -159,8 +178,28 @@ class Service:
         Returns:
             Dict[str, Any]: The metadata as a JSON object.
         """
-        service_url = f"{self.url}/0?f=json"
-        return await self._fetch(session, service_url)
+        
+        """if not self.layers and not self.tables:
+            service_url = f"{self.url}/0?f=json"
+        elif self.layers and not self.tables:
+            service_url = f"{self.url}/{self.layers[0]['id']}?f=json"
+        elif self.tables and not self.layers:
+            service_url = f"{self.url}/{self.tables[0]['id']}?f=json"
+        else:
+            service_url = f"{self.url}/0?f=json"
+        print(service_url)"""
+        if self.layers:
+            metadata_urls = [f"{self.url}/{layer['id']}?f=json" for layer in self.layers]
+        elif self.tables:
+            metadata_urls = [f"{self.url}/{table['id']}?f=json" for table in self.tables]
+        else:
+            metadata_urls = [f"{self.url}/0/?f=json"]
+        for i in metadata_urls:
+            try:
+                return await self._fetch(session, i)
+            except Exception as e:
+                print(e)
+                continue
 
     async def _service_attributes(self, session: aiohttp.ClientSession) -> None:
         """
@@ -178,6 +217,7 @@ class Service:
         self.tables = service_info.get('tables', [])
         self.output_formats = service_info.get('supportedQueryFormats', [])
 
+        self.download_urls = self.download_urls()
         self.metadata = await self.service_metadata(session)
         if not self.description:
             self.description = self.metadata.get('description')
@@ -217,7 +257,6 @@ class Service:
                          'primary_key': [self.primary_key['name']],
                          'matchable_fields': [self.matchable_fields],
                          'lasteditdate': ['']}
-
         if self.layers:
             self.data['fields'][0].append('geometry')
             self.data['has_geometry'] = [True]
@@ -433,7 +472,7 @@ class FeatureServer():
                 column_name = 'WD23NM'
                 geographic_areas = ['Brockley']
                 service_name = 'Wards_December_2023_Boundaries_UK_BSC'
-                where_clause = where_clause_maker(self, string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
+                where_clause = where_clause_maker(string_list=geographic_areas, column_name=column_name, service_name=service_name)  # a helper function that creates the SQL where clause for Esri Servers
 
                 await fs.setup(service_name=service_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
                 output = await fs.download(where_clause=where_clause, return_geometry=True)
@@ -448,7 +487,7 @@ class FeatureServer():
         """
         pass
 
-    async def setup(self, service_name: str = None, service_table: Dict[str, Service] = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50):
+    async def setup(self, service_name: str = None, service_table: Dict[str, Service] = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50, layer_number: int = 0) -> None:
         """
         Set up the FeatureServer Service object for downloading.
 
@@ -458,6 +497,7 @@ class FeatureServer():
             max_retries (int): The maximum number of retries for a request.
             retry_delay (int): The delay in seconds between retries.
             chunk_size (int): The number of records to download in each chunk.
+            layer_number (int): The layer number to download (default: 0). Some feature services can have multiple layers (such as this: https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/Pollution_Removal_2007_2011_2015_2030_GeoPackage/FeatureServer) and you may wish to download a specific version.
 
         Returns:
             None
@@ -468,6 +508,7 @@ class FeatureServer():
             self.max_retries = max_retries
             self.retry_delay = retry_delay
             self.chunk_size = chunk_size
+            self.layer_number = layer_number
 
         except AttributeError as e:
             print(f"{e} - the selected table does not appear to have a feature server. Check table name exists in list of services or your spelling.")
@@ -505,28 +546,24 @@ class FeatureServer():
         print("Max retries reached. Request failed. Smaller chunk size may help.")
         return None
 
-    async def chunker(self, session: aiohttp.ClientSession, service_url: str, params: Dict[str, Any]) -> Dict:
+    async def chunker(self, session: aiohttp.ClientSession, params: Dict[str, Any]) -> Dict:
         """
         Download data in chunks asynchronously.
 
         Args:
             session (aiohttp.ClientSession): The aiohttp session.
-            service_url (str): The URL of the Feature Server service.
             params (Dict[str, Any]): The parameters for the query.
 
         Returns:
             Dict: The downloaded data as a dictionary.
         """
-        print(params['where'])
-        if self.feature_service.tables:
-            links_to_visit = self.feature_service.tables
-        elif self.feature_service.layers:
-            links_to_visit = self.feature_service.layers
 
         params['resultOffset'] = 0
         params['resultRecordCount'] = self.chunk_size
-
-        link_url = f"{service_url}/{str(links_to_visit[0]['id'])}/query"
+        try:
+            link_url = self.feature_service.download_urls[self.layer_number]
+        except IndexError:
+            link_url = self.feature_service.download_urls[0]
         print(f"Visiting link {link_url}")
 
         # Get the first response
@@ -572,8 +609,6 @@ class FeatureServer():
         if n_sample_rows > 0:
             where_clause = f"{primary_key}<={n_sample_rows}"
         if hasattr(self.feature_service, 'feature_server'):
-            service_url = self.feature_service.url
-
             if not params:
                 params = {
                     'where': where_clause,
@@ -600,7 +635,7 @@ class FeatureServer():
             params = {k: str(v).lower() if isinstance(v, bool) else v for k, v in params.items()}
             async with aiohttp.ClientSession() as session:
                 try:
-                    responses = await self.chunker(session, service_url, params)
+                    responses = await self.chunker(session, params)
                 except ZeroDivisionError:
                     print("No records found in this Service. Try another Feature Service.")
 

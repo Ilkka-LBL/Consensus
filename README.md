@@ -3,7 +3,7 @@
 ## New name
 The package previously known as LBLDataAccess has now been rebranded as Consensus. The package aims to create a single pipeline from Open Geography Portal to Nomis and other UK public data APIs. Currently, there are seven modules: 
 1. EsriConnector (extendable module to connect to ESRI FeatureServers);
-2. AsyncOGP (Asynchronous Open Geography Portal connector that inherits from EsriConnector, enabling downloading any dataset from Open Geography Portal and building a lookup table);
+2. OGP (Open Geography Portal connector that inherits from EsriConnector, enabling downloading any dataset from Open Geography Portal and building a lookup table);
 3. TFL (TfL Open Data Hub connector that inherits from EsriConnector, enabling downloads)
 2. Nomis (API tool to download data from www.nomisweb.co.uk);
 3. GeocodeMerger (a graph theory-based tool that helps with downloading and merging multiple tables from Open Geography Portal);
@@ -38,7 +38,7 @@ To install this package:
 
 Or 
 
-`python -m pip install Consensus`
+`python -m pip install --upgrade Consensus`
 
 ## Configuration
 To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
@@ -97,11 +97,11 @@ Note that the modules and classes in this package rely on the keys provided in t
 Building a `lookup.json` file is necessary if you want to make use of the capabilities of this package:
 
 ```
-from Consensus.AsyncOGP import OpenGeographyLookup
+from Consensus.OGP import OpenGeography
 import asyncio
 
 def main():
-    ogl = OpenGeographyLookup(max_retries=30)
+    ogl = OpenGeography(max_retries=30)
     asyncio.run(ogl.initialise())
     asyncio.run(ogl.build_lookup(replace_old=True))
 
@@ -112,9 +112,9 @@ if __name__ == "__main__":
 or inside Jupyter notebook cells:
 
 ```
-from Consensus.AsyncOGP import OpenGeographyLookup
+from Consensus.OGP import OpenGeography
 async def main():
-    ogl = OpenGeographyLookup(max_retries=30)
+    ogl = OpenGeography(max_retries=30)
     await ogl.initialise()
     await ogl.build_lookup(replace_old=True)
 

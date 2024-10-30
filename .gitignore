@@ -155,7 +155,6 @@ cython_debug/
 /Example
 */demo.py
 
-/Test*
 /Lookups
 /Config
 #/LBLDataAccess/Lookups/*.json

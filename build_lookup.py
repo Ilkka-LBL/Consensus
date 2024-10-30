@@ -1,11 +1,11 @@
-from Consensus.OGP import OpenGeographyLookup
+from Consensus.OGP import OpenGeography
 
 import asyncio
 
 
 # Run this like:
 def main():
-    ogl = OpenGeographyLookup(max_retries=30)
+    ogl = OpenGeography(max_retries=30)
     asyncio.run(ogl.initialise())
     asyncio.run(ogl.build_lookup(replace_old=True))
 
