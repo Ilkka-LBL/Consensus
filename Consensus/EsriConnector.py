@@ -178,16 +178,7 @@ class Service:
         Returns:
             Dict[str, Any]: The metadata as a JSON object.
         """
-        
-        """if not self.layers and not self.tables:
-            service_url = f"{self.url}/0?f=json"
-        elif self.layers and not self.tables:
-            service_url = f"{self.url}/{self.layers[0]['id']}?f=json"
-        elif self.tables and not self.layers:
-            service_url = f"{self.url}/{self.tables[0]['id']}?f=json"
-        else:
-            service_url = f"{self.url}/0?f=json"
-        print(service_url)"""
+
         if self.layers:
             metadata_urls = [f"{self.url}/{layer['id']}?f=json" for layer in self.layers]
         elif self.tables:

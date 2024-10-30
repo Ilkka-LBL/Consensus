@@ -10,10 +10,10 @@ from Consensus.config_utils import load_config
 
 class TestConfigManager(unittest.TestCase):
     def setUp(self) -> None:
-        self.conf_dict = {"nomis_api_key":"xxx",
-                        "proxies.http": "proxy",
-                        "proxies.https": "proxy"}
-        
+        self.conf_dict = {"nomis_api_key": "xxx",
+                          "proxies.http": "proxy",
+                          "proxies.https": "proxy"}
+
         self.conf = ConfigManager()
         self.conf.default_config = self.conf_dict
 
@@ -30,6 +30,7 @@ class TestConfigManager(unittest.TestCase):
         updated_config = load_config()
         self.assertEqual(updated_config['nomis_api_key'], "xxx")
         self.assertNotEqual(loaded_config, updated_config)
+
 
 if __name__ == '__main__':
     unittest.main()

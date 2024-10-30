@@ -9,44 +9,48 @@ We do this by using graph theory, specifically the Breadth-first search method b
 The end result is not by any means perfect and you are advised to try different paths and to check that the output makes sense.
 
 Usage:
+------
 
-    This class works as follows.
+This class works as follows.
 
-    Internally, on initialising the class with `await SmartLinker().initialise`, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
-    Then, using the information contained in the json file, a graph of connections between table columns is created using the `run_graph()` method. At this point the user provides the names of the starting and ending columns,
-    an optional list of `geographic_areas` and an optional list of columns for the `geographic_area_columns` that the geographic_areas uses to create a subset of data.
+Internally, on initialising the class with `await SmartLinker().initialise`, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
+Then, using the information contained in the json file, a graph of connections between table columns is created using the `run_graph()` method. At this point the user provides the names of the starting and ending columns,
+an optional list of `geographic_areas` and an optional list of columns for the `geographic_area_columns` that the geographic_areas uses to create a subset of data.
 
-    Following the creation of the graph, all possible starting points are searched for (i.e., which tables contain the user-provided starting_table). After this, we look for the shortest paths to the ending column.
-    To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
-    The `run_graph()` method prints out a numbered list of possible paths.
+Following the creation of the graph, all possible starting points are searched for (i.e., which tables contain the user-provided starting_table). After this, we look for the shortest paths to the ending column.
+To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
+The `run_graph()` method prints out a numbered list of possible paths.
 
-    The user can get their chosen data using the `geodata()` method by providing an integer matching their chosen path to the `selected_path` argument.
+The user can get their chosen data using the `geodata()` method by providing an integer matching their chosen path to the `selected_path` argument.
 
-    The intended workflow is:
-    =========================
+Intended workflow
+^^^^^^^^^^^^^^^^^
 
-    First explore the possible geographies.
-    .. code-block:: python
+First explore the possible geographies.
 
-            from Consensus import SmartLinker, GeoHelper
+.. code-block:: python
 
-            gh = GeoHelper()
-            print(gh.geography_keys())
+        from Consensus import SmartLinker, GeoHelper
 
-            print(gh.available_geographies())
+        gh = GeoHelper()
+        print(gh.geography_keys())
 
-            print(gh.geographies_filter('WD'))  # outputs all columns referring to wards.
+        print(gh.available_geographies())
 
-    Once you've decided you want to look at 2022 wards, you can do the following:
-    .. code-block:: python
+        print(gh.geographies_filter('WD'))  # outputs all columns referring to wards.
 
-        gss = SmartLinker()
-        gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
+Once you've decided you want to look at 2022 wards, you can do the following:
 
-        await gss.initialise()
-        gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
-        codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
-        print(codes['table_date'][0])  # the output is a dictionary of {'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}
+.. code-block:: python
+
+    gss = SmartLinker()
+    gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
+
+    await gss.initialise()
+    gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
+    codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
+    print(codes['table_date'][0])  # the output is a dictionary of {'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}
+
 """
 import pandas as pd
 import json
