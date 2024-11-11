@@ -18,8 +18,8 @@ class TestNomis(unittest.TestCase):
 
         self.conf = ConfigManager()
         self.conf.save_config({"nomis_api_key": api_key,
-                               "proxies.http": proxy,
-                               "proxies.https": proxy})
+                               "proxies": {"http": proxy,
+                                           "https": proxy}})
 
         self.conn = DownloadFromNomis()
 

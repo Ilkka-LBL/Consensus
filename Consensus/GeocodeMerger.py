@@ -3,25 +3,26 @@
 Using `SmartLinker()`
 ---------------------
 
-This module provides a `SmartLinker` class that finds the shortest path between two columns in different tables in Open Geography Portal. You can think of it as a convenience wrapper for downloading data from many datasets in Open Geography Portal.
-SmartLinker class takes a starting and ending column, list of geographic areas and the column where the values of geographic areas should be, and finds the shortest path between the start and end points.
+This module provides a ``SmartLinker()`` class that finds the shortest path between two columns in different tables in Open Geography Portal. The idea for this class was borne out of the need to constantly access Open Geography Portal for data science projects, creating complex lookup merges for comparing 2011 and 2021 Census data. You can think of this class as a convenience wrapper for downloading data from many datasets in Open Geography Portal. ``SmartLinker()`` class takes a starting and ending column, list of geographic areas and the column where the values of geographic areas should be, and finds the shortest path between the start and end points.
 We do this by using graph theory, specifically the Breadth-first search method between the columns of all tables on Open Geography Portal.
 The end result is not by any means perfect and you are advised to try different paths and to check that the output makes sense.
+
+You can furher use the output of this class to download data from Nomis using the ``Consensus.Nomis.DownloadFromNomis()`` class. More specifically, if you know the geographic areas (e.g. wards) you are interested in are available for a specific Census table (say, TS054 - Tenure from Census 2021), you can find the ward geocodes using ``SmartLinker()`` and then input those to ``DownloadFromNomis().download()`` to access Nomis data.
 
 Usage:
 ------
 
 This class works as follows.
 
-Internally, on initialising the class with `await SmartLinker().initialise`, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
-Then, using the information contained in the json file, a graph of connections between table columns is created using the `run_graph()` method. At this point the user provides the names of the starting and ending columns,
-an optional list of `geographic_areas` and an optional list of columns for the `geographic_area_columns` that the geographic_areas uses to create a subset of data.
+Internally, on initialising the class with ``await SmartLinker().initialise()``, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
+Then, using the information contained in the json file, a graph of connections between table columns is created using the ``run_graph()`` method. At this point the user provides the names of the starting and ending columns,
+an optional list of ``geographic_areas`` and an optional list of columns for the ``geographic_area_columns`` that the ``geographic_areas`` uses to create a subset of data.
 
 Following the creation of the graph, all possible starting points are searched for (i.e., which tables contain the user-provided starting_table). After this, we look for the shortest paths to the ending column.
 To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
-The `run_graph()` method prints out a numbered list of possible paths.
+The ``run_graph()`` method prints out a numbered list of possible paths.
 
-The user can get their chosen data using the `geodata()` method by providing an integer matching their chosen path to the `selected_path` argument.
+The user can get their chosen data using the ``geodata()`` method by providing an integer matching their chosen path to the ``selected_path`` argument.
 
 Intended workflow
 ^^^^^^^^^^^^^^^^^
@@ -30,39 +31,42 @@ First explore the possible geographies.
 
 .. code-block:: python
 
-        from Consensus import SmartLinker, GeoHelper
+        from Consensus.GeocodeMerger import SmartLinker, GeoHelper
+        import asyncio
 
         gh = GeoHelper()
-        print(gh.geography_keys())
-
-        print(gh.available_geographies())
-
+        print(gh.geography_keys())  # outputs a dictionary of explanations for nearly all UK geographic units.
+        print(gh.available_geographies())  # outputs all geographies currently available in the lookup file.
         print(gh.geographies_filter('WD'))  # outputs all columns referring to wards.
 
 Once you've decided you want to look at 2022 wards, you can do the following:
 
 .. code-block:: python
 
-    gss = SmartLinker()
-    gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
+    async def get_data():
+        gss = SmartLinker()
+        gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
 
-    await gss.initialise()
-    gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
-    codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
-    print(codes['table_date'][0])  # the output is a dictionary of {'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}
+        await gss.initialise()
+        gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.
+        codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by ``run_graph()`` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
+        print(codes['table_data'][0])  # the output is a dictionary of ``{'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}``
+        return codes['table_data'][0]
+    output = asyncio.run(get_data())
 
+From here, you can take the WD22CD column from ``output`` and use it as input to the ``Consensus.Nomis.DownloadFromNomis()`` class if you wanted to.
 """
 import pandas as pd
-import json
 import asyncio
-import importlib.resources as pkg_resources
-from Consensus.OGP import OpenGeography
 from Consensus.EsriConnector import FeatureServer
-from Consensus.utils import where_clause_maker
-from Consensus import lookups
+from Consensus.utils import where_clause_maker, read_lookup, get_server
 from numpy import random
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+import platform
+
+if platform.system() == 'Windows':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 random.seed(42)
 
@@ -134,6 +138,8 @@ class SmartLinker:
     Uses graph theory (breadth-first search) to find shortest path between table columns.
 
     Attributes:
+        server (str): Name of the server to use ('OGP' or 'TFL'). Defaults to 'OGP'.
+        lookup_location (Path): Path to the ``lookup.json`` file. Defaults to None.
         graph: A dictionary of connected tables based on shared columns.
         lookup: A dictionary of table names and their corresponding columns.
         local_authorities: A list of local authorities to filter the data by.
@@ -147,75 +153,92 @@ class SmartLinker:
     Usage:
         This class works as follows.
 
-        Internally, on initialising the class with `await SmartLinker().initialise`, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
-        Then, using the information contained in the json file, a graph of connections between table columns is created using the `run_graph()` method. At this point the user provides the names of the starting and ending columns,
-        an optional list of `geographic_areas` and an optional list of columns for the `geographic_area_columns` that the geographic_areas uses to create a subset of data.
+        Internally, on initialising the class with ``SmartLinker().initialise()``, a json lookup file of the available tables in Open Geography Portal is read if the json file exists. If it is not available, you must build the lookup file first using the appropriate ``EsriConnector()`` sub-class.
+        Then, using the information contained in the json file, a graph of connections between table columns is created using the ``run_graph()`` method. At this point the user provides the names of the starting and ending columns,
+        an optional list of ``geographic_areas`` and an optional list of columns for the ``geographic_area_columns`` that the ``geographic_areas`` uses to create a subset of data.
 
         Following the creation of the graph, all possible starting points are searched for (i.e., which tables contain the user-provided starting_table). After this, we look for the shortest paths to the ending column.
         To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
-        The `run_graph()` method prints out a numbered list of possible paths.
+        The ``run_graph()`` method prints out a numbered list of possible paths.
 
-        The user can get their chosen data using the `geodata()` method by providing an integer matching their chosen path to the `selected_path` argument.
+        The user can get their chosen data using the ``geodata()`` method by providing an integer matching their chosen path to the ``selected_path`` argument.
 
         The intended workflow is:
 
         .. code-block:: python
 
-            from Consensus import SmartLinker
+            from Consensus.GeocodeMerger import SmartLinker
+            import asyncio
 
-            gss = SmartLinker()
-            gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
+            async def example():
+                gss = SmartLinker(server='OGP')  # change ``server`` argument to 'TFL' if you so wish. This class may not perform well for all Esri servers as the stored data tables may not have many or any common column names and therefore this class may build a disconnected graph.
+                gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry. Leave it empty to reset to default.
 
-            await gss.initialise()
-            gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
-            codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
-            print(codes['table_date'][0])  # the output is a dictionary of {'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}
+                await gss.initialise()
+                gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
+                codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
+                print(codes['table_data'][0])  # the output is a dictionary of {'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}
+
+            asyncio.run(example())
+
+        Advanced users may wish to extend the list of columns that are used for building the graph of tables. By default, the lookup table only works automatically for Open Geography Portal. However, to make this class usable by other Esri server, you may provide a list of columns using the following syntax:
+
+        .. code-block:: python
+
+            from Consensus.GeocodeMerger import SmartLinker
+            import asyncio
+
+            async def example():
+                gss = SmartLinker(server='OGP', lookup_kwargs={'matchable_fields_extension': ['node_dist', 'stop_dist']})  # the columns 'node_dist' and 'stop_dist' are not added to the 'matchable_fields' column in the lookup file automatically.
+                await gss.initialise()
+                print(gss.lookup)
+
+            asyncio.run(example())
+
     """
 
-    def __init__(self, lookup_location: Path = None):
+    def __init__(self, server: str = 'OGP', lookup_folder: Path = None, **kwargs: Dict[str, Any]) -> None:
         """
         Initialise SmartLinker.
 
         Args:
-            lookup_location (Path, optional): Path to the lookup.json file. Defaults to None.
+            server (str): Name of the server to use ('OGP' or 'TFL'). Defaults to 'OGP'.
+            lookup_location (Path): Path to the ``lookup.json`` file. Defaults to None.
+            **kwargs: Passes 'server_kwargs' to EsriConnector class and 'lookup_kwargs' to ``read_lookup()`` method.
 
         Returns:
             None
         """
-        self.lookup_location = lookup_location
-        self.ogp = None
         self.fs_service_table = None
         self.initial_lookup = None
         self.lookup = None
 
+        self.server = get_server(server, **kwargs)
         # Initialise attributes that don't require async operations
-        self.initial_lookup = self.read_lookup(lookup_folder=lookup_location)  # read a json file as Pandas
-        self.lookup = self.initial_lookup
+        self.lookup_folder = lookup_folder
 
-    async def initialise(self, **kwargs) -> None:
+    async def initialise(self) -> None:
         """
-        Initialise the connections to Open Geography Portal and prepare Async Feature Server.
-
-        Args:
-            **kwargs: Keyword arguments to pass to OpenGeography class.
+        Initialise the connections to the selected Esri server and prepare the async Feature Server for downloading.
 
         Returns:
             None
         """
-        self.ogp = OpenGeography(**kwargs)
-        await self.ogp.initialise()
-        self.fs_service_table = self.ogp.service_table
+        self.initial_lookup = await read_lookup(self.lookup_folder, self.server._name)  # read a json file as Pandas
+        self.lookup = self.initial_lookup
+        await self.server.initialise()
+        self.fs_service_table = self.server.service_table
         self.fs = FeatureServer()
 
     def allow_geometry(self, setting: str = None) -> None:
         """
         Use this method to limit the graph search space, which slightly speeds up the process, but also limits the possible connections that can be made. If you're only interested in geographic areas with geometries (say, you need ward boundaries),
-        then set the 'setting' argument to 'geometry_only'.
+        then set the ``setting`` argument to geometry_only.
 
         If a setting has been chosen, you may find that you need to reset it so that you can search a wider space. To do so, simply run the method without any arguments and it will reset the lookup space to default.
 
         Args:
-            setting (str): Either 'geometry_only' or 'non_geometry'. Anything else will use the default, which is that both geometry and non-geometry tables are used.
+            setting (str): Either geometry_only or non_geometry. Anything else will use the default, which is that both geometry and non-geometry tables are used.
 
         Returns:
             None
@@ -224,15 +247,16 @@ class SmartLinker:
 
         if setting == 'non_geometry':
             print('The graph search space has been set to use only the tables without geometries.')
-            self.lookup = self.lookup[self.lookup['has_geometry'] is False]
+            self.lookup = self.lookup[self.lookup['has_geometry']!=True]
 
         elif setting == 'geometry_only':
             print('The graph search space has been set to use only the tables with geometries.')
-            self.lookup = self.lookup[self.lookup['has_geometry'] is True]
+            self.lookup = self.lookup[self.lookup['has_geometry']==True]
 
         else:
             print('The graph search space has been reset. Using all available tables.')
-
+        print(self.lookup)
+        
     def run_graph(self, starting_column: str = None, ending_column: str = None, geographic_areas: List[str] = None, geographic_area_columns: List[str] = ['LAD22NM', 'UTLA22NM', 'LTLA22NM']):
         """
             Use this method to create the graph given start and end points, as well as the local authority.
@@ -242,7 +266,7 @@ class SmartLinker:
                 starting_column (str): The starting column for the graph search.
                 ending_column (str): The ending column for the graph search.
                 geographic_areas (List[str]): A list of geographic areas to filter the data by.
-                geographic_area_columns (List[str]): A list of columns to use when filtering the data using the `geographic_areas` list. Defaults to ['LAD22NM', 'UTLA22NM', 'LTLA22NM'].
+                geographic_area_columns (List[str]): A list of columns to use when filtering the data using the ``geographic_areas`` list. Defaults to ['LAD22NM', 'UTLA22NM', 'LTLA22NM'].
 
             Returns:
                 None
@@ -267,12 +291,12 @@ class SmartLinker:
 
     async def _get_ogp_table(self, pathway: str, where_clause: str = "1=1", **kwargs) -> Tuple[pd.DataFrame, str]:
         """
-        Uses FeatureServer() to download data from Open Geography Portal. Keyword arguments are passed to FeatureServer().
+        Uses ``FeatureServer()`` to download data from Open Geography Portal. Keyword arguments are passed to ``FeatureServer()``.
 
         Args:
             pathway (str): The name of the service to download data for.
             where_clause (str): The where clause to filter the data.
-            **kwargs: Keyword arguments to pass to FeatureServer().setup(). Main keywords to use are max_retries, timeout, chunk_size, and layer_number. Change these if you're experiencing connectivity issues or know that you want to download a specific layer.
+            **kwargs: Keyword arguments to pass to ``FeatureServer().setup()``. Main keywords to use are ``max_retries``, ``timeout``, ``chunk_size``, and ``layer_number``. Change these if you're experiencing connectivity issues or know that you want to download a specific layer.
 
         Returns:
             Tuple[pd.DataFrame, str]: A tuple containing the downloaded data and the pathway used.
@@ -280,27 +304,27 @@ class SmartLinker:
         max_retries = kwargs.get('max_retries', 20)
         retry_delay = kwargs.get('retry_delay', 5)
         chunk_size = kwargs.get('chunk_size', 50)
-        layer_number = kwargs.get('chunk_size', 0)
 
-        await self.fs.setup(service_name=pathway, service_table=self.fs_service_table, max_retries=max_retries, retry_delay=retry_delay, chunk_size=chunk_size, layer_number=layer_number)
+        await self.fs.setup(full_name=pathway, service_table=self.fs_service_table, max_retries=max_retries, retry_delay=retry_delay, chunk_size=chunk_size)
         print("Table fields:")
-        print(self.fs.feature_service.data['fields'][0])
-        if 'geometry' in self.fs.feature_service.data['fields'][0]:
+        print(self.fs.feature_service)
+        print(self.fs.feature_service.fields)
+        if 'geometry' in self.fs.feature_service.fields:
             return await self.fs.download(where_clause=where_clause, return_geometry=True)
         else:
             return await self.fs.download(where_clause=where_clause)
 
     async def geodata(self, selected_path: int = None, retun_all: bool = False, **kwargs) -> Dict[str, List[Any]]:
         """
-            Get a dictionary of pandas dataframes that have been either merged and filtered by geographic_areas or all individual tables.
+        Get a dictionary of pandas dataframes that have been either merged and filtered by geographic_areas or all individual tables.
 
-            Args:
-                selected_path (int): Choose the path from the output of `run_graph()` method.
-                retun_all (bool): Set this to True if you want to get individual tables that would otherwise get merged.
-                **kwargs: These keyword arguments get passed to `EsriConnector.FeatureServer().setup()`. Main keywords to use are max_retries, timeout, chunk_size, and layer_number. Change these if you're experiencing connectivity issues. For instance, add more retries and increase time between tries, and reduce chunk_size for each call so you're not being overwhelming the server. If you're not getting the layer you expected, you can try changing the layer_number - most should work with the default 0, but there is a possibility of multiple layers being available for a given dataset.
+        Args:
+            selected_path (int): Choose the path from the output of ``run_graph()`` method.
+            retun_all (bool): Set this to True if you want to get individual tables that would otherwise get merged.
+            **kwargs: These keyword arguments get passed to ``EsriConnector.FeatureServer().setup()``. Main keywords to use are ``max_retries``, ``timeout``, ``chunk_size``, and ``layer_number``. Change these if you're experiencing connectivity issues. For instance, add more retries and increase time between tries, and reduce ``chunk_size`` for each call so you're not being overwhelming the server. If you're not getting the layer you expected, you can try changing the ``layer_number`` - most should work with the default 0, but there is a possibility of multiple layers being available for a given dataset.
 
-            Returns:
-                Dict[str, List[Any]] -   A dictionary of merged tables, where the first key ('paths') refers to a list of lists that of the merged tables and the second key-value pair ('table_data') contains a list of Pandas dataframe objects that are the left joined data tables.
+        Returns:
+            Dict[str, List[Any]] -   A dictionary of merged tables, where the first key ('paths') refers to a list of lists that of the merged tables and the second key-value pair ('table_data') contains a list of Pandas dataframe objects that are the left joined data tables.
         """
         print(selected_path)
 
@@ -320,17 +344,17 @@ class SmartLinker:
         if self.geographic_areas:
             # if limiting the data to specific local authorities, we need to modify the where_clause from "1=1" to the correct name of the column (e.g. LAD21NM) so that e.g. a list of ['Lewisham', 'Greenwich'] becomes an SQL call "LAD21NM IN ('Lewisham', 'Greenwich')".
             # This has an upper limit, however, so if the list is too long, we need to handle those cases too.
-            column_names = [i for i in self.lookup[self.lookup['name'] == chosen_path[0]]['fields'][0] if i.upper() in self.geographic_area_columns]  # and i.upper().endswith('NM')]
+            column_names = [i for i in self.lookup[self.lookup['full_name'] == chosen_path[0]]['fields'][0] if i.upper() in self.geographic_area_columns]  # and i.upper().endswith('NM')]
             for final_table_col in column_names:
                 if final_table_col.upper() in self.geographic_area_columns:  # and final_table_col.upper().endswith('NM'):
                     string_list = [f'{i}' for i in self.geographic_areas]
-                    if len(string_list) < 200:
-                        where_clause = where_clause_maker(string_list, final_table_col, chosen_path[0])
+                    if len(string_list) < 100:
+                        where_clause = where_clause_maker(string_list, final_table_col)
                         start_table = await self._get_ogp_table(chosen_path[0], where_clause=where_clause, **kwargs)
                         start_table.drop_duplicates(inplace=True)
 
                     else:
-                        print("More than 200 items listed for 'geographic_areas' argument, returning full table and filtering after")
+                        print("More than 100 items listed for 'geographic_areas' argument, returning full table and filtering after - URL would not handle the request")
                         start_table = await self._get_ogp_table(chosen_path[0], **kwargs)
                         start_table.drop_duplicates(inplace=True)
                         start_table = start_table[start_table[final_table_col].isin(self.geographic_areas)]
@@ -352,11 +376,11 @@ class SmartLinker:
                 connecting_column = pathway[1]
                 string_list = [f'{i}' for i in start_table[connecting_column].unique()]
                 if len(string_list) < 100:
-                    where_clause = where_clause_maker(string_list, final_table_col, chosen_path[0])
+                    where_clause = where_clause_maker(string_list, final_table_col)
                     next_table = await self._get_ogp_table(pathway[0], where_clause=where_clause, **kwargs)
                     next_table.columns = [col.upper() for col in list(next_table.columns)]
                 else:
-                    print("More than 100 unique values to join, downloading full table and applying left join")
+                    print("More than 100 unique values to join, downloading full table and applying left join - URL would not handle the request")
                     next_table = await self._get_ogp_table(pathway[0], **kwargs)
                     next_table.columns = [col.upper() for col in list(next_table.columns)]
 
@@ -374,31 +398,6 @@ class SmartLinker:
             else:
                 return final_tables_to_return
 
-    def read_lookup(self, lookup_folder: Path = None) -> pd.DataFrame:
-        """
-            Read lookup table.
-
-            Args:
-                lookup_folder (Path): pathlib Path to the folder where lookup.json file is currently saved.
-
-            Returns:
-                pd.DataFrame: Lookup table as a Pandas dataframe.
-        """
-        try:
-            if lookup_folder:
-                json_path = Path(lookup_folder) / 'lookups' / 'lookup.json'
-                return pd.read_json(json_path)
-            else:
-                with pkg_resources.open_text(lookups, 'lookup.json') as f:
-                    lookup_data = json.load(f)
-                return pd.DataFrame(lookup_data)
-        except FileNotFoundError:
-            print('No lookup.json file found, building from scratch')
-            ogl = OpenGeography(max_retries=30)
-            asyncio.run(ogl.initialise())
-
-            return asyncio.run(ogl.build_lookup(replace_old=True))
-
     def create_graph(self) -> Tuple[Dict[str, Tuple[str, str]], List[str]]:
         """
         Create a graph of connections between tables using common column names.
@@ -408,9 +407,9 @@ class SmartLinker:
         """
         graph = {}
 
-        table_column_pairs = list(zip(self.lookup['name'], self.lookup['matchable_fields']))
+        table_column_pairs = list(zip(self.lookup['full_name'], self.lookup['matchable_fields']))
 
-        for enum, (table, columns) in enumerate(zip(self.lookup['name'], self.lookup['matchable_fields'])):
+        for enum, (table, columns) in enumerate(zip(self.lookup['full_name'], self.lookup['matchable_fields'])):
             if columns:
                 graph[table] = []
                 table_columns_comparison = list(table_column_pairs).copy()
@@ -436,7 +435,7 @@ class SmartLinker:
         for row in self.lookup.iterrows():
             row = row[1]
             if self.starting_column in row['matchable_fields']:
-                starting_points[row['name']] = {'columns': row['fields'], 'useful_columns': row['matchable_fields']}
+                starting_points[row['full_name']] = {'columns': row['fields'], 'useful_columns': row['matchable_fields']}
         if starting_points:
             return starting_points
         else:
@@ -459,7 +458,7 @@ class SmartLinker:
                 la_cd_col_subset = [col for col in row['fields'] if col[:len(la_col)].upper() in self.geographic_area_columns and col.endswith('CD')]
                 if la_col in [col[:len(la_col)].upper() for col in row['matchable_fields']]:
                     if self.starting_column in row['matchable_fields']:
-                        starting_points[row['name']] = {'columns': row['fields'], 'la_nm_columns': la_nm_col_subset, 'la_cd_columns': la_cd_col_subset, 'useful_columns': row['matchable_fields']}
+                        starting_points[row['full_name']] = {'columns': row['fields'], 'la_nm_columns': la_nm_col_subset, 'la_cd_columns': la_cd_col_subset, 'useful_columns': row['matchable_fields']}
         if starting_points:
             return starting_points
         else:
@@ -467,7 +466,7 @@ class SmartLinker:
 
     def find_paths(self) -> Dict[str, List]:
         """
-        Find all paths given all start and end options using BFS_SP function.
+        Find all paths given all start and end options using ``BFS_SP()`` function.
 
         Returns:
             Dict[str, List]: A dictionary containing the possible paths. Paths are sorted alphabetically.
@@ -542,7 +541,7 @@ class SmartLinker:
 
     def paths_to_explore(self) -> Dict[int, str]:
         """
-        Returns all possible paths (only table names) as a dictionary. The keys can be used to select your desired path by inputting it like: `geodata(selected_path=key)`.
+        Returns all possible paths (only table names) as a dictionary. The keys can be used to select your desired path by inputting it like: ``geodata(selected_path=key)``.
 
         Returns:
             Dict[int, str]: A dictionary of possible paths.
@@ -554,14 +553,14 @@ class SmartLinker:
 
 
 # TODOOOOO
-class GeoHelper(SmartLinker):
+class GeoHelper():
     """
-    GeoHelper class helps with exploring the different possibilities for start and end columns.
+    ``GeoHelper()`` class helps with exploring the different possibilities for start and end columns.
 
     This class provides 3 methods:
-        1. `geography_keys()`, which outputs a dictionary of short-hand descriptions of geographic areas. You can typically append the abbreviations with a number and either a CD or NM. For instance, BUA, which stands for Built-up areas, could be appended to say "BUA11CD", which refers to the geocodes of 2011 BUA's.
-        2. `available_geographies()`, which outputs all available geographies. Combine with the above method to get an explanation for a given geography.
-        3. `geographies_filter()`, combines the above two method in a single convenience method so you don't have to create your own filter. Just grab a key from `geography_keys()` method and use it as input.
+        1. ``geography_keys()``, which outputs a dictionary of short-hand descriptions of geographic areas. You can typically append the abbreviations with a number and either a CD or NM. For instance, BUA, which stands for Built-up areas, could be appended to say "BUA11CD", which refers to the geocodes of 2011 BUA's.
+        2. ``available_geographies()``, which outputs all available geographies. Combine with the above method to get an explanation for a given geography.
+        3. ``geographies_filter()``, combines the above two method in a single convenience method so you don't have to create your own filter. Just grab a key from ``geography_keys()`` method and use it as input.
 
     Attributes:
         None
@@ -572,20 +571,19 @@ class GeoHelper(SmartLinker):
 
             gh = GeoHelper()
             print(gh.geography_keys())
-
             print(gh.available_geographies())
-
             print(gh.geographies_filter('WD'))  # outputs all columns referring to wards.
-
 
     """
 
-    def __init__(self):
+    def __init__(self, server: str = 'OGP'):
         """
-        Initialise GeoHelper by inherting from SmartLinker.
+        Initialise ``GeoHelper()`` by getting lookup table from ``SmartLinker()`` for the chosen server.
 
         """
-        super().__init__()
+        gss = SmartLinker(server=server)
+        asyncio.run(gss.initialise())
+        self.lookup = gss.lookup
 
     @staticmethod
     def geography_keys() -> Dict[str, str]:

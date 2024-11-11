@@ -15,29 +15,30 @@ JSONDict = Dict[str, Any]
 class LGInform:
 
     """
-        The class takes a dictionary of LG Inform datasets (such as {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}), finds all metrics, downloads the data, and merges them into one. The dictionary keys can be any string of your choosing, but the integer values must be one of https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-        The main method to download data for multiple datasets is the mp_download() method, which uses multiprocessing to download data from multiple datasets simultaneously. However, this requires that the class is called within "if __name__ == '__main__'" clause.
-        If multiprocessing is not necessary, it's better to use download() method, which is what the multiprocessing wrapper method also calls.
+    The class takes a dictionary of LG Inform datasets (such as {'IMD_2010': 841, 'IMD_2009': 842, 'Death_of_enterprises': 102}), finds all metrics, downloads the data, and merges them into one. The dictionary keys can be any string of your choosing, but the integer values must be one of https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
+    The main method to download data for multiple datasets is the ``mp_download()`` method, which uses multiprocessing to download data from multiple datasets simultaneously. However, this requires that the class is called within ``if __name__ == '__main__'``.
+    If multiprocessing is not necessary, it's better to use ``download()`` method, which is what the multiprocessing wrapper method also calls.
 
-        Arguments:
-            output_folder {Path}    -   pathlib Path object of the storage location.
-            api_key {str}   -    Application Key to LG Inform Plus.
-            api_secret {str}    -   Application Secret to LG Inform Plus.
-            proxies {Dict[str, str]}    -   Proxy address if known.
-            area {str}  -   a comma separated string of areas, excluding whitespace. You can either use GSS codes or use LG Inform's off-the-shelf groups for areas. For instance, Lewisham GSS code is E09000023 and it's CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as 'E09000023,Lewisham_CIPFA_Near_Neighbours'.
+    Attributes:
+        api_key (str): Application Key to LG Inform Plus.
+        api_secret (str): Application Secret to LG Inform Plus.
+        proxies (Dict[str, str]): Proxy address if known.
+        area (str): A comma separated string of areas, excluding whitespace. You can either use GSS codes or use LG Inform's off-the-shelf groups for areas. For instance, Lewisham GSS code is E09000023 and it's CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as 'E09000023,Lewisham_CIPFA_Near_Neighbours'.
 
-        Methods:
-            json_to_pandas  -   Transform downloaded json data to Pandas dataframe.
-            sign_url    -   Sign all url calls with your unique secret and key.
-            download_variable_data  -   Download data for a given metricType, area, and period.
-            download_data_for_many_variables    -   Download the variables for an array of metricTypes.
-            get_dataset_table_variables -   Given a dataset, output all the metricType numbers (dataset columns).
-            format_tables   -   Format the data for each variable and create a metadata table.
-            merge_tables    -   Merge the variables to form a table for a given dataset.
-            download  -   Download data for one or more datasets.
-            mp_download   -   Multiprocessing wrapper to download data for multiple datasets simultaneously.
+    Methods:
+        json_to_pandas(json_data: JSONDict): Transform downloaded json data to Pandas dataframe.
+        sign_url(url: str): Sign all url calls with your unique secret and key.
+        download_variable_data(identifier: int, latest_n: int): Download data for a given metricType, area, and period.
+        download_data_for_many_variables(variables: JSONDict, latest_n: int = 20, arraytype: str = 'metricType-array'): Download the variables for an array of metricTypes.
+        get_dataset_table_variables(dataset: int): Given a dataset, output all the metricType numbers (dataset columns).
+        format_tables(outputs: List[JSONDict], drop_discontinued: bool = True): Format the data for each variable and create a metadata table.
+        merge_tables(dataset_name: str): Merge the variables to form a table for a given dataset.
+        download(datasets: Dict[str, int], output_folder: Path, latest_n: int = 5, drop_discontinued: bool = True): Download data for one or more datasets.
+        mp_download(datasets: Dict[str, int], output_folder: Path, latest_n: int = 20, drop_discontinued: bool = True, max_workers: int = 8): Multiprocessing wrapper to download data for multiple datasets simultaneously.
 
-        Usage:
+    Usage:
+
+        .. code-block:: python
 
             from Consensus.LGInform import LGInform
             from Consensus.ConfigManager import ConfigManager
@@ -60,11 +61,21 @@ class LGInform:
                 api_call = LGInform(area='E09000023,Lewisham_CIPFA_Near_Neighbours')
                 #api_call.download(datasets=datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False)  # normal, single threaded download
                 api_call.mp_download(datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False, max_workers=8)
-
-
     """
 
     def __init__(self, api_key: str = None, api_secret: str = None, proxies: Dict[str, str] = {}, area: str = 'E09000023,Lewisham_CIPFA_Near_Neighbours') -> None:
+        """
+        Initialise the class with API key, secret, and proxy address.
+
+        Args:
+            api_key (str): Application Key to LG Inform Plus.
+            api_secret (str): Application Secret to LG Inform Plus.
+            proxies (Dict[str, str]): Proxy address if known.
+            area (str): A comma separated string of areas, excluding whitespace. You can either use GSS codes or use LG Inform's off-the-shelf groups for areas. For instance, Lewisham GSS code is E09000023 and it's CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as 'E09000023,Lewisham_CIPFA_Near_Neighbours'.
+
+        Returns:
+            None
+        """
         mp.set_start_method('spawn')
 
         self.config = load_config()
@@ -81,14 +92,13 @@ class LGInform:
 
     def json_to_pandas(self, json_data: JSONDict) -> pd.DataFrame:
         """
-            Transform downloaded json data to Pandas.
+        Transform downloaded json data to Pandas.
 
-            Arguments:
-                json_data {JSONDict}    -   JSON data to transform.
+        Args:
+            json_data (JSONDict): JSON data to transform.
 
-            Returns:
-                pd.DataFrame    -   Downloaded data as Pandas dataframe.
-
+        Returns:
+            pd.DataFrame: Downloaded data as Pandas dataframe.
         """
 
         column_names = [col['period']['label'] for col in json_data['columns']]
@@ -97,16 +107,14 @@ class LGInform:
 
     def sign_url(self, url: str) -> str:
         """
-            Each url needs to be signed.
+        Each url needs to be signed.
 
-            Arguments:
-                url {str}   -   URL to be signed.
+        Args:
+            url (str): URL to be signed.
 
-            Returns:
-                str -   URL.
-
+        Returns:
+            str: Signed URL.
         """
-
         url = url + 'ApplicationKey=' + self.api_key
         byteSecret = bytes(self.api_secret, 'utf-8')
         digest = hmac.digest(byteSecret, bytes(url, 'utf-8'), hashlib.sha1)
@@ -117,15 +125,14 @@ class LGInform:
 
     def download_variable_data(self, identifier: int, latest_n: int) -> JSONDict:
         """
-            Download data for a given metricType, area, and period (latest n periods).
+        Download data for a given metricType, area, and period (latest n periods).
 
-            Arguments:
-                identifier {int}    -   metricType integer.
-                latest_n {int}  -   Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.
+        Args:
+            identifier (int): metricType integer.
+            latest_n (int): Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.
 
-            Returns:
-                JSONDict -   Downloaded data as JSON.
-
+        Returns:
+            JSONDict: Downloaded data as JSON.
         """
 
         url = f"{self.base_url}/data?value.valueType=raw&metricType={str(identifier)}&area={str(self.area)}&period=latest{str(latest_n)}&rowGrouping=area&"
@@ -135,16 +142,15 @@ class LGInform:
 
     def download_data_for_many_variables(self, variables: JSONDict, latest_n: int = 20, arraytype: str = 'metricType-array') -> List[JSONDict]:
         """
-            Download the variables for an array of metricTypes using download_variable_data method.
+        Download the variables for an array of metricTypes using download_variable_data method.
 
-            Arguments:
-                variables {JSONDict}}  -   variables JSON from get_dataset_table_variables method.
-                latest_n {int}  -   Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.
-                arraytype {str} -   Type of variables to download. Default is metricType-array.
+        Args:
+            variables (JSONDict): variables JSON from get_dataset_table_variables method.
+            latest_n (int): Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.
+            arraytype (str): Type of variables to download. Default is metricType-array.
 
-            Returns:
-                List[JSONDict]   -   A list of JSON variables.
-
+        Returns:
+            List[JSONDict]: A list of JSON variables.
         """
 
         outputs = []
@@ -156,13 +162,13 @@ class LGInform:
 
     def get_dataset_table_variables(self, dataset: int) -> JSONDict:
         """
-            Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON.
+        Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON.
 
-            Arguments:
-                dataset {int}   -   The number of the dataset from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
+        Args:
+            dataset (int): The number of the dataset from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
 
-            Returns:
-                JSONDict    -   A JSON dictionary object
+        Returns:
+            JSONDict:  A JSON dictionary object
         """
 
         url = f'{self.base_url}/metricTypes?dataset={str(dataset)}&'
@@ -172,12 +178,14 @@ class LGInform:
 
     def format_tables(self, outputs: List[JSONDict], drop_discontinued: bool = True) -> None:
         """
-            Format the data for each variable and create a metadata table.
+        Format the data for each variable and create a metadata table.
 
-            Arguments:
-                outputs {List[JSONDict]}    -   A list of JSONDict objects.
-                drop_discontinued {bool}    -   Boolean to select whether to include discontinued metrics.
+        Args:
+            outputs (List[JSONDict]): A list of JSONDict objects.
+            drop_discontinued (bool): Boolean to select whether to include discontinued metrics.
 
+        Returns:
+            None
         """
 
         table_headers = {'MetricType': [], 'Column name': [], 'Original table name': [], 'Alternative table name(s)': [], 'Short label': [], 'Discontinued': [], 'Metric help text': [], 'Notes': []}
@@ -245,13 +253,13 @@ class LGInform:
 
     def merge_tables(self, dataset_name: str) -> pd.DataFrame:
         """
-            Merge the variables to form a table for a given dataset.
-            Arguments:
-                dataset_name {str}  -   Dataset name string.
+        Merge the variables to form a table for a given dataset.
 
-            Returns:
-                pd.DataFrame    -   All variables of the dataset merged as one Pandas dataframe.
+        Args:
+            dataset_name (str): Dataset name string.
 
+        Returns:
+            pd.DataFrame: All variables of the dataset merged as one Pandas dataframe.
         """
         all_tables = [i for i in self.raw_data_folder.glob("*.csv")]
         try:
@@ -269,14 +277,16 @@ class LGInform:
 
     def download(self, datasets: Dict[str, int], output_folder: Path, latest_n: int = 5, drop_discontinued: bool = True) -> None:
         """
-           Download all variables for many datasets, merging the variables to one table by area and time period.
+        Download all variables for many datasets, merging the variables to one table by area and time period.
 
-           Arguments:
+        Args:
 
-                datasets {Dict[str,int]}    -   Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-                latest_n {int}  -   The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).
-                drop_discontinued {bool}    -   If you set this to False, the downloaded data will include discontinued metrics. Default is True.
+            datasets (Dict[str,int]): Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
+            latest_n (int): The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).
+            drop_discontinued (bool): If you set this to False, the downloaded data will include discontinued metrics. Default is True.
 
+        Returns:
+            None
         """
         assert output_folder, 'Please provide a storage location for merged data'
 
@@ -302,11 +312,13 @@ class LGInform:
 
     def _multiprocessing_wrapper(self, input_queue: mp.Queue) -> None:
         """
-            This is just the same as download() method, but wrapped to be used with multiprocessing library.
+        This is just the same as download() method, but wrapped to be used with multiprocessing library.
 
-            Arguments:
-                input_queue {mp.Queue}  -   A multiprocessing queue.
+        Args:
+            input_queue (mp.Queue): A multiprocessing queue.
 
+        Returns:
+            None
         """
         args = input_queue.get()
         (datasets, latest_n, drop_discontinued) = args
@@ -314,14 +326,16 @@ class LGInform:
 
     def mp_download(self, datasets: Dict[str, int], output_folder: Path, latest_n: int = 20, drop_discontinued: bool = True, max_workers: int = 8) -> None:
         """
-            Multiprocessing method for downloading data for multiple datasets. Use max_workers to split the dataset dictionary to chunks of size max_workers.
+        Multiprocessing method for downloading data for multiple datasets. Use max_workers to split the dataset dictionary to chunks of size max_workers.
 
-            Arguments:
-                datasets {Dict[str,int]}    -   Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
-                latest_n {int}  -   The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).
-                drop_discontinued {bool}    -   If you set this to False, the downloaded data will include discontinued metrics. Default is True.
-                max_workers {int}   -   Set the number of workers for multiprocessing. Typically this would be the number of logical CPUs in your system. This will also process the datasets in chunks, so that if you list 16 datasets in your datasets dictionary and have 8 workers, the script will work through the datasets in two steps (16/8 = 2).
+        Args:
+            datasets (Dict[str,int]): Dictionary of format {"some_name": some_integer}', where the integer value is an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=
+            latest_n (int): The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).
+            drop_discontinued (bool): If you set this to False, the downloaded data will include discontinued metrics. Default is True.
+            max_workers (int): Set the number of workers for multiprocessing. Typically this would be the number of logical CPUs in your system. This will also process the datasets in chunks, so that if you list 16 datasets in your datasets dictionary and have 8 workers, the script will work through the datasets in two steps (16/8 = 2).
 
+        Returns:
+            None
         """
         sliding_dataset = more_itertools.windowed([{i: k} for i, k in datasets.items()], n=max_workers, step=max_workers)
 

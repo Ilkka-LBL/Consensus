@@ -86,7 +86,7 @@ class ConnectToNomis:
 
     Attributes:
         api_key (str): Attribute. NOMIS API key.
-        proxies (Dict[str, str]): Attribute. HTTP and HTTPS proxy addresses as a dictionary {'http': http_addr, 'https': https_addr} (optional).
+        proxies (Dict[str, str]): Attribute. HTTP and HTTPS proxy addresses as a dictionary {'http': http_addr, 'https': https_addr}.
         uid (str): Attribute. Unique identifier for API calls using the API key.
         base_url (str): Attribute. Base URL for the NOMIS API.
         url (str): Attribute. Complete URL for API requests.
@@ -121,8 +121,8 @@ class ConnectToNomis:
 
         Args:
             dataset (str): Name of the dataset to download.
-            params (Dict[str, List[str]], optional): Dictionary of query parameters for filtering data. Defaults to None.
-            select_columns (List[str], optional): List of columns to select in the API response. Defaults to None.
+            params (Dict[str, List[str]]): Dictionary of query parameters for filtering data. Defaults to None.
+            select_columns (List[str]): List of columns to select in the API response. Defaults to None.
 
         Raises:
             AssertionError: If values for each key of params are not a list
@@ -157,7 +157,7 @@ class ConnectToNomis:
         Connect to the NOMIS API and fetch table structures.
 
         Args:
-            url (str, optional): Custom URL for API connection. Defaults to None.
+            url (str): Custom URL for API connection. Defaults to None.
 
         Raises:
             KeyError: If proxies are not set and the connection fails without proxies.
@@ -304,22 +304,74 @@ class DownloadFromNomis(ConnectToNomis):
     """
     Wrapper class for downloading data from the NOMIS API.
 
-    Inherits from `ConnectToNomis` to utilize the NOMIS API for downloading datasets
+    Inherits from ``ConnectToNomis()`` to utilize the NOMIS API for downloading datasets
     as CSV files or Pandas DataFrames.
 
     Attributes:
         api_key (str): NOMIS API key.
-        proxies (Dict[str, str]): HTTP and HTTPS proxy addresses as a dictionary {'http': http_addr, 'https': https_addr} (optional).
+        proxies (Dict[str, str]): HTTP and HTTPS proxy addresses as a dictionary {'http': http_addr, 'https': https_addr}.
         uid (str): Unique identifier for API calls using the API key.
         base_url (str): Base URL for the NOMIS API.
         url (str): Complete URL for API requests.
         r (requests.Response): Response object from API requests.
         config (dict): Loaded configuration details, including API key and proxies.
+
+    Methods:
+        __init__(*args, **kwargs): Initializes the ``DownloadFromNomis()`` instance.
+        _bulk_download_url(dataset: str): Creates a URL for bulk downloading a dataset.
+        _download_checks(dataset: str, params: Dict[str, List], value_or_percent: str, table_columns: List[str]): Prepares the parameters and URL for downloading data.
+        table_to_csv(dataset: str, params: Dict[str, List] = None, file_name: str = None, table_columns: List[str] = None, save_location: str = '../nomis_download/', value_or_percent: str = None): Downloads a dataset as a CSV file.
+        bulk_download(dataset: str, save_location: str = '../nomis_download/'): Downloads a dataset as a Pandas DataFrame.
+
+    Usage:
+
+        Set up API key and proxies:
+
+        .. code-block:: python
+
+            from Consensus.ConfigManager import ConfigManager
+            from Consensus.Nomis import DownloadFromNomis
+            from dotenv import load_dotenv
+            from pathlib import Path
+            from os import environ
+
+            dotenv_path = Path('.env')
+            load_dotenv(dotenv_path)
+            api_key = environ.get("NOMIS_API")
+            proxy = environ.get("PROXY")
+
+            self.conf = ConfigManager()
+            self.conf.save_config({"nomis_api_key": api_key,
+                                "proxies": {"http": proxy,
+                                            "https": proxy}})
+
+        View datasets:
+
+        .. code-block:: python
+
+            nomis = DownloadFromNomis()
+            nomis_conn = nomis.connect()
+            nomis.print_table_info()
+
+        For bulk downloads:
+
+        .. code-block:: python
+
+            nomis = DownloadFromNomis()
+            nomis_conn = nomis.connect()
+            nomis.bulk_download('NM_2021_1')
+
+        Downloading specific tables:
+
+        .. code-block:: python
+
+            geography = {'geography': ['E92000001']}
+            df = self.conn.download('NM_2072_1', params=geography)
     """
 
     def __init__(self, *args, **kwargs):
         """
-        Initialises the `DownloadFromNomis` instance.
+        Initialises the ``DownloadFromNomis()`` instance.
 
         Args:
             *args: Variable length argument list passed to the parent class.
@@ -356,9 +408,9 @@ class DownloadFromNomis(ConnectToNomis):
             params = {'geography': None}
 
         if value_or_percent == 'percent':
-            params['measures'] = [20301]
+            params['measures'] = ['20301']
         elif value_or_percent == 'value':
-            params['measures'] = [20100]
+            params['measures'] = ['20100']
 
         self.url_creator(dataset, params, table_columns)
 
@@ -368,11 +420,11 @@ class DownloadFromNomis(ConnectToNomis):
 
         Args:
             dataset (str): The dataset identifier (e.g., NM_2021_1).
-            params (Dict[str, List], optional): Dictionary of parameters (e.g., {'geography': ['E00016136'], 'age': [0, 2, 3]}). Defaults to None.
-            file_name (str, optional): Custom name for the saved CSV file. Defaults to None.
-            table_columns (List[str], optional): List of columns to include in the dataset. Defaults to None.
-            save_location (str, optional): Directory to save the downloaded CSV file. Defaults to '../nomis_download/'.
-            value_or_percent (str, optional): Specifies whether to download 'value' or 'percent'. Defaults to None.
+            params (Dict[str, List]): Dictionary of parameters (e.g., {'geography': ['E00016136'], 'age': [0, 2, 3]}). Defaults to None.
+            file_name (str): Custom name for the saved CSV file. Defaults to None.
+            table_columns (List[str]): List of columns to include in the dataset. Defaults to None.
+            save_location (str): Directory to save the downloaded CSV file. Defaults to '../nomis_download/'.
+            value_or_percent (str): Specifies whether to download 'value' or 'percent'. Defaults to None.
 
         Returns:
             None
@@ -394,8 +446,8 @@ class DownloadFromNomis(ConnectToNomis):
 
         Args:
             dataset (str): The dataset identifier (e.g., NM_2021_1).
-            data_format (str, optional): Format of the downloaded data. Can be 'csv', 'download', 'pandas', or 'df'. Defaults to 'pandas'.
-            save_location (str, optional): Directory to save the CSV file if `data_format` is 'csv'. Defaults to '../nomis_download/'.
+            data_format (str): Format of the downloaded data. Can be 'csv', 'download', 'pandas', or 'df'. Defaults to 'pandas'.
+            save_location (str): Directory to save the CSV file if `data_format` is 'csv'. Defaults to '../nomis_download/'.
 
         Raises:
             AssertionError: If data_format is not in the specified format
@@ -421,15 +473,23 @@ class DownloadFromNomis(ConnectToNomis):
 
         Args:
             dataset (str): The dataset identifier (e.g., NM_2021_1).
-            params (Dict[str, List], optional): Dictionary of parameters (e.g., {'geography': ['E00016136'], 'age': [0, 2, 3]}). Defaults to None.
-            table_columns (List[str], optional): List of columns to include in the dataset. Defaults to None.
-            value_or_percent (str, optional): Specifies whether to download 'value' or 'percent'. Defaults to None.
+            params (Dict[str, List]): Dictionary of parameters (e.g., {'geography': ['E00016136'], 'age': [0, 2, 3]}). Defaults to None.
+            table_columns (List[str]): List of columns to include in the dataset. Defaults to None.
+            value_or_percent (str): Specifies whether to download 'value' or 'percent'. Defaults to None.
 
         Returns:
             pd.DataFrame: The downloaded data as a Pandas DataFrame.
         """
         self._download_checks(dataset, params, value_or_percent, table_columns)
-        return self._download_to_pandas()
+        df = self._download_to_pandas()
+
+        if not df.empty:
+            return df
+        else:
+            print('Trying to download the data using the bulk_download() method instead. ')
+            print('Filtering to only relevant geographies. Other parameters untouched.')
+            df = self.bulk_download(dataset)
+            return df[df['geography code'].isin(params['geography'])]
 
     def _download_file(self, file_path: Path) -> None:
         """
@@ -465,8 +525,9 @@ class DownloadFromNomis(ConnectToNomis):
             with request_get(self.url, stream=True) as response:
                 return pd.read_csv(response.raw)
         except Exception as e:
+            print(self.url)
             print(e)
-            print('Try using the get_bulk() method instead.')
+            return pd.DataFrame()
 
 
 @dataclass

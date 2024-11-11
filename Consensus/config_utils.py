@@ -7,7 +7,7 @@ This is a simple implementation that assumes the configuration file is named 'co
 is located in a directory named 'config' within the package. The configuration is loaded
 as a dictionary and returned.
 
-This module uses the `importlib.resources` module to access the configuration file within
+This module uses the ``importlib.resources`` module to access the configuration file within
 the package's resources. If the file is not found, an empty dictionary is returned.
 Note that this implementation does not handle any potential exceptions that may occur during
 the loading or parsing of the configuration file.

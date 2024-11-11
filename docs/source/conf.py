@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 project = 'Consensus'
 copyright = '2024, Ilkka Sipila - Lewisham Council Data Science and Insight team'
 author = 'Ilkka Sipila'
-release = '1.0.6'
+release = '1.1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
