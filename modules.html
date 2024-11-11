@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus &mdash; Consensus 1.0.6 documentation</title>
+  <title>Consensus &mdash; Consensus 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e2a723ec"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -47,12 +47,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Consensus</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html">Consensus.EsriServers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LGInform.html">Consensus.LGInform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html">Consensus.LocalMerger module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html">Consensus.OGP module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
@@ -91,15 +90,22 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html#usage">Usage:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html#Consensus.ConfigManager.ConfigManager"><code class="docutils literal notranslate"><span class="pre">ConfigManager</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#extending-esriconnector-class">Extending <cite>EsriConnector()</cite> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#featureserver-class-example"><cite>FeatureServer()</cite> class example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#extending-esriconnector-class">Extending <code class="docutils literal notranslate"><span class="pre">EsriConnector()</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#featureserver-class-example"><code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code> class example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector"><code class="docutils literal notranslate"><span class="pre">EsriConnector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.FeatureServer"><code class="docutils literal notranslate"><span class="pre">FeatureServer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer"><code class="docutils literal notranslate"><span class="pre">Layer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Consensus.EsriServers.html">Consensus.EsriServers module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography"><code class="docutils literal notranslate"><span class="pre">OpenGeography</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL"><code class="docutils literal notranslate"><span class="pre">TFL</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a><ul>
@@ -122,12 +128,6 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html#Consensus.LocalMerger.GraphBuilder"><code class="docutils literal notranslate"><span class="pre">GraphBuilder</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Consensus.OGP.html">Consensus.OGP module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html#open-geography-portal">Open Geography Portal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html#usage">Usage:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html#Consensus.OGP.OpenGeography"><code class="docutils literal notranslate"><span class="pre">OpenGeography</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html#api-keys-and-connecting-to-nomis">API keys and connecting to NOMIS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html#example-usage">Example usage</a></li>
@@ -136,17 +136,16 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html#Consensus.Nomis.NomisTable"><code class="docutils literal notranslate"><span class="pre">NomisTable</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html#usage">Usage:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html#Consensus.TFL.TFL"><code class="docutils literal notranslate"><span class="pre">TFL</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html#load-the-config-json">Load the config.json</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html#Consensus.config_utils.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils._server_selector"><code class="docutils literal notranslate"><span class="pre">_server_selector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.get_server"><code class="docutils literal notranslate"><span class="pre">get_server()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.get_server_name"><code class="docutils literal notranslate"><span class="pre">get_server_name()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.read_lookup"><code class="docutils literal notranslate"><span class="pre">read_lookup()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.where_clause_maker"><code class="docutils literal notranslate"><span class="pre">where_clause_maker()</span></code></a></li>
 </ul>
 </li>

@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.utils module &mdash; Consensus 1.0.6 documentation</title>
+  <title>Consensus.utils module &mdash; Consensus 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e2a723ec"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -47,14 +47,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Consensus</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html">Consensus.EsriServers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LGInform.html">Consensus.LGInform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LocalMerger.html">Consensus.LocalMerger module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html">Consensus.OGP module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils._server_selector"><code class="docutils literal notranslate"><span class="pre">_server_selector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.get_server"><code class="docutils literal notranslate"><span class="pre">get_server()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.get_server_name"><code class="docutils literal notranslate"><span class="pre">get_server_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.read_lookup"><code class="docutils literal notranslate"><span class="pre">read_lookup()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.where_clause_maker"><code class="docutils literal notranslate"><span class="pre">where_clause_maker()</span></code></a></li>
 </ul>
 </li>
@@ -93,15 +96,86 @@
   <section id="module-Consensus.utils">
 <span id="consensus-utils-module"></span><h1>Consensus.utils module<a class="headerlink" href="#module-Consensus.utils" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="Consensus.utils.where_clause_maker">
-<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">where_clause_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.where_clause_maker" title="Link to this definition"></a></dt>
-<dd><p>Create a SQL where clause based on a list of strings and a column name.</p>
+<dt class="sig sig-object py" id="Consensus.utils._server_selector">
+<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">_server_selector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils._server_selector" title="Link to this definition"></a></dt>
+<dd><p>Select the server based on the provided name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary of servers.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Consensus.utils.get_server">
+<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">get_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.get_server" title="Link to this definition"></a></dt>
+<dd><p>Helper function to get the server based on the provided name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>string_list</strong> (<em>List</em>) – A list of strings to include in the where clause.</p></li>
-<li><p><strong>column_name</strong> (<em>str</em>) – The column name to use in the where clause.</p></li>
-<li><p><strong>service_name</strong> (<em>str</em>) – The table name to use in the where clause.</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Name of the server.</p></li>
+<li><p><strong>**kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span>) – Keyword arguments to pass to the server class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Instance of the server class.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Consensus.utils.get_server_name">
+<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">get_server_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.get_server_name" title="Link to this definition"></a></dt>
+<dd><p>Get the name of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>str</em>) – Name of the server.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name of the server.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Consensus.utils.read_lookup">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">read_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lookup_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.read_lookup" title="Link to this definition"></a></dt>
+<dd><p>Read lookup table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lookup_folder</strong> (<em>Path</em>) – <code class="docutils literal notranslate"><span class="pre">pathlib.Path()</span></code> to the folder where <code class="docutils literal notranslate"><span class="pre">lookup.json</span></code> file is currently saved.</p></li>
+<li><p><strong>server_name</strong> (<em>str</em>) – The name of the server. For <code class="docutils literal notranslate"><span class="pre">EsriConnector()</span></code> sub-classes, this is the same as <code class="docutils literal notranslate"><span class="pre">self._name</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lookup table as a Pandas dataframe.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Consensus.utils.where_clause_maker">
+<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">where_clause_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.where_clause_maker" title="Link to this definition"></a></dt>
+<dd><p>Create a SQL where clause for Esri ArcGIS servers based on a list of values in a column and that column’s name.
+You must also include the layer’s name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> (<em>List</em>) – A list of values in <code class="docutils literal notranslate"><span class="pre">column</span></code> to include in the where clause.</p></li>
+<li><p><strong>column</strong> (<em>str</em>) – The column name to use in the where clause.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

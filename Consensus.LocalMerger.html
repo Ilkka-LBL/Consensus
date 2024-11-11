@@ -6,20 +6,20 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.LocalMerger module &mdash; Consensus 1.0.6 documentation</title>
+  <title>Consensus.LocalMerger module &mdash; Consensus 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e2a723ec"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Consensus.OGP module" href="Consensus.OGP.html" />
+    <link rel="next" title="Consensus.Nomis module" href="Consensus.Nomis.html" />
     <link rel="prev" title="Consensus.LGInform module" href="Consensus.LGInform.html" /> 
 </head>
 
@@ -47,10 +47,13 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Consensus</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Consensus.ConfigManager.html">Consensus.ConfigManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html">Consensus.EsriConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html">Consensus.EsriServers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.GeocodeMerger.html">Consensus.GeocodeMerger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.LGInform.html">Consensus.LGInform module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.LocalMerger module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager"><code class="docutils literal notranslate"><span class="pre">DatabaseManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.db_path"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.db_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.conn"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.conn</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.__init__"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager._join_tables"><code class="docutils literal notranslate"><span class="pre">DatabaseManager._join_tables()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.DatabaseManager.close"><code class="docutils literal notranslate"><span class="pre">DatabaseManager.close()</span></code></a></li>
@@ -60,23 +63,27 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder"><code class="docutils literal notranslate"><span class="pre">GraphBuilder</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.__init__"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.directory_path"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.directory_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.graph"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.graph</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._build_graph"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._build_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_table_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_table_paths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_full_graph"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_full_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.__init__"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._build_graph()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._process_csv"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._process_csv()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._process_dataframe"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._process_dataframe()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder._process_excel"><code class="docutils literal notranslate"><span class="pre">GraphBuilder._process_excel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.bfs_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.bfs_paths()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.choose_path"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.choose_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.find_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.find_paths()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_all_possible_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_all_possible_paths()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_full_graph"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_full_graph()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.LocalMerger.GraphBuilder.get_table_paths"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_table_paths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_full_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">GraphBuilder.get_table_paths()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.OGP.html">Consensus.OGP module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.TFL.html">Consensus.TFL module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
@@ -113,39 +120,172 @@
              
   <section id="module-Consensus.LocalMerger">
 <span id="consensus-localmerger-module"></span><h1>Consensus.LocalMerger module<a class="headerlink" href="#module-Consensus.LocalMerger" title="Link to this heading"></a></h1>
+<p>This module is not yet fully implemented and is a work in progress. Please let me know if you would like to contribute.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to manage a DuckDB database, including creating tables from file data
+and querying tables using various join types.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.db_path">
+<span class="sig-name descname"><span class="pre">db_path</span></span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.db_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the DuckDB database file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.conn">
+<span class="sig-name descname"><span class="pre">conn</span></span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.conn" title="Link to this definition"></a></dt>
+<dd><p>Connection to the DuckDB database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>duckdb.DuckDBPyConnection</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__(db_path</span></span></dt>
+<dd><p>str): Initializes the DatabaseManager with the provided database path.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_database(table_paths</span></span></dt>
+<dd><p>Dict[str, Path]): Creates tables in the DuckDB database from CSV or Excel files.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">query_tables_from_path(path</span></span></dt>
+<dd><p>List[str], table_paths: Dict[str, Path], join_type: str = ‘left’): Queries multiple tables specified in the path and joins them using the specified join type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">query_tables_from_graph(graph</span></span></dt>
+<dd><p>nx.DiGraph, join_type: str = ‘left’): Queries tables based on a directed graph and joins them using the specified join type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">query_tables_from_dict(graph</span></span></dt>
+<dd><p>Dict[str, List[str]], join_type: str = ‘left’): Queries tables based on a dictionary representation of a graph and joins them using the specified join type.</p>
+</dd></dl>
+
+<p>Usage:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.LocalMerger</span> <span class="kn">import</span> <span class="n">DatabaseManager</span>
+<span class="n">db_manager</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">(</span><span class="s1">&#39;path/to/database.db&#39;</span><span class="p">)</span>
+<span class="n">db_manager</span><span class="o">.</span><span class="n">create_database</span><span class="p">({</span><span class="s1">&#39;table1&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table1.csv&#39;</span><span class="p">),</span> <span class="s1">&#39;table2&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table2.csv&#39;</span><span class="p">)})</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">query_tables_from_path</span><span class="p">([</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;table1&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table1.csv&#39;</span><span class="p">),</span> <span class="s1">&#39;table2&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table2.csv&#39;</span><span class="p">)},</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Initializes the DatabaseManager with the provided database path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db_path</strong> (<em>str</em>) – The path to the DuckDB database.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager._join_tables">
-<span class="sig-name descname"><span class="pre">_join_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager._join_tables" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">_join_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager._join_tables" title="Link to this definition"></a></dt>
+<dd><p>Joins multiple DataFrames using the specified join type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dfs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – A dictionary of table names to DataFrames to be joined.</p></li>
+<li><p><strong>join_type</strong> (<em>str</em>) – The type of join to perform (e.g., ‘inner’, ‘outer’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting DataFrame after performing all joins.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no common columns are found between DataFrames for joining.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.close">
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.close" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Closes the connection to the DuckDB database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.create_database">
 <span class="sig-name descname"><span class="pre">create_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_paths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.create_database" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Creates tables in the DuckDB database from CSV or Excel files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table_paths</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – A dictionary mapping table names to file paths.</p>
+</dd>
+</dl>
+<p>This method loads data from the specified file paths and creates tables
+in the database. The file paths must point to CSV or Excel files.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.list_all_tables">
 <span class="sig-name descname"><span class="pre">list_all_tables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.list_all_tables" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Lists all tables in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of table names in the database.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager.query_tables_from_path">
-<span class="sig-name descname"><span class="pre">query_tables_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outer'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.query_tables_from_path" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">query_tables_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager.query_tables_from_path" title="Link to this definition"></a></dt>
+<dd><p>Queries multiple tables specified in the path and joins them using the specified join type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of table names to include in the query.</p></li>
+<li><p><strong>table_paths</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – A dictionary mapping table names to file paths.</p></li>
+<li><p><strong>join_type</strong> (<em>str</em>) – The type of join to perform. Default is ‘outer’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the result of the join operation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no valid tables are found in the provided path.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -153,38 +293,229 @@
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">GraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to build and manage a graph from CSV and Excel files in a directory.</p>
+<p>This class constructs a graph where nodes are tables and columns, and edges represent
+relationships between them. It provides methods to find paths between tables or columns.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.directory_path">
+<span class="sig-name descname"><span class="pre">directory_path</span></span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.directory_path" title="Link to this definition"></a></dt>
+<dd><p>The path to the directory containing the data files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.graph">
+<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.graph" title="Link to this definition"></a></dt>
+<dd><p>The graph representing the relationships between tables and columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nx.DiGraph</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__(directory_path</span></span></dt>
+<dd><p>str): Initializes the GraphBuilder with a directory containing CSV and Excel files.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._build_graph">
 <span class="sig-name descname"><span class="pre">_build_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._build_graph" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Scans the directory for CSV and Excel files and builds the graph.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_process_csv(file_path</span></span></dt>
+<dd><p>Path): Processes a CSV file and updates the graph with table and column information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_process_excel(file_path</span></span></dt>
+<dd><p>Path): Processes an Excel file and updates the graph with table and column information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_process_dataframe(df</span></span></dt>
+<dd><p>pd.DataFrame, table_name: str, file_path: Path): Processes a DataFrame and updates the graph with table and column relationships.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_table_paths">
+<span class="sig-name descname"><span class="pre">get_table_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_table_paths" title="Link to this definition"></a></dt>
+<dd><p>Returns a dictionary of table names and their corresponding file paths.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">bfs_paths(start</span></span></dt>
+<dd><p>str, end: str): Finds all paths between the start and end nodes using breadth-first search (BFS).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_paths(start</span></span></dt>
+<dd><p>str, end: str, by: str = ‘table’): Finds all paths between the start and end nodes, either by table name or column name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_full_graph">
+<span class="sig-name descname"><span class="pre">get_full_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_full_graph" title="Link to this definition"></a></dt>
+<dd><p>Returns the full graph with all nodes and edges.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_all_possible_paths(start</span></span></dt>
+<dd><p>str, end: str, by: str = ‘table’): Outputs all possible paths based on start and end, by table or column.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">choose_path(paths</span></span></dt>
+<dd><p>List[List[str]], index: int): Allows the user to choose a path from a list of paths by specifying the index.</p>
+</dd></dl>
+
+<p>Usage:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.LocalMerger</span> <span class="kn">import</span> <span class="n">GraphBuilder</span>
+<span class="n">graph_builder</span> <span class="o">=</span> <span class="n">GraphBuilder</span><span class="p">(</span><span class="s1">&#39;path/to/directory&#39;</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">find_paths</span><span class="p">(</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">get_all_possible_paths</span><span class="p">(</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the GraphBuilder with a directory containing CSV and Excel files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>directory_path</strong> (<em>str</em>) – The path to the directory containing the data files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">_build_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Scans the directory for CSV and Excel files and builds the graph.</p>
+<p>This method iterates through all CSV and Excel files in the specified directory,
+processes them, and adds the tables and columns to the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._process_csv">
 <span class="sig-name descname"><span class="pre">_process_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._process_csv" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Processes a CSV file and updates the graph with table and column information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>Path</em>) – The path to the CSV file to process.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._process_dataframe">
 <span class="sig-name descname"><span class="pre">_process_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._process_dataframe" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Processes a DataFrame and updates the graph with table and column relationships.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – The DataFrame containing the table’s data.</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – The name of the table.</p></li>
+<li><p><strong>file_path</strong> (<em>Path</em>) – The path to the data file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder._process_excel">
 <span class="sig-name descname"><span class="pre">_process_excel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder._process_excel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Processes an Excel file and updates the graph with table and column information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>Path</em>) – The path to the Excel file to process.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.bfs_paths">
+<span class="sig-name descname"><span class="pre">bfs_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.bfs_paths" title="Link to this definition"></a></dt>
+<dd><p>Finds all paths between the start and end nodes using breadth-first search (BFS).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>str</em>) – The starting node.</p></li>
+<li><p><strong>end</strong> (<em>str</em>) – The ending node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of paths from start to end nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[List[str]]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method finds all simple paths between nodes, not necessarily the shortest.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.choose_path">
 <span class="sig-name descname"><span class="pre">choose_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.choose_path" title="Link to this definition"></a></dt>
-<dd><p>Allows the user to choose a path from a list of paths.</p>
+<dd><p>Allows the user to choose a path from a list of paths by specifying the index.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>paths</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – A list of possible paths.</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – The index of the chosen path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The chosen path.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IndexError</strong> – If the provided index is out of range for the list of paths.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -192,11 +523,23 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.find_paths">
 <span class="sig-name descname"><span class="pre">find_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'table'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.find_paths" title="Link to this definition"></a></dt>
-<dd><p>Find all paths from start to end using BFS.
-Can be by table name or column name.</p>
+<dd><p>Finds all paths between the start and end nodes, either by table name or column name.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>str</em>) – The starting node.</p></li>
+<li><p><strong>end</strong> (<em>str</em>) – The ending node.</p></li>
+<li><p><strong>by</strong> (<em>str</em>) – Specifies whether to search by ‘table’ or ‘column’. Defaults to ‘table’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of paths between start and end nodes.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
+<dd class="field-odd"><p>List[List[str]]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the search type is not supported (e.g., ‘column’ is used but no columns exist).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -206,30 +549,46 @@ Can be by table name or column name.</p>
 <span class="sig-name descname"><span class="pre">get_all_possible_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'table'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_all_possible_paths" title="Link to this definition"></a></dt>
 <dd><p>Outputs all possible paths based on start and end, by table or column.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>str</em>) – The starting node.</p></li>
+<li><p><strong>end</strong> (<em>str</em>) – The ending node.</p></li>
+<li><p><strong>by</strong> (<em>str</em>) – Specifies whether to search by ‘table’ or ‘column’. Defaults to ‘table’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all possible paths from start to end.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
+<dd class="field-odd"><p>List[List[str]]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_full_graph">
-<span class="sig-name descname"><span class="pre">get_full_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_full_graph" title="Link to this definition"></a></dt>
-<dd><p>Returns the full graph with all connections.</p>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_full_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Returns the full graph with all nodes and edges.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></span></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full graph object containing all nodes and edges.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>nx.Graph</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder.get_table_paths">
-<span class="sig-name descname"><span class="pre">get_table_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder.get_table_paths" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_table_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
 <dd><p>Returns a dictionary of table names and their corresponding file paths.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]</span></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary where the keys are table names and the values are file paths.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Path]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -243,7 +602,7 @@ Can be by table name or column name.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Consensus.LGInform.html" class="btn btn-neutral float-left" title="Consensus.LGInform module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Consensus.OGP.html" class="btn btn-neutral float-right" title="Consensus.OGP module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Consensus.Nomis.html" class="btn btn-neutral float-right" title="Consensus.Nomis module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

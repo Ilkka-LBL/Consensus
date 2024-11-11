@@ -19,12 +19,11 @@ Submodules
    
    Consensus.ConfigManager
    Consensus.EsriConnector
+   Consensus.EsriServers
    Consensus.GeocodeMerger
    Consensus.LGInform
    Consensus.LocalMerger
    Consensus.Nomis
-   Consensus.OGP
-   Consensus.TFL
    Consensus.config_utils
    Consensus.utils
 
