@@ -15,7 +15,7 @@ The package previously known as LBLDataAccess has now been rebranded as Consensu
 3. Create tests for LocalMerger and improve its functionality.
 4. Add more APIs, for instance ONS, EPC, MetOffice. Easy wins would be to add more ESRI servers as they can be easily plugged in with the EsriConnector class (see how it is done with TFL module, for instance).
 5. Improve GeocodeMerger.py by adding the ability to choose additional nodes in the graph so that the graph is guided through these columns. 
-:strike:6. Clean up code - currently most files fail flake8. I have relaxed the conditions to ignore PEP8:E501 and PEP8:E402
+6. Clean up code. I have relaxed the conditions to ignore PEP8:E501 and PEP8:E402 for flake8.
 7. Improve documentation. This will be a forever job.
 8. Add more test cases and examples.
 
