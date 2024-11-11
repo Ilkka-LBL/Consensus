@@ -52,6 +52,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#explore-uk-geographies">Explore UK geographies</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#example-pipeline">Example pipeline</a></li>
 </ul>
 </li>
 </ul>
@@ -183,7 +184,11 @@ Another, related idiosyncrasy with this approach is that the connection may drop
 </pre></div>
 </div>
 <p>Please note that the <code class="docutils literal notranslate"><span class="pre">geography_keys()</span></code> method does not explain all geographies as explanations were not always available when developing this method.</p>
-<p>For instance, let’s say you’ve decided you want to look at 2022 wards. You can do the following:</p>
+</section>
+</section>
+<section id="example-pipeline">
+<h2>Example pipeline<a class="headerlink" href="#example-pipeline" title="Link to this heading"></a></h2>
+<p>For instance, let’s say you’ve explored the geographies using <code class="docutils literal notranslate"><span class="pre">GeoHelper()</span></code> and decided you want to look at 2022 wards. You can do the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">get_data</span><span class="p">():</span>
     <span class="n">gss</span> <span class="o">=</span> <span class="n">SmartLinker</span><span class="p">()</span>
     <span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>  <span class="c1"># order is important - you must run initialise() before anything else.</span>
@@ -239,7 +244,6 @@ Another, related idiosyncrasy with this approach is that the connection may drop
 </pre></div>
 </div>
 <p>Now you have both the geopandas GeoDataFrame() of the wards and the TS054 - Tenure data for the wards and you’re free to create maps and graphs as you like.</p>
-</section>
 </section>
 </section>
 

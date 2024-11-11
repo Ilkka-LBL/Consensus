@@ -132,7 +132,9 @@ The package contains a ``GeoHelper()`` class that is designed to help you unders
 
 Please note that the ``geography_keys()`` method does not explain all geographies as explanations were not always available when developing this method.
 
-For instance, let's say you've decided you want to look at 2022 wards. You can do the following:
+Example pipeline
+----------------
+For instance, let's say you've explored the geographies using ``GeoHelper()`` and decided you want to look at 2022 wards. You can do the following:
 
 .. code-block:: python
 
