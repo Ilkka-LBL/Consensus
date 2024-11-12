@@ -13,6 +13,12 @@ TODO and future improvements
 8. Switch to using networkx graph as the basis for ``SmartLinker()`` so that it's in line with ``Consensus.LocalMerger.GraphBuilder()``
 9. Rework LocalMerger module. It currently isn't fully implemented.
 
+Version 1.1.1
+-------------
+
+Added: ``print_object_data()`` to ``EsriConnector()`` class. This method takes the layer as input and prints the full name, service name, layer name, fields within the layer, and the service type.
+Improved: Documentation for usage.
+
 
 Version 1.1.0
 -------------

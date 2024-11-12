@@ -433,6 +433,7 @@ class EsriConnector:
         _fetch_response(session: aiohttp.ClientSession): Helper method to get response from Esri server.
         get_layer_obj(service: Dict[str, str], session: aiohttp.ClientSession): Call the ``get_layers()`` method for a Service object to get the list of Layer objects.
         _load_all_services(): Load all services from the Esri server into ``self.service_table``
+        print_object_data(layer_obj: Layer): Print the object metadata.
         print_all_services(): Print all services from the Esri server.
         select_layers_by_service(service_name: str): Return the list of Layer objects for a given service.
         select_layers_by_layers(layer_name: str): Find all Layer objects that share the same name.
@@ -562,6 +563,20 @@ class EsriConnector:
 
         print("All services loaded. Ready to go.")
 
+    def print_object_data(self, layer_obj: Layer) -> None:
+        """
+        Print the data of a Layer object.
+
+        Args:
+            layer_obj (Layer): The Layer object to print.
+
+        Returns:
+            None
+
+        Added in version 1.1.1.
+        """
+        print(f"Full name: {layer_obj.full_name}\nService name: {layer_obj.service_name}\nLayer name: {layer_obj.layer_name}\nURL: {layer_obj.url}\nAvailable fields: {layer_obj.fields}\nService type: {layer_obj.type}\n")
+
     def print_all_services(self) -> None:
         """
         Print name, type, and URL of all services available through Esri server.
@@ -569,8 +584,8 @@ class EsriConnector:
         Returns:
             None
         """
-        for service_name, layer_obj in self.service_table.items():
-            print(f"Full name: {service_name}\nService name: {layer_obj.service_name}\nLayer name: {layer_obj.layer_name}\nURL: {layer_obj.url}\nAvailable fields: {layer_obj.fields}\nService type: {layer_obj.type}\n")
+        for _, layer_obj in self.service_table.items():
+            self.print_object_data(layer_obj)
 
     def select_layers_by_service(self, service_name: str) -> List[Any]:
         """
@@ -581,11 +596,13 @@ class EsriConnector:
 
         Returns:
             List[Any]: A list of Layer objects for the selected service.
+
+        Added in version 1.1.0
         """
         layer_objects = []
-        for full_name, layer_obj in self.service_table.items():
+        for _, layer_obj in self.service_table.items():
             if layer_obj.service_name == service_name:
-                print(f"Full name: {full_name}\nService name: {layer_obj.service_name}\nLayer name: {layer_obj.layer_name}\nURL: {layer_obj.url}\nAvailable fields: {layer_obj.fields}\nService type: {layer_obj.type}\n")
+                self.print_object_data(layer_obj)
                 layer_objects.append(layer_obj)
         return layer_objects
 
@@ -598,11 +615,13 @@ class EsriConnector:
 
         Returns:
             List[Any]: A list of Layer objects for the selected service.
+
+        Added in version 1.1.0
         """
         layer_objects = []
-        for full_name, layer_obj in self.service_table.items():
+        for _, layer_obj in self.service_table.items():
             if layer_obj.layer_name == layer_name:
-                print(f"Full name: {full_name}\nService name: {layer_obj.service_name}\nLayer name: {layer_obj.layer_name}\nURL: {layer_obj.url}\nAvailable fields: {layer_obj.fields}\nService type: {layer_obj.type}\n")
+                self.print_object_data(layer_obj)
                 layer_objects.append(layer_obj)
         return layer_objects
 

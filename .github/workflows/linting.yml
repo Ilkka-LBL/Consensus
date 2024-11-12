@@ -22,4 +22,4 @@ jobs:
           pip install flake8
       - name: Run Flake8
         run: |
-          flake8 . --ignore E501,E402
+          flake8 . --ignore E501,E402,E712

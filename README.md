@@ -25,11 +25,11 @@ The main purpose of this Python package is to allow easier navigation of the NOM
 This package also includes a class to help with selecting data from LG Inform Plus, if your institution is a subscriber.
 
 ### The caveats
-The current version of the package relies on access to Open Geography Portal, but their ESRI servers are not always available. The official response from ONS and ESRI was that we can only keep trying, which means that occasionally the download times will take somewhat long. The package automatically retries whenever connection is lost.   
+The current version of the package relies on access to Open Geography Portal, but their ESRI servers are not always available. The official response from ONS and ESRI was that we can only keep trying, and while the package automatically retries whenever connection is lost, the download times can be at times quite long.   
 
 The second caveat is that the output from SmartLinker class is not guaranteed to contain the correct tables, but there is built-in capability to choose which tables you want to merge. This requires some knowledge of the data in the tables themselves, however. You may also be more interested in population weighted joins, which this package does not perform (only left joins are supported at the moment). However, the FeatureServer class does support downloading geometries from Open Geography Portal and NOMIS contains Census 2021 data for demographics, so in theory, you should be able to create your own population weighted joins using just this package.
 
-Note that this package does not create any sort of file caches, so you should implement your own. This is in the todo pile for the package, however.
+Note that this package does not create any sort of file caches, so you should implement your own. This is in the todo pile for the package.
 
 ## Installation
 To install this package:
@@ -94,7 +94,7 @@ Note that the modules and classes in this package rely on the keys provided in t
 
 ## Building a lookup table for an Esri server
 
-Building a `lookup.json` file is necessary if you want to make use of the capabilities of this package:
+Building a lookup file (e.g. `Open_Geography_Portal_lookup.json`) is very much recommended if you want to make full use of the capabilities of this package:
 
 ```
 from Consensus.EsriServers import OpenGeography  # could import TFL as well
@@ -121,3 +121,4 @@ async def main():
 # and then run the code in a new cell:
 await main()
 ```
+

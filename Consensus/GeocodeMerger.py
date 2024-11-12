@@ -247,16 +247,16 @@ class SmartLinker:
 
         if setting == 'non_geometry':
             print('The graph search space has been set to use only the tables without geometries.')
-            self.lookup = self.lookup[self.lookup['has_geometry']!=True]
+            self.lookup = self.lookup[self.lookup['has_geometry'] != True]
 
         elif setting == 'geometry_only':
             print('The graph search space has been set to use only the tables with geometries.')
-            self.lookup = self.lookup[self.lookup['has_geometry']==True]
+            self.lookup = self.lookup[self.lookup['has_geometry'] == True]
 
         else:
             print('The graph search space has been reset. Using all available tables.')
         print(self.lookup)
-        
+
     def run_graph(self, starting_column: str = None, ending_column: str = None, geographic_areas: List[str] = None, geographic_area_columns: List[str] = ['LAD22NM', 'UTLA22NM', 'LTLA22NM']):
         """
             Use this method to create the graph given start and end points, as well as the local authority.
