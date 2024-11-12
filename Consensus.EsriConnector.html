@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.EsriConnector module &mdash; Consensus 1.1.0 documentation</title>
+  <title>Consensus.EsriConnector module &mdash; Consensus 1.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=fc837d61"></script>
+      <script src="_static/documentation_options.js?v=58fbf978"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -70,6 +70,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">EsriConnector.initialise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.metadata_as_pandas"><code class="docutils literal notranslate"><span class="pre">EsriConnector.metadata_as_pandas()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_all_services()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.print_object_data"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_object_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.select_layers_by_layers"><code class="docutils literal notranslate"><span class="pre">EsriConnector.select_layers_by_layers()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.EsriConnector.EsriConnector.select_layers_by_service"><code class="docutils literal notranslate"><span class="pre">EsriConnector.select_layers_by_service()</span></code></a></li>
 </ul>
@@ -367,6 +368,12 @@ You can apply the <code class="docutils literal notranslate"><span class="pre">E
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">print_object_data(layer_obj</span></span></dt>
+<dd><p>Layer): Print the object metadata.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.print_all_services">
 <span class="sig-name descname"><span class="pre">print_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.print_all_services" title="Link to this definition"></a></dt>
 <dd><p>Print all services from the Esri server.</p>
@@ -566,6 +573,24 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.print_object_data">
+<span class="sig-name descname"><span class="pre">print_object_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.print_object_data" title="Link to this definition"></a></dt>
+<dd><p>Print the data of a Layer object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>layer_obj</strong> (<a class="reference internal" href="#Consensus.EsriConnector.Layer" title="Consensus.EsriConnector.Layer"><em>Layer</em></a>) – The Layer object to print.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p>Added in version 1.1.1.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriConnector.EsriConnector.select_layers_by_layers">
 <span class="sig-name descname"><span class="pre">select_layers_by_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriConnector.EsriConnector.select_layers_by_layers" title="Link to this definition"></a></dt>
 <dd><p>Print a subset of the service table.</p>
@@ -580,6 +605,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd class="field-odd"><p>List[Any]</p>
 </dd>
 </dl>
+<p>Added in version 1.1.0</p>
 </dd></dl>
 
 <dl class="py method">
@@ -597,6 +623,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd class="field-odd"><p>List[Any]</p>
 </dd>
 </dl>
+<p>Added in version 1.1.0</p>
 </dd></dl>
 
 </dd></dl>
