@@ -27,7 +27,7 @@ def where_clause_maker(values: List[str], column: str) -> str:
     return where_clause
 
 
-async def read_lookup(lookup_folder: Path = None, server_name: str = None) -> pd.DataFrame:
+def read_lookup(lookup_folder: Path = None, server_name: str = None) -> pd.DataFrame:
     """
     Read lookup table.
 

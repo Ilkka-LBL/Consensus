@@ -383,15 +383,14 @@ class Service:
             lastedit = dataset.get('editingInfo', {})
             lasteditdate = lastedit.get('lastEditDate', '')
             matchable_fields = await self._matchable_fields(fields)
-
+            has_geometry = dataset.get('supportsReturningQueryGeometry', False)
             fields = [field['name'] for field in fields]
+            if has_geometry:
+                fields.append('geometry')
             if self.layers:
                 data_from_layers = True
-                fields.append('geometry')
-                has_geometry = True
             else:
                 data_from_layers = False
-                has_geometry = False
             try:
                 layer_obj = Layer(f"{self.name} - {layer_or_table['name']}",
                                   self.name,

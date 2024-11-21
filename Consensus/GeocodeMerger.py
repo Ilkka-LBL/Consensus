@@ -45,9 +45,9 @@ Once you've decided you want to look at 2022 wards, you can do the following:
 
     async def get_data():
         gss = SmartLinker()
-        gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
-
         await gss.initialise()
+        gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
+        gss.allow_geometry('connected_tables')  # set this to ``True`` if you must have geometries in the *connected* table
         gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.
         codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by ``run_graph()`` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
         print(codes['table_data'][0])  # the output is a dictionary of ``{'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}``
@@ -71,12 +71,12 @@ if platform.system() == 'Windows':
 random.seed(42)
 
 
-def BFS_SP(graph: Dict, start: str, goal: str) -> List[Any]:
+def BFS_SP(graph: Dict[str, List[Tuple[str, str]]], start: str, goal: str) -> List[Any]:
     """
     Breadth-first search.
 
     Args:
-        graph (Dict): Dictionary of connected tables based on shared columns.
+        graph (Dict[str, List[Tuple[str, str]]]): Dictionary of connected tables based on shared columns.
         start (str): Starting table and column.
         goal (str): Final table and column.
 
@@ -101,7 +101,7 @@ def BFS_SP(graph: Dict, start: str, goal: str) -> List[Any]:
         # Condition to check if the current node is not visited
         if node not in explored:
             if isinstance(node, tuple):
-                neighbours = graph[node[0]]
+                neighbours = graph[node[0]]  # get the next set of nodes
             else:
                 neighbours = graph[node]
 
@@ -172,26 +172,12 @@ class SmartLinker:
 
             async def example():
                 gss = SmartLinker(server='OGP')  # change ``server`` argument to 'TFL' if you so wish. This class may not perform well for all Esri servers as the stored data tables may not have many or any common column names and therefore this class may build a disconnected graph.
-                gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry. Leave it empty to reset to default.
-
                 await gss.initialise()
+                gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry
+                gss.allow_geometry('connected_tables')  # set this to ``True`` if you must have geometries in the *connected* table
                 gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
                 codes = await gss.geodata(selected_path=9, chunk_size=50)  # the selected path is the ninth in the list of potential paths output by `run_graph()` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
-                print(codes['table_data'][0])  # the output is a dictionary of {'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}
-
-            asyncio.run(example())
-
-        Advanced users may wish to extend the list of columns that are used for building the graph of tables. By default, the lookup table only works automatically for Open Geography Portal. However, to make this class usable by other Esri server, you may provide a list of columns using the following syntax:
-
-        .. code-block:: python
-
-            from Consensus.GeocodeMerger import SmartLinker
-            import asyncio
-
-            async def example():
-                gss = SmartLinker(server='OGP', lookup_kwargs={'matchable_fields_extension': ['node_dist', 'stop_dist']})  # the columns 'node_dist' and 'stop_dist' are not added to the 'matchable_fields' column in the lookup file automatically.
-                await gss.initialise()
-                print(gss.lookup)
+                print(codes['table_data'][0])  # the output is a dictionary of ``{'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}``.
 
             asyncio.run(example())
 
@@ -204,7 +190,7 @@ class SmartLinker:
         Args:
             server (str): Name of the server to use ('OGP' or 'TFL'). Defaults to 'OGP'.
             lookup_location (Path): Path to the ``lookup.json`` file. Defaults to None.
-            **kwargs: Passes 'server_kwargs' to EsriConnector class and 'lookup_kwargs' to ``read_lookup()`` method.
+            **kwargs: Passes keyword arguments to EsriConnector class.
 
         Returns:
             None
@@ -212,7 +198,7 @@ class SmartLinker:
         self.fs_service_table = None
         self.initial_lookup = None
         self.lookup = None
-
+        self.force_geometry = False
         self.server = get_server(server, **kwargs)
         # Initialise attributes that don't require async operations
         self.lookup_folder = lookup_folder
@@ -224,21 +210,24 @@ class SmartLinker:
         Returns:
             None
         """
-        self.initial_lookup = await read_lookup(self.lookup_folder, self.server._name)  # read a json file as Pandas
+        self.initial_lookup = read_lookup(self.lookup_folder, self.server._name)  # read a json file as Pandas
         self.lookup = self.initial_lookup
         await self.server.initialise()
+        if not isinstance(self.server.service_table):
+            raise ValueError('The server does not have a service table. Please run this method again.')
         self.fs_service_table = self.server.service_table
         self.fs = FeatureServer()
 
     def allow_geometry(self, setting: str = None) -> None:
         """
-        Use this method to limit the graph search space, which slightly speeds up the process, but also limits the possible connections that can be made. If you're only interested in geographic areas with geometries (say, you need ward boundaries),
-        then set the ``setting`` argument to geometry_only.
+        Use this method to limit the graph search space, which slightly speeds up the process, but also limits the possible connections that can be made. If you're only interested in geographic areas with geometries (say, you need ward boundaries), then set the ``setting`` argument to ``geometry_only``.
+
+        If you choose to set 'connected_tables', this will set self.force_geometry to True, so that only tables with geometry will be used in the connecting tables. If False, all tables will be used. Defaults to False. Note that this does not affect the starting table as doing so would equal to setting 'geometry_only'.
 
         If a setting has been chosen, you may find that you need to reset it so that you can search a wider space. To do so, simply run the method without any arguments and it will reset the lookup space to default.
 
         Args:
-            setting (str): Either geometry_only or non_geometry. Anything else will use the default, which is that both geometry and non-geometry tables are used.
+            setting (str): One of: 'geometry_only', 'connected_tables', or 'non_geometry'. Anything else will use the default, which is that both geometry and non-geometry tables are used.
 
         Returns:
             None
@@ -248,16 +237,21 @@ class SmartLinker:
         if setting == 'non_geometry':
             print('The graph search space has been set to use only the tables without geometries.')
             self.lookup = self.lookup[self.lookup['has_geometry'] != True]
+            self.force_geometry = False
 
         elif setting == 'geometry_only':
             print('The graph search space has been set to use only the tables with geometries.')
             self.lookup = self.lookup[self.lookup['has_geometry'] == True]
 
+        elif setting == 'connected_tables':
+            print('The graph search space has been set to find only connected tables with geometries.')
+            self.force_geometry = True
+
         else:
             print('The graph search space has been reset. Using all available tables.')
-        print(self.lookup)
+            self.force_geometry = False
 
-    def run_graph(self, starting_column: str = None, ending_column: str = None, geographic_areas: List[str] = None, geographic_area_columns: List[str] = ['LAD22NM', 'UTLA22NM', 'LTLA22NM']):
+    def run_graph(self, starting_column: str = None, ending_column: str = None, geographic_areas: List[str] = None, geographic_area_columns: List[str] = ['LAD22NM', 'UTLA22NM', 'LTLA22NM']) -> None:
         """
             Use this method to create the graph given start and end points, as well as the local authority.
             The starting_column and ending_column parameters should end in "CD". For example LAD21CD or WD23CD.
@@ -267,6 +261,9 @@ class SmartLinker:
                 ending_column (str): The ending column for the graph search.
                 geographic_areas (List[str]): A list of geographic areas to filter the data by.
                 geographic_area_columns (List[str]): A list of columns to use when filtering the data using the ``geographic_areas`` list. Defaults to ['LAD22NM', 'UTLA22NM', 'LTLA22NM'].
+
+            Raises:
+                Exception: If the starting_column or ending_column is not provided.
 
             Returns:
                 None
@@ -348,16 +345,15 @@ class SmartLinker:
             for final_table_col in column_names:
                 if final_table_col.upper() in self.geographic_area_columns:  # and final_table_col.upper().endswith('NM'):
                     string_list = [f'{i}' for i in self.geographic_areas]
-                    if len(string_list) < 100:
-                        where_clause = where_clause_maker(string_list, final_table_col)
-                        start_table = await self._get_ogp_table(chosen_path[0], where_clause=where_clause, **kwargs)
-                        start_table.drop_duplicates(inplace=True)
-
-                    else:
-                        print("More than 100 items listed for 'geographic_areas' argument, returning full table and filtering after - URL would not handle the request")
-                        start_table = await self._get_ogp_table(chosen_path[0], **kwargs)
-                        start_table.drop_duplicates(inplace=True)
-                        start_table = start_table[start_table[final_table_col].isin(self.geographic_areas)]
+                    start_chunks = []
+                    for i in range(0, len(string_list), 100):
+                        string_chunk = string_list[i:i + 100]
+                        where_clause = where_clause_maker(string_chunk, final_table_col)
+                        start_chunk = await self._get_ogp_table(chosen_path[0], where_clause=where_clause, **kwargs)
+                        start_chunks.append(start_chunk)
+                    start_table = pd.concat(start_chunks)
+                    start_table.drop_duplicates(inplace=True)
+                    break
 
         else:
             start_table = await self._get_ogp_table(chosen_path[0], **kwargs)
@@ -375,15 +371,17 @@ class SmartLinker:
             for enum, pathway in enumerate(chosen_path[1:]):
                 connecting_column = pathway[1]
                 string_list = [f'{i}' for i in start_table[connecting_column].unique()]
-                if len(string_list) < 100:
-                    where_clause = where_clause_maker(string_list, final_table_col)
-                    next_table = await self._get_ogp_table(pathway[0], where_clause=where_clause, **kwargs)
-                    next_table.columns = [col.upper() for col in list(next_table.columns)]
-                else:
-                    print("More than 100 unique values to join, downloading full table and applying left join - URL would not handle the request")
-                    next_table = await self._get_ogp_table(pathway[0], **kwargs)
-                    next_table.columns = [col.upper() for col in list(next_table.columns)]
+                next_chunks = []
+                for enum, i in enumerate(range(0, len(string_list), 100)):
+                    print(f"Downloading tranche {i}-{i+100} of connected table {pathway[0]}")
+                    print(f"Total items to download: {len(string_list)}")
+                    string_chunk = string_list[i:i + 100]
+                    where_clause = where_clause_maker(string_chunk, connecting_column)
+                    next_chunk = await self._get_ogp_table(pathway[0], where_clause=where_clause, **kwargs)
+                    next_chunks.append(next_chunk)
 
+                next_table = pd.concat(next_chunks)
+                next_table.columns = [col.upper() for col in list(next_table.columns)]
                 table_downloads['table_name'].append(pathway[0])
                 table_downloads['download_order'].append(enum + 1)
                 table_downloads['connected_to_previous_table_by_column'].append(pathway[1])
@@ -391,6 +389,8 @@ class SmartLinker:
                 start_table = start_table.merge(next_table, on=connecting_column, how='left', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')  # always perform left join on the common column (based on its name), add "_DROP" to column names that are duplicated and then filter them out.
             start_table = start_table.drop_duplicates()
             start_table.dropna(axis='columns', how='all', inplace=True)
+            if "GEOMETRY" in start_table.columns:
+                start_table.rename(columns={'GEOMETRY': 'geometry'}, inplace=True)
             final_tables_to_return['table_data'].append(start_table)
 
             if retun_all:
@@ -398,28 +398,34 @@ class SmartLinker:
             else:
                 return final_tables_to_return
 
-    def create_graph(self) -> Tuple[Dict[str, Tuple[str, str]], List[str]]:
+    def create_graph(self) -> Tuple[Dict[str, List[Tuple[str, str]]], List[str]]:
         """
         Create a graph of connections between tables using common column names.
 
         Returns:
-            Tuple[Dict, List]: A tuple containing a dictionary representing the graph and a list of table-column pairs.
+            Tuple[Dict[str, List[Tuple[str, str]]], List[str]]: A tuple containing a dictionary representing the graph and a list of table-column pairs.
         """
         graph = {}
 
-        table_column_pairs = list(zip(self.lookup['full_name'], self.lookup['matchable_fields']))
+        table_column_pairs = list(zip(self.lookup['full_name'], self.lookup['matchable_fields'], self.lookup['has_geometry']))
 
-        for enum, (table, columns) in enumerate(zip(self.lookup['full_name'], self.lookup['matchable_fields'])):
-            if columns:
+        for enum, (table, matchable_columns, _) in enumerate(table_column_pairs):
+            if matchable_columns:
                 graph[table] = []
                 table_columns_comparison = list(table_column_pairs).copy()
                 table_columns_comparison.pop(enum)
-                for comparison_table, comparison_columns in table_columns_comparison:
+                for comparison_table, comparison_columns, has_geometry in table_columns_comparison:
                     if comparison_columns:
-                        shared_columns = list(set(columns).intersection(set(comparison_columns)))
-                        for shared_column in shared_columns:
-                            graph[table].append((comparison_table, shared_column))
-
+                        shared_columns = list(set(matchable_columns).intersection(set(comparison_columns)))
+                        if self.force_geometry:
+                            if str(has_geometry).upper() == "TRUE":
+                                for shared_column in shared_columns:
+                                    graph[table].append((comparison_table, shared_column))
+                            else:
+                                continue
+                        else:
+                            for shared_column in shared_columns:
+                                graph[table].append((comparison_table, shared_column))
         return graph, table_column_pairs
 
     def get_starting_point_without_local_authority_constraint(self) -> Dict[str, List[str]]:
@@ -427,13 +433,12 @@ class SmartLinker:
         Starting point is any table with a suitable column.
 
         Returns:
-            Dict[str, List]: A dictionary containing the starting tables and their columns.
+            Dict[str, List[str]]: A dictionary containing the starting tables and their columns.
         """
 
         starting_points = {}
 
-        for row in self.lookup.iterrows():
-            row = row[1]
+        for _, row in self.lookup.iterrows():
             if self.starting_column in row['matchable_fields']:
                 starting_points[row['full_name']] = {'columns': row['fields'], 'useful_columns': row['matchable_fields']}
         if starting_points:
@@ -441,24 +446,21 @@ class SmartLinker:
         else:
             raise MissingDataError(f"Sorry, no tables containing column {self.starting_column} - try without geographic_areas argument")
 
-    def get_starting_point(self) -> Dict[str, List]:
+    def get_starting_point(self) -> Dict[str, List[str]]:
         """
         Starting point is hard coded as being from any table with 'LAD', 'UTLA', or 'LTLA' columns.
 
         Returns:
-            Dict[str, List]: A dictionary containing the starting tables and their columns.
+            Dict[str, List[str]]: A dictionary containing the starting tables and their columns.
         """
 
         starting_points = {}
 
-        for row in self.lookup.iterrows():
-            row = row[1]
-            for la_col in self.geographic_area_columns:
-                la_nm_col_subset = [col for col in row['fields'] if col[:len(la_col)].upper() in self.geographic_area_columns and col.endswith('NM')]
-                la_cd_col_subset = [col for col in row['fields'] if col[:len(la_col)].upper() in self.geographic_area_columns and col.endswith('CD')]
-                if la_col in [col[:len(la_col)].upper() for col in row['matchable_fields']]:
-                    if self.starting_column in row['matchable_fields']:
-                        starting_points[row['full_name']] = {'columns': row['fields'], 'la_nm_columns': la_nm_col_subset, 'la_cd_columns': la_cd_col_subset, 'useful_columns': row['matchable_fields']}
+        for _, row in self.lookup.iterrows():
+            matchable_fields = [col.upper() for col in row['matchable_fields']]
+            for geo_col in self.geographic_area_columns:
+                if geo_col.upper() in matchable_fields and self.starting_column.upper() in matchable_fields:
+                    starting_points[row['full_name']] = {'columns': row['fields'], 'useful_columns': row['matchable_fields']}
         if starting_points:
             return starting_points
         else:
@@ -473,9 +475,13 @@ class SmartLinker:
         """
 
         end_options = []
-        for table, columns in self.table_column_pairs:
+        for table, columns, _ in self.table_column_pairs:
             if self.ending_column in columns:
-                end_options.append(table)
+                if self.force_geometry:
+                    if self.lookup[self.lookup['full_name'] == table]['has_geometry'].values[0] == True:
+                        end_options.append(table)
+                else:
+                    end_options.append(table)
         path_options = {}
         for start_table in self.starting_points.keys():
             path_options[start_table] = {}

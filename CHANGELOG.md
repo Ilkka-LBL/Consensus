@@ -13,6 +13,13 @@ TODO and future improvements
 8. Switch to using networkx graph as the basis for ``SmartLinker()`` so that it's in line with ``Consensus.LocalMerger.GraphBuilder()``
 9. Rework LocalMerger module. It currently isn't fully implemented.
 
+
+Version 1.1.2
+-------------
+
+Added: Ability to force geometry to exist in the connecting tables. This was not guaranteed because the breadth-first search algorithm would not care about such things. 
+Improved: Improved the way ``SmartLinker().geodata()`` would download data. Instead of just downloading full tables for connecting datasets, it now looks for the unique items in the first table based on the connecting column and then loops through those to download only relevant data.
+
 Version 1.1.1
 -------------
 
