@@ -207,13 +207,16 @@ class SmartLinker:
         """
         Initialise the connections to the selected Esri server and prepare the async Feature Server for downloading.
 
+        Raises:
+            ValueError: If the server does not have a service table.
+
         Returns:
             None
         """
         self.initial_lookup = read_lookup(self.lookup_folder, self.server._name)  # read a json file as Pandas
         self.lookup = self.initial_lookup
         await self.server.initialise()
-        if not isinstance(self.server.service_table):
+        if self.server.service_table is None:
             raise ValueError('The server does not have a service table. Please run this method again.')
         self.fs_service_table = self.server.service_table
         self.fs = FeatureServer()

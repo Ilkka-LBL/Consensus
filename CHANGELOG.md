@@ -14,6 +14,12 @@ TODO and future improvements
 9. Rework LocalMerger module. It currently isn't fully implemented.
 
 
+Version 1.1.3
+-------------
+
+Bug: Fixed a bug where SmartLinker() would not initialise.
+
+
 Version 1.1.2
 -------------
 
