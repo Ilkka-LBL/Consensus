@@ -14,11 +14,16 @@ TODO and future improvements
 9. Rework LocalMerger module. It currently isn't fully implemented.
 
 
+Version 1.1.4
+-------------
+
+Bug: Fixed a bug where ``EsriConnector()`` instances would not run the unless proxy was provided or set by the ``ConfigManager()``.
+Bug: ``SmartLinker()`` class did not handle cases where no geographic limitations were set and there were two or more tables to download data for. 
+
 Version 1.1.3
 -------------
 
 Bug: Fixed a bug where SmartLinker() would not initialise.
-
 
 Version 1.1.2
 -------------

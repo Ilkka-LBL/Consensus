@@ -467,7 +467,11 @@ class EsriConnector:
         self.services = []
         self.service_table = None
         config = load_config()
-        self.proxy = proxy if proxy is not None else config.get('proxies', None).get('https', None)
+        try:
+            self.proxy = proxy if proxy is not None else config.get('proxies', None).get('https', None)
+        except Exception:
+            print("No proxy found in config file. Using no proxy.")
+            self.proxy = None   
 
     async def field_matching_condition(self, field: Dict[str, str]) -> bool:
         """

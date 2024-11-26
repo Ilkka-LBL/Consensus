@@ -41,7 +41,7 @@ class TestSmartGeocoder(unittest.IsolatedAsyncioTestCase):
         gss.run_graph(starting_column='LAD21CD', ending_column='OA21CD', geographic_areas=['Lewisham'], geographic_area_columns=['LAD21NM'])  # the starting and ending columns should end in CD
 
     async def test_4_smart_coding(self):
-        gss = SmartLinker(server='OGP')
+        gss = SmartLinker(server='OGP', max_retries=25)
         await gss.initialise()
         gss.allow_geometry()
         gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # the starting and ending columns should end in CD
@@ -51,7 +51,18 @@ class TestSmartGeocoder(unittest.IsolatedAsyncioTestCase):
         assert gss.fs.chunk_size == 5
         assert codes['table_data'][0]['WD22CD'].nunique() == 42
 
-    def test_5_geo_helper(self):
+    async def test_5_smart_coding(self):
+        gss = SmartLinker(server='OGP', max_retries=25)
+        await gss.initialise()
+        gss.allow_geometry()
+        gss.run_graph(starting_column='LAD21CD', ending_column='OA21CD')  # the starting and ending columns should end in CD
+
+        codes = await gss.geodata(selected_path=0, chunk_size=2500)
+        print(codes['table_data'][0])
+        print(codes['table_data'][0]['OA21CD'].nunique())
+        assert codes['table_data'][0]['OA21CD'].nunique() == 188880
+
+    def test_6_geo_helper(self):
         geo_help = GeoHelper(server='OGP')
         print(geo_help.available_geographies())
         geo_keys = geo_help.geography_keys()
