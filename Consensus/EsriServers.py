@@ -119,7 +119,6 @@ class TFL(EsriConnector):
         from Consensus.EsriServers import TFL
 
         tfl = TFL(max_retries=30, retry_delay=2)
-        tfl.initialise()  # initialise the connection
         tfl.print_all_services()  # a method to help you choose which service you'd like to download data for.
 
     The above code will connect to the TfL Open Data Hub and print all available services. You select the service you want to connect to by copying the service name string that comes after "Service name:" in the output.
@@ -133,7 +132,6 @@ class TFL(EsriConnector):
 
         async def minimal():
             tfl = TFL(max_retries=30, retry_delay=2)
-            tfl.initialise()
             metadata = await tfl.metadata_as_pandas(included_services=['Bus_Stops'])
             print(metadata)
 

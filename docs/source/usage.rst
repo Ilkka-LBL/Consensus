@@ -92,7 +92,6 @@ You can create ``Open_Geography_Portal_lookup.json`` and ``Open_Geography_Portal
 
    def main():
       og = OpenGeography(max_retries=30)
-      og.initiliase()
       asyncio.run(og.build_lookup(replace_old=True))
 
    if __name__ == "__main__":
@@ -107,7 +106,6 @@ or inside Jupyter notebook cells:
    import asyncio
 
    og = OpenGeography(max_retries=30)
-   og.initiliase()
    await og.build_lookup(replace_old=True)
 
 
