@@ -95,7 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html">Consensus.server_selector_util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config folder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups folder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.PickleJar.html">Consensus.PickleJar package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.PickleJar.html">Consensus.PickleJar folder</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
@@ -424,7 +424,6 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.EsriServers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TFL</span>
 
 <span class="n">tfl</span> <span class="o">=</span> <span class="n">TFL</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">tfl</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>  <span class="c1"># initialise the connection</span>
 <span class="n">tfl</span><span class="o">.</span><span class="n">print_all_services</span><span class="p">()</span>  <span class="c1"># a method to help you choose which service you&#39;d like to download data for.</span>
 </pre></div>
 </div>
@@ -435,7 +434,6 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">minimal</span><span class="p">():</span>
     <span class="n">tfl</span> <span class="o">=</span> <span class="n">TFL</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">tfl</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tfl</span><span class="o">.</span><span class="n">metadata_as_pandas</span><span class="p">(</span><span class="n">included_services</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Bus_Stops&#39;</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
 

@@ -1,5 +1,5 @@
-Consensus.PickleJar package
-===========================
+Consensus.PickleJar folder
+==========================
 
 Module contents
 ---------------
