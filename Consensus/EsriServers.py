@@ -19,7 +19,7 @@ class OpenGeography(EsriConnector):
 
     Usage:
     ------
-    This module works in the same way as the ``EsriConnector()`` class, but it is specifically designed for the Open Geography Portal API. It relis on ``build_lookup()`` method that creates a lookup table for the portal's FeatureServers and saves it to a JSON file.
+    This module works in the same way as the ``EsriConnector()`` class, but it is specifically designed for the Open Geography Portal API. It relies on ``build_lookup()`` method that creates a lookup table for the portal's FeatureServers and saves it to a JSON file.
 
     .. code-block:: python
 
@@ -27,13 +27,13 @@ class OpenGeography(EsriConnector):
         import asyncio
 
         async def build_ogp_lookup()
-            ogp = OpenGeography()
-            await ogp.initialise()
-            await ogp.build_lookup()
+            og = OpenGeography()
+            await og.build_lookup()
 
         asyncio.run(build_ogp_lookup())
 
-    Like with TFL module, you can combine ``OpenGeography()`` with the ``FeatureServer()`` class to download data from the portal's FeatureServers.
+
+    As with any ``EsriConnector()`` sub-class, you can combine ``OpenGeography()`` with the ``FeatureServer()`` class to download data from the portal's FeatureServers.
 
     .. code-block:: python
 
@@ -44,9 +44,7 @@ class OpenGeography(EsriConnector):
 
         async def download_test_data():
             og = OpenGeography(max_retries=30, retry_delay=2)
-            await og.initialise()
 
-            fs_service_table = og.service_table
             fs = FeatureServer()
 
             column_name = 'WD23NM'
@@ -57,29 +55,32 @@ class OpenGeography(EsriConnector):
 
             where_clause = where_clause_maker(values=geographic_areas, column=column_name)  # a helper function that creates the SQL where clause for Esri Servers
 
-            await fs.setup(full_name=layer_full_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+            await fs.setup(full_name=layer_full_name, esri_server=og._name, max_retries=30, retry_delay=2, chunk_size=50)
             output = await fs.download(where_clause=where_clause, return_geometry=True)
             print(output)
 
         asyncio.run(download_test_data())
 
-    However, it is perhaps best to rely on the ``SmartLinker()`` class from the GeocodeMerger module for more complex operations.
+
+    However, it is perhaps best to rely on the ``GeocodeMerger.SmartLinker()`` class for more complex downloads from the Open Geography Portal.
 
     """
+    _name = "Open_Geography_Portal"
+    base_url = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json"
+
     def __init__(self, *args, **kwargs) -> None:
         """
         Initialise class.
 
         Args:
-            *args: Arguments for the EsriConnector class.
-            **kwargs: Keyword arguments for the EsriConnector class.
+            *args: Arguments for the ``EsriConnector()`` class.
+            **kwargs: Keyword arguments for the ``EsriConnector()`` class.
 
         Returns:
             None
         """
         super().__init__(*args, **kwargs)
-        self._name = "Open_Geography_Portal"
-        self.base_url = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json"
+        
         self.pre_built_list_of_extensions = ['PCD', 'PCDS', 'PCD2', 'PCD3', 'PCD4', 'PCD5', 'PCD6', 'PCD7', 'PCD8', 'PCD9']
         # Combine user-provided and built-in matchable fields, ensuring all are uppercase
         self.matchable_fields_extension = list(set(self.matchable_fields_extension + self.pre_built_list_of_extensions))
@@ -108,7 +109,7 @@ class TFL(EsriConnector):
     TFL
     ---
 
-    This module contains the TFL class, which is a subclass of EsriConnector(). It is used to connect to the TfL Open Data Hub and retrieve data.
+    This module contains the TFL class, which is a subclass of ``EsriConnector()``. It is used to connect to the TfL Open Data Hub and retrieve data.
 
     Usage:
     ------
@@ -116,14 +117,10 @@ class TFL(EsriConnector):
     .. code-block:: python
 
         from Consensus.EsriServers import TFL
-        import asyncio
 
-        async def print_all():
-            tfl = TFL(max_retries=30, retry_delay=2)
-            await tfl.initialise()  # initialise the connection
-            tfl.print_all_services()  # a method to help you choose which service you'd like to download data for.
-
-        asyncio.run(print_all())
+        tfl = TFL(max_retries=30, retry_delay=2)
+        tfl.initialise()  # initialise the connection
+        tfl.print_all_services()  # a method to help you choose which service you'd like to download data for.
 
     The above code will connect to the TfL Open Data Hub and print all available services. You select the service you want to connect to by copying the service name string that comes after "Service name:" in the output.
 
@@ -136,7 +133,7 @@ class TFL(EsriConnector):
 
         async def minimal():
             tfl = TFL(max_retries=30, retry_delay=2)
-            await tfl.initialise()
+            tfl.initialise()
             metadata = await tfl.metadata_as_pandas(included_services=['Bus_Stops'])
             print(metadata)
 
@@ -152,9 +149,7 @@ class TFL(EsriConnector):
 
         async def download_test_data():
             tfl = TFL(max_retries=30, retry_delay=2)
-            await tfl.initialise()
 
-            fs_service_table = tfl.service_table
             fs = FeatureServer()
 
             service_name = 'Bus_Stops'
@@ -166,12 +161,14 @@ class TFL(EsriConnector):
             geographic_areas = ['Hazel Mead']
             where_clause = where_clause_maker(values=geographic_areas, column=column_name)  # a helper function that creates the SQL where clause for Esri Servers
 
-            await fs.setup(full_name=layer_full_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+            await fs.setup(full_name=layer_full_name, esri_server=tfl._name, max_retries=30, retry_delay=2, chunk_size=50)
             output = await fs.download(where_clause=where_clause, return_geometry=True)
             print(output)
 
         asyncio.run(download_test_data())
     """
+    _name = "TFL"
+    base_url = "https://services1.arcgis.com/YswvgzOodUvqkoCN/ArcGIS/rest/services?f=json"
 
     def __init__(self, *args, **kwargs) -> None:
         """
@@ -185,8 +182,7 @@ class TFL(EsriConnector):
             None
         """
         super().__init__(*args, **kwargs)
-        self._name = "TFL"
-        self.base_url = "https://services1.arcgis.com/YswvgzOodUvqkoCN/ArcGIS/rest/services?f=json"
+        
 
     async def field_matching_condition(self, field: Dict[str, str]) -> bool:
         """

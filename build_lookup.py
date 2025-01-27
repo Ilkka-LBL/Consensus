@@ -6,11 +6,11 @@ import asyncio
 async def main():
     retries = 100
     tfl = TFL(max_retries=retries)
-    await tfl.initialise()
+    tfl.initialise()
     await tfl.build_lookup(replace_old=True)
 
     ogl = OpenGeography(max_retries=retries)
-    await ogl.initialise()
+    ogl.initialise()
     await ogl.build_lookup(replace_old=True)
 
 if __name__ == "__main__":

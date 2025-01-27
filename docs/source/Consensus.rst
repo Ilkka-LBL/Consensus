@@ -1,14 +1,15 @@
 Consensus package
 =================
 
-Subpackages
------------
+Data folders
+------------
 
 .. toctree::
    :maxdepth: 4
 
    Consensus.config
    Consensus.lookups
+   Consensus.PickleJar
 
 Submodules
 ----------
@@ -26,6 +27,7 @@ Submodules
    Consensus.Nomis
    Consensus.config_utils
    Consensus.utils
+   Consensus.server_selector_util
 
 Module contents
 ---------------

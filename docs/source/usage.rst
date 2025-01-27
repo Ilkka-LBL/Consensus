@@ -9,7 +9,7 @@ To use Consensus, first install it using pip directly:
 
 .. code-block:: console
 
-   (.venv) $ pip install Consensus
+   (.venv) $ pip install -U Consensus
 
  
 or from Github:
@@ -48,6 +48,7 @@ The default ``config.json`` contents are:
                }
          }
 
+
 For the ``DownloadFromNomis()`` class to function, you must provide at least the "nomis_api_key" API key, which you can get by signing up on www.nomisweb.co.uk and heading to your profile settings. 
 Likewise, for ``LGInform()`` class to function, you must provide the "lg_inform_key" and "lg_inform_secret", although your institution must also have signed up to use their platform. 
 
@@ -80,9 +81,9 @@ If you also want to add proxies:
 
 Building a lookup table for Open Geography Portal
 """""""""""""""""""""""""""""""""""""""""""""""""
-Building a ``Open_Geography_Portal_lookup.json`` file is necessary if you want to make full use of the capabilities of this package. The ``Open_Geography_Portal_lookup.json`` file is used by the class ``Consensus.GeocodeMerger.SmartLinker()`` to search for the quickest path from your starting column to the ending column. However, ``SmartLinker()`` class has a fallback for creating the lookup file if it is not already available. If you instead choose to use ``Consensus.EsriServers.OpenGeography()`` class in combination with ``Consensus.EsriConnector.FeatureServer()`` class to directly access Open Geography Portal you may forgo creating the lookup table, although the package comes with one pre-built and using and updating it is very much recommended. While accessing Open Geography directly gives you more control over what you download, it is also more tedious as you will have to write longer scripts, particularly when accessing several datasets that you want to merge.
+Building a ``Open_Geography_Portal_lookup.json`` file and the accompanying ``Open_Geography_Portal.pickle`` file is necessary if you want to make full use of the capabilities of this package. The ``Open_Geography_Portal_lookup.json`` file is used by the class ``Consensus.GeocodeMerger.SmartLinker()`` to search for the quickest path from your starting table (through the ``starting_columns`` attribute) to the ending table (via ``ending_columns`` attribute), whereas the ``Open_Geography_Portal.pickle`` file is used by the ``Consensus.EsriConnector.FeatureServer()`` to download the filtered data. While accessing Open Geography Portal directly through the combination of ``Consensus.EsriServers.OpenGeography()`` and ``Consensus.EsriConnector.FeatureServer()`` classes gives you more control over what you download, it is also more tedious as you will have to write longer scripts, particularly when accessing several datasets that you want to merge.
 
-You can create ``Open_Geography_Portal_lookup.json`` (or update it) by running the below snippet:
+You can create ``Open_Geography_Portal_lookup.json`` and ``Open_Geography_Portal.pickle`` files by running the below snippet:
 
 .. code-block:: python
 
@@ -91,11 +92,12 @@ You can create ``Open_Geography_Portal_lookup.json`` (or update it) by running t
 
    def main():
       og = OpenGeography(max_retries=30)
-      asyncio.run(og.initialize())
+      og.initiliase()
       asyncio.run(og.build_lookup(replace_old=True))
 
    if __name__ == "__main__":
       main()
+
 
 or inside Jupyter notebook cells:
 
@@ -104,16 +106,12 @@ or inside Jupyter notebook cells:
    from Consensus.EsriServers import OpenGeography
    import asyncio
 
-   async def main():
-      og = OpenGeography(max_retries=30)
-      await og.initialize()
-      await og.build_lookup(replace_old=True)
+   og = OpenGeography(max_retries=30)
+   og.initiliase()
+   await og.build_lookup(replace_old=True)
 
-   # and then run the code in a new cell:
-   await main()
 
-Note that Open Geography Portal uses ESRI web servers and they do not always respond to queries. To circumnvent the non-responsiveness, we set ``max_retries=30``. On rare occasions, this is not enough and you may have to increase the number of retries. 
-Another, related idiosyncrasy with this approach is that the connection may drop during the building of the ``Open_Geography_Portal_lookup.json`` file resulting in some, but not all, datasets being left out of the final lookup file. In these cases, the package will report failures, but will not try to rectify it. We may fix this behaviour later.  
+Note that Open Geography Portal uses ESRI servers and they do not always respond to queries. To circumvent the non-responsiveness, we set ``max_retries=30``. On rare occasions, this is not enough and you may have to increase the number of retries. The ``max_retries`` argument sets the number of times the class tries to load the list of all services available in the server, as well as how many times each layer of any given server is attempted to load into the class' ``service_table`` attribute. This attribute is key to building the lookup table and the accompanying pickle file.
 
 
 Explore UK geographies
@@ -130,6 +128,7 @@ The package contains a ``GeoHelper()`` class that is designed to help you unders
    print(gh.available_geographies())  # outputs all geographies currently available in the lookup file.
    print(gh.geographies_filter('WD'))  # outputs all columns referring to wards.
 
+
 Please note that the ``geography_keys()`` method does not explain all geographies as explanations were not always available when developing this method.
 
 
@@ -142,13 +141,13 @@ To download the relevant geometry, you can do the following:
 
    async def get_data():
       gss = SmartLinker()
-      await gss.initialise()  # order is important - you must run initialise() before anything else.
       gss.allow_geometry('geometry_only')  # use this method to restrict the graph search space to tables with geometry.
-      gss.run_graph(starting_column='WD22CD', ending_column='LAD22CD', geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.
+      gss.run_graph(starting_columns=['WD22CD'], ending_columns=['LAD22CD'], geographic_areas=['Lewisham', 'Southwark'], geographic_area_columns=['LAD22NM'])  # you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.
       codes = await gss.geodata(selected_path=0, chunk_size=50)  # the selected path is the first in the list of potential paths output by ``run_graph()`` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).
       print(codes['table_data'][0])  # the output is a dictionary of ``{'path': [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], 'table_data':[data_for_path1, data_for_path2]}``
       return codes['table_data'][0]
    ward_geos = asyncio.run(get_data())
+
 
 From here, you can take the ``WD22CD`` column from ``ward_geos`` and use it as input to the ``Consensus.Nomis.DownloadFromNomis()`` class if you wanted to:
 
@@ -195,4 +194,5 @@ From here, you can take the ``WD22CD`` column from ``ward_geos`` and use it as i
    df_lewisham_and_southwark_wards = nomis.download('NM_2072_1', params=geography)  # note that this method falls back to using bulk_download() if it fails for some reason and then applies the geography filter.
    print(df_lewisham_and_southwark_wards)
 
-Now you have both the geopandas GeoDataFrame() of the wards and the TS054 - Tenure data for the wards and you're free to create maps and graphs as you like. 
+
+Now you have both the geopandas ``GeoDataFrame()`` of the wards and the TS054 - Tenure data for the wards and you're free to create maps and graphs as you like. 

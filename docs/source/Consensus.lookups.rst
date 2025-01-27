@@ -1,5 +1,5 @@
-Consensus.lookups package
-=========================
+Consensus.lookups folder
+========================
 
 Module contents
 ---------------

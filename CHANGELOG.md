@@ -3,7 +3,7 @@ Changelog
 
 TODO and future improvements
 ----------------------------
-1. Create a DuckDB database cache backend that is searched before a query to Open Geography Portal is made and extended with every new call of ``FeatureServer()`` class. Likewise, this database could be made use of to build a local storage of Nomis and other APIs.
+1. Create a DuckDB database cache backend that is searched before a query to Open Geography Portal is made and extended with every new successful call of ``FeatureServer()`` class. Likewise, this database could be made use of to build a local storage of Nomis and other APIs.
 2. Implement geometry search for Open Geography Portal. This is possible to an extent already, but needs refining and proper tests.
 3. Add more APIs, for instance ONS, EPC, MetOffice. Easy wins would be to add more ESRI servers as they can be easily plugged in with the ``EsriConnector()`` class (see how it is done with TFL or Open Geography modules, for instance).
 4. Improve GeocodeMerger.py by adding the ability to choose additional nodes in the graph so that the graph is guided through these columns.
@@ -12,6 +12,20 @@ TODO and future improvements
 7. Add more test cases and examples.
 8. Switch to using networkx graph as the basis for ``SmartLinker()`` so that it's in line with ``Consensus.LocalMerger.GraphBuilder()``
 9. Rework LocalMerger module. It currently isn't fully implemented.
+10. Add more Esri ArcGIS servers as built-in classes.
+
+
+Version 1.2.0
+-------------
+
+Bug: Fixed a bug where loading individual layers of services would fail because of connection lost error. Now, we're forcing retries for every server until all layers are loaded.
+Bug: Fixed a bug where old style ``where_clause_maker()`` was being used in testing ``OpenGeographyPortal()``.
+Improved: Combined ``initialise()`` and ``_validate_response()`` methods for ``EsriConnectior()`` class.
+Improved: Users now don't have to initialise ``SmartLinker()`` or ``EsriConnector()`` class nor sub-classes. This change streamlines the usage pipeline.
+Improved: Instead of just defining one starting and ending column, users can now define a list of columns that should be included in the first and the last table when using ``SmartLinker()``. This allows the user to refine more accurately what they want from the graph.
+Improved: Documentation fixed where it was not up-to-date.
+Improved: Relaxed requirements for installing the package so that we are not demanding exact versions of dependencies to be installed.
+Added: A pickle file of the service table is now saved in the PickleJar folder. The name of the pickle file will always match that of the JSON lookup table. It helps with doing away with constantly having to initialise the ``EsriConnector()`` class and sub-classes.
 
 
 Version 1.1.4

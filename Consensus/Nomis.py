@@ -11,6 +11,7 @@ api_key argument. If you need proxies to access the data, provide the informatio
     nomis = DownloadFromNomis(api_key=api_key, proxies=proxies)
     nomis.connect()
 
+
 Alternatively, you can use the `ConfigManager` to store API keys:
 
 .. code-block:: python
@@ -69,6 +70,7 @@ Example usage
     geography = {'geography': ['E92000001']}  # you can extend this list
     df_england = nomis.download('NM_2072_1', params=geography)
     print(df_england)
+
 
 """
 from pathlib import Path

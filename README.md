@@ -18,6 +18,9 @@ The package previously known as LBLDataAccess has now been rebranded as Consensu
 6. Clean up code. I have relaxed the conditions to ignore PEP8:E501 and PEP8:E402 for flake8.
 7. Improve documentation. This will be a forever job.
 8. Add more test cases and examples.
+9. Reformat SmartLinker to use networkx (for 2.0 release).
+10. Pipeline improvements.
+
 
 ### Purpose
 The main purpose of this Python package is to allow easier navigation of the NOMIS API and easier collection of GSS geocodes from ONS Open Geography Portal. The GSS geocodes are necessary for selecting the right tables in the NOMIS API, which can otherwise be very difficult to navigate.
@@ -38,7 +41,7 @@ To install this package:
 
 Or 
 
-`python -m pip install --upgrade Consensus`
+`python -m pip install -U Consensus`
 
 ## Configuration
 To begin using this package, you need to configure your API keys and proxies. To help with this, there is a `ConfigManager` class:
@@ -94,16 +97,15 @@ Note that the modules and classes in this package rely on the keys provided in t
 
 ## Building a lookup table for an Esri server
 
-Building a lookup file (e.g. `Open_Geography_Portal_lookup.json`) is very much recommended if you want to make full use of the capabilities of this package:
+Building a lookup file (e.g. `Open_Geography_Portal_lookup.json`) and the associated pickle file (`Open_Geography_Portal.pickle`) is very much recommended if you want to make full use of the capabilities of this package:
 
 ```
 from Consensus.EsriServers import OpenGeography  # could import TFL as well
 import asyncio
 
 def main():
-    ogl = OpenGeography(max_retries=30)
-    asyncio.run(ogl.initialise())
-    asyncio.run(ogl.build_lookup(replace_old=True))
+    og = OpenGeography(max_retries=30)
+    asyncio.run(og.build_lookup(replace_old=True))
 
 if __name__ == "__main__":
     main()
@@ -113,12 +115,7 @@ or inside Jupyter notebook cells:
 
 ```
 from Consensus.EsriServers import OpenGeography
-async def main():
-    ogl = OpenGeography(max_retries=30)
-    await ogl.initialise()
-    await ogl.build_lookup(replace_old=True)
-
-# and then run the code in a new cell:
-await main()
+og = OpenGeography(max_retries=30)
+await og.build_lookup(replace_old=True)
 ```
 

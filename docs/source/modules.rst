@@ -13,5 +13,7 @@ Consensus
    Consensus.Nomis
    Consensus.config_utils
    Consensus.utils
+   Consensus.server_selector_util
    Consensus.config
    Consensus.lookups
+   Consensus.PickleJar

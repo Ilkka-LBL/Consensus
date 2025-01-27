@@ -1,3 +1,14 @@
+"""
+Utility functions
+-----------------
+
+This module contains helper functions that can be used alone or they are used by more than one of the classes.
+
+``where_clause_maker()`` function is used to create a SQL where clause for downloading data from Esri servers.
+``read_lookup()`` is used by the ``SmartLinker()`` to build a graph and ``read_service_table()`` is used by ``FeatureServer()`` to select the right Esri service from a pickle file. Both the lookup and the pickle file are created during the lookup building.
+
+"""
+
 from typing import List, Dict, Any
 import pandas as pd
 from pathlib import Path
@@ -5,7 +16,7 @@ from Consensus import lookups
 import sys
 import json
 import importlib.resources as pkg_resources
-from Consensus.EsriServers import OpenGeography, TFL
+import pickle
 
 
 def where_clause_maker(values: List[str], column: str) -> str:
@@ -51,43 +62,23 @@ def read_lookup(lookup_folder: Path = None, server_name: str = None) -> pd.DataF
         sys.exit(1)
 
 
-def _server_selector() -> Dict[str, Any]:
+def read_service_table(parent_path: Path = Path(__file__).resolve().parent, esri_server: str = None) -> Dict[str, Any]:
     """
-    Select the server based on the provided name.
-
-    Returns:
-        Dict[str, Any]: Dictionary of servers.
-    """
-    servers = {'OGP': OpenGeography, 'TFL': TFL}
-    return servers
-
-
-def get_server_name(server: str = None) -> str:
-    """
-    Get the name of the server.
+    Read service table pickle file.
 
     Args:
-        server (str): Name of the server.
+        parent_path (Path): ``pathlib.Path()`` to the folder where the Esri server pickle file is currently saved.
+        esri_server (str): The name of the Esri server. For instance, for Open Geography Portal, this would be Open_Geography_Portal. This can be output from any Esri server using the ``_name`` method.
 
     Returns:
-        str: Name of the server.
+        Dict[str, Layer]
     """
-    d = _server_selector()  # get dictionary of servers
-    return d[server]._name
-
-
-def get_server(key: str, **kwargs: Dict[str, Any]) -> Any:
-    """
-    Helper function to get the server based on the provided name.
-
-    Args:
-        key (str): Name of the server.
-        **kwargs: Keyword arguments to pass to the server class.
-
-    Returns:
-        Any: Instance of the server class.
-    """
-    d = _server_selector()  # get dictionary of servers
-    if isinstance(d[key], type):
-        d[key] = d[key](**kwargs)
-    return d[key]
+    try:
+        with open(parent_path / f'PickleJar/{esri_server}.pickle', "rb") as f:
+            unpickler = pickle.Unpickler(f)
+            service_table = unpickler.load()
+        return service_table
+    except Exception as e:
+        print(e)
+        print("Service table not found. Please build one using the asynchronous build_lookup() method.")
+        return {}

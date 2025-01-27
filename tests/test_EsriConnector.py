@@ -17,39 +17,33 @@ class TestEsriConnector(unittest.IsolatedAsyncioTestCase):
         self.geographic_areas = ['Brockley']
 
     def test_1_esri_connector(self) -> None:
-        esri = EsriConnector(max_retries=self.max_retries, retry_delay=2)
-        assert esri.base_url == ""
+        esri = EsriConnector(max_retries=1, retry_delay=2)
+        assert esri.base_url is None
         assert esri.services == []
-        assert esri.service_table is None
+        assert hasattr(esri, 'service_table') is False
 
     async def test_2_check_proxies_work(self) -> None:
-        og = OpenGeography(max_retries=5, retry_delay=2)
+        og = OpenGeography(max_retries=1, retry_delay=2)
         print(os.environ.get('PROXY'))
         assert og.proxy == os.environ.get('PROXY')
         with self.assertRaises(Exception) as context:
             og.proxy = "make_proxies_fail"
-            await og.initialise()
+            og.initialise()
             self.assertTrue('Error during request: make_proxies_fail' in str(context.exception))
 
     async def test_3_featureserver(self) -> None:
         og = OpenGeography(max_retries=self.max_retries, retry_delay=2)
-        await og.initialise()
-
-        fs_service_table = og.service_table
+        await og.build_lookup()
         fs = FeatureServer()
-        await fs.setup(full_name=self.full_name, service_table=fs_service_table, max_retries=self.max_retries, retry_delay=2, chunk_size=50)
+        await fs.setup(full_name=self.full_name, esri_server='Open_Geography_Portal', max_retries=self.max_retries, retry_delay=2, chunk_size=50)
         where_clause = where_clause_maker(values=self.geographic_areas, column=self.column_name)
         output = await fs.download(where_clause=where_clause, return_geometry=True)
         assert output['WD23NM'].nunique() == 1
         print(output)
 
     async def test_4_featureserver_layer_number(self) -> None:
-        og = OpenGeography(max_retries=self.max_retries, retry_delay=2)
-        await og.initialise()
-
-        fs_service_table = og.service_table
         fs = FeatureServer()
-        await fs.setup(full_name=self.full_name, service_table=fs_service_table, max_retries=self.max_retries, retry_delay=2, chunk_size=50)
+        await fs.setup(full_name=self.full_name, esri_server='Open_Geography_Portal', max_retries=self.max_retries, retry_delay=2, chunk_size=50)
         where_clause = where_clause_maker(values=self.geographic_areas, column=self.column_name)
         output = await fs.download(where_clause=where_clause, return_geometry=True)
         assert output['WD23NM'].nunique() == 1

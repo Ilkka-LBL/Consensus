@@ -9,8 +9,11 @@ import shutil
 import os
 from setuptools import setup, find_packages, Command
 
-with open('README.md') as f:
-    long_description = f.read()
+try:
+    with open('README.md', 'r', encoding='utf-8') as f:
+        long_description = f.read()
+except FileNotFoundError:
+    long_description = ""
 
 
 class CleanCommand(Command):
@@ -41,40 +44,43 @@ def package_files(directory):
 
 extra_files = package_files('Consensus/lookups')
 config = package_files('Consensus/config')
-all_files = extra_files + config
+pickles = package_files('Consensus/PickleJar')
+
+all_files = extra_files + config + pickles
 
 setup(
     name='Consensus',
-    version='1.1.4',
+    version='1.2.0',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     url='https://ilkka-lbl.github.io/Consensus/',
     packages=find_packages(),
     include_package_data=True,
     package_data={
-        'Consensus': ['lookups/lookup.json', 'config/config.json'],
+        'Consensus': ['lookups/*.json', 'config/config.json', 'PickleJar/*.pickle'],
     },
     install_requires=[
-        'pandas==1.5.2',
-        'openpyxl==3.0.10',
-        'geopandas==1.0.1',
-        'more-itertools==10.4.0',
-        'numpy==1.26.4',
-        'aiofiles==24.1.0',
-        'aiohttp==3.10.5',
-        'aiosignal==1.3.1',
-        'alabaster==0.7.16',
-        'docutils==0.18.1',
-        'm2r2==0.3.2',
-        'python-dotenv==1.0.1',
-        'PyYAML==6.0',
-        'shapely==2.0.5',
-        'Sphinx==7.3.7',
-        'sphinx-autodoc-typehints==2.3.0',
-        'sphinx-rtd-theme==3.0.1',
-        'twine==5.1.1',
-        'pytest==7.1.2',
-        'duckdb==1.1.0'
+        'pandas>=1.5',
+        'openpyxl>=3.0',
+        'geopandas>=1.0',
+        'more-itertools>=10.4',
+        'numpy>=1.26',
+        'aiofiles>=24.1',
+        'aiohttp>=3.10',
+        'aiosignal>=1.3',
+        'alabaster>=0.7',
+        'docutils>=0.18',
+        'm2r2>=0.3',
+        'python-dotenv>=1.0',
+        'PyYAML>=6.0',
+        'shapely>=2.0',
+        'Sphinx>=7.3',
+        'sphinx-autodoc-typehints>=2.3',
+        'sphinx-rtd-theme>=3.0',
+        'twine>=5.1',
+        'pytest>=7.1',
+        'duckdb>=1.1',
+        'networkx>=3.2'
     ],
     python_requires='>=3.9',  # Specify your supported Python versions
     cmdclass={

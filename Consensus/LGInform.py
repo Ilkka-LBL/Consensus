@@ -61,6 +61,7 @@ class LGInform:
                 api_call = LGInform(area='E09000023,Lewisham_CIPFA_Near_Neighbours')
                 #api_call.download(datasets=datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False)  # normal, single threaded download
                 api_call.mp_download(datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False, max_workers=8)
+
     """
 
     def __init__(self, api_key: str = None, api_secret: str = None, proxies: Dict[str, str] = {}, area: str = 'E09000023,Lewisham_CIPFA_Near_Neighbours') -> None:

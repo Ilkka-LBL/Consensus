@@ -1,5 +1,5 @@
-Consensus.config package
-========================
+Consensus.config folder
+=======================
 
 Module contents
 ---------------

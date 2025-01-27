@@ -2,17 +2,17 @@
 Extending ``EsriConnector()`` class
 ---------------------------------
 
-This module provides a class for interacting with the Esri REST API. It creates a dictionary of Service objects given the URL of the server and add methods to extract the metadata for any of them.
-You can apply the ``EsriConnector()`` class to a new server by calling ``my_new_connection=EsriConnector(base_url=your_new_server)`` or by creating a separate class if you so wish:
+This module provides a class for interacting with the Esri REST API. This is the basic building block that the Consensus package uses to interact with Esri REST APIs such as Open Geography Portal and TfL Open Data Hub. It is designed to be extended to provide additional functionality, such as custom methods for specific use cases. It creates a dictionary of Service objects given the URL of the server and lets you add methods to extract the metadata for any of them. You can apply the ``EsriConnector()`` class to a new server by calling ``my_new_connection=EsriConnector(base_url=your_new_server, _name=New_Server)`` or by creating a separate class if you so wish:
 
 .. code-block:: python
 
     from Consensus.EsriConnector import EsriConnector
 
-    class NewClass(EsriConnector):
+    class NewServer(EsriConnector):
         def __init__(self, max_retries: int = 10, retry_delay: int = 2) -> None:
             super().__init__(max_retries, retry_delay)
             self.base_url = your_new_server
+            self._name = New_Server
             print(f"Connecting to {your_new_server}")
 
         def field_matching_condition(self, field: Dict[str, str]) -> bool:
@@ -21,13 +21,34 @@ You can apply the ``EsriConnector()`` class to a new server by calling ``my_new_
                 return True
 
 
-This is the basic building block that the Consensus package uses to interact with Esri REST APIs such as Open Geography Portal and TfL Open Data Hub. It is designed to be extended to provide additional functionality, such as custom methods for specific use cases.
+``field_matching_condition()`` is used when you build a lookup table of the data. In the lookup table, you can find two fields called "fields" and "matchable_fields". By defining what ``field_matching_condition()`` does, you can refine which fields are included in the "matchable_fields" for all layers of all services that are available at a given ArcGIS server. The column names included in the "matchable_fields" are then used by the ``SmartLinker()`` class to create the graph of that server. If you do not want or need to use ``SmartLinker()``, then you can ignore ``field_matching_condition()``.
 
+Note that all base URLs of your custom servers have to end in "?f=json". Here's a list of URLs that you can experiment with:
+
+- [MetOffice]: https://services.arcgis.com/Lq3V5RFuTBC9I7kv/ArcGIS/rest/services?f=json
+- [National highways]: https://services-eu1.arcgis.com/mZXeBXkkZpekxjXT/ArcGIS/rest/services?f=json
+- [Natural England]: https://services.arcgis.com/JJzESW51TqeY9uat/ArcGIS/rest/services?f=json
+- [Historic England]: https://services-eu1.arcgis.com/ZOdPfBS3aqqDYPUQ/ArcGIS/rest/services?f=json
+- [British Geological Survey]: https://services3.arcgis.com/7bJVHfju2RXdGZa4/ArcGIS/rest/services?f=json
+- [Sustrans (National Cycle Network)]: https://services5.arcgis.com/1ZHcUS1lwPTg4ms0/ArcGIS/rest/services?f=json
+- [RSPB]: https://services1.arcgis.com/h1C9f6qsGKmqXsVs/ArcGIS/rest/services?f=json
+- [Crown Estate (e.g. wind turbine agreements)]: https://services2.arcgis.com/PZklK9Q45mfMFuZs/ArcGIS/rest/services?f=json
+- [National Trust]: https://services-eu1.arcgis.com/NPIbx47lsIiu2pqz/ArcGIS/rest/services?f=json
+- [UK Air]: https://ukair.maps.rcdo.co.uk/ukairserver/rest/services/Hosted?f=json
+
+
+Even individual towns have their own ArcGIS servers:
+
+- [Bristol]: https://services2.arcgis.com/a4vR8lmmksFixzmB/ArcGIS/rest/services?f=json
+- [Aberdeen]: https://services5.arcgis.com/0sktPVp3t1LvXc9z/ArcGIS/rest/services?f=json
+
+
+Currently, there is no support for Esri ArcGIS servers that are not available to the public.
 
 ``FeatureServer()`` class example
 -------------------------------
 
-``FeatureServer()`` class on the other hand is used to download data from the Esri REST API. For example, to download the ward 2023 boundary data for Brockley in Lewisham from Open Geography Portal:
+``FeatureServer()`` class on is used to download data from the Esri REST API. For example, to download the ward 2023 boundary data for Brockley in Lewisham from Open Geography Portal:
 
 .. code-block:: python
 
@@ -38,20 +59,18 @@ This is the basic building block that the Consensus package uses to interact wit
 
     async def download_test_data():
         og = OpenGeography(max_retries=30, retry_delay=2)
-        await og.initialise()
 
-        fs_service_table = og.service_table
         fs = FeatureServer()
 
         column_name = 'WD23NM'
         geographic_areas = ['Brockley']
-        service_name = 'Wards_December_2023_Boundaries_UK_BSC'
+        service_name = 'Wards_December_2023_Boundaries_UK_BSC'  # we happen to know this in advance.
         layers = og.select_layers_by_service(service_name=service_name)  # choose the first layer of the 'Wards_December_2023_Boundaries_UK_BSC' service
         layer_full_name = layers[0].full_name  # use the layer's ``full_name`` attribute to select it in ``fs.setup()`` and when creating the ``where_clause``
 
-        where_clause = where_clause_maker(string_list=geographic_areas, column_name=column_name, service_name=layer_full_name)  # a helper function that creates the SQL where clause for Esri Servers
+        where_clause = where_clause_maker(values=geographic_areas, column=column_name)  # a helper function that creates the SQL where clause for Esri Servers
 
-        await fs.setup(full_name=layer_full_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+        await fs.setup(full_name=layer_full_name, esri_server=og._name, max_retries=30, retry_delay=2, chunk_size=50)
         output = await fs.download(where_clause=where_clause, return_geometry=True)
         print(output)
 
@@ -66,10 +85,12 @@ import asyncio
 import geopandas as gpd
 import pandas as pd
 from Consensus.config_utils import load_config
+from Consensus.utils import read_service_table
 from pathlib import Path
 import aiofiles
 import platform
 import sys
+import pickle
 
 if platform.system() == 'Windows':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -423,12 +444,12 @@ class EsriConnector:
         server_types (Dict[str, str]): A dictionary of server types and their corresponding suffixes.
         services (List[Service]): A list of Service objects.
         service_table (pd.DataFrame): A Pandas DataFrame containing the service metadata.
+        _name (str): Name of the server. Must always be defined, else lookup tables cannot be created.
 
     Methods:
         __init__(max_retries: int = 10, retry_delay: int = 2, server_type: str = 'feature', base_url: str = "", proxy: str = None, matchable_fields_extension: List[str] = []): Initialise class.
         field_matching_condition(field: Dict[str, str]): Condition for matchable fields. This method is used by ``Service()`` to filter the fields that are added to the matchable_fields columns, which is subsequently used by ``SmartLinker()`` for matching data tables.
-        initialise(): Initialise class. Must be called to initialise the async session and run the async tasks.
-        _validate_response(): Validate the response from the Esri server.
+        _initialise(): Initialise the service_table.
         _fetch_response(session: aiohttp.ClientSession): Helper method to get response from Esri server.
         get_layer_obj(service: Dict[str, str], session: aiohttp.ClientSession): Call the ``get_layers()`` method for a Service object to get the list of Layer objects.
         _load_all_services(): Load all services from the Esri server into ``self.service_table``
@@ -440,7 +461,11 @@ class EsriConnector:
         build_lookup(parent_path: Path = Path(__file__).resolve().parent, included_services: List[str] = [], replace_old: bool = True): Build a lookup table of the services. This method will call ``metadata_as_pandas()`` for each service and return a Pandas DataFrame as well as builds a json lookup file.
 
     """
-    def __init__(self, max_retries: int = 10, retry_delay: int = 2, server_type: str = 'feature', base_url: str = "", proxy: str = None, matchable_fields_extension: List[str] = []) -> None:
+
+    _name = ''
+    base_url = None
+
+    def __init__(self, max_retries: int = 10, retry_delay: int = 2, server_type: str = 'feature', proxy: str = None, matchable_fields_extension: List[str] = []) -> None:
         """
         Initialise class.
 
@@ -453,8 +478,7 @@ class EsriConnector:
         Returns:
             None
         """
-        self._name = ''
-        self.base_url = base_url
+
         self.max_retries = max_retries
         self.retry_delay = retry_delay
         self.server_type = server_type
@@ -465,13 +489,16 @@ class EsriConnector:
                              'wfs': 'WFSServer'}
         assert self.server_type in self.server_types.keys(), "Service type must be one of: 'feature', 'map', 'wfs'"
         self.services = []
-        self.service_table = None
+
         config = load_config()
         try:
             self.proxy = proxy if proxy is not None else config.get('proxies', None).get('https', None)
         except Exception:
             print("No proxy found in config file. Using no proxy.")
-            self.proxy = None   
+            self.proxy = None
+
+        self._use_subset = None
+        self._initialise()
 
     async def field_matching_condition(self, field: Dict[str, str]) -> bool:
         """
@@ -488,23 +515,32 @@ class EsriConnector:
         if (field['type'].upper() == 'ESRIFIELDTYPESTRING' and field['name'].upper() not in ['GLOBALID', 'FID', 'ID', 'OBJECTID']) or (field['name'].upper() in self.matchable_fields_extension):
             return True
 
-    async def initialise(self) -> None:
+    def _initialise(self) -> None:
         """
-        Run this method to initialise the class session.
+        Initialise the class by either reading the saved service table from a pickle file or by setting it as an empty dictionary ready to be filled with ``build_lookup()``.
 
         Returns:
             None
         """
-        print(f"Connecting to {self._name}")
-        await self._validate_response()
 
-    async def _validate_response(self) -> None:
+        try:
+            self.service_table = read_service_table(esri_server=self._name)
+            print("Loading a previous service table")
+
+        except Exception as e:
+            print(e)
+            print("Service table not found. Please build one using the asynchronous build_lookup() method.")
+            self.service_table = {}
+
+    async def connect_to_server(self) -> None:
         """
+        Run this method to initialise the class session.
         Validate access to the base URL asynchronously using aiohttp. When a response is received, call ``_load_all_services()`` to load services into a dictionary.
 
         Returns:
             None
         """
+        print(f"Connecting to {self._name}")
         print(f"Requesting services from URL: {self.base_url}")
         async with aiohttp.ClientSession() as session:
             for attempt in range(self.max_retries):
@@ -514,11 +550,13 @@ class EsriConnector:
                     if self.services:
                         await self._load_all_services()
                         return
-                    print("No services found, retrying...")
                 except Exception as e:
                     print(f"Error during request: {e}")
+                    print("No services found, retrying...")
+
                 print(f"Retry attempt {attempt + 1}/{self.max_retries}")
                 await asyncio.sleep(self.retry_delay)
+
         print(f"Failed to retrieve services after {self.max_retries} attempts.")
 
     async def _fetch_response(self, session: aiohttp.ClientSession) -> Dict:
@@ -534,7 +572,7 @@ class EsriConnector:
         async with session.get(self.base_url, proxy=self.proxy) as response:
             return await response.json() if response.status == 200 else {}
 
-    async def get_layer_obj(self, service: Dict[str, str], session: aiohttp.ClientSession) -> None:
+    async def get_layer_obj(self, service: Dict[str, str]) -> None:
         """
         Fetch metadata for a service and add it to the service table.
 
@@ -547,7 +585,15 @@ class EsriConnector:
         """
         print(f"Fetching metadata for service {service['name']}")
         serv_obj = Service(service['name'], service['type'], service['url'], field_matching_condition=self.field_matching_condition)
-        layer_objects = await serv_obj.get_layers(session=session, proxy=self.proxy)
+        async with aiohttp.ClientSession() as session:
+            for attempt in range(self.max_retries):
+                try:
+                    layer_objects = await serv_obj.get_layers(session=session, proxy=self.proxy)
+                    break
+                except Exception as e:
+                    print(f"Error loading layers for service {service['name']}: {e}")
+                print(f"Retry attempt {attempt + 1}/{self.max_retries}")
+                await asyncio.sleep(self.retry_delay)
         for obj in layer_objects:
             print(f"Adding layer {obj.layer_name} to service table")
             self.service_table[obj.full_name] = obj
@@ -560,8 +606,12 @@ class EsriConnector:
             None
         """
         self.service_table = {}
-        async with aiohttp.ClientSession() as session:
-            tasks = [self.get_layer_obj(service, session) for service in self.services if service['type'].lower() == self.server_types[self.server_type].lower()]
+        if self._use_subset:
+            self.services = [i for i in self.services if i in self._use_subset]
+            if not self.services:
+                raise ValueError("Selected subset of services not found - please check spelling")
+        async with aiohttp.ClientSession():
+            tasks = [self.get_layer_obj(service) for service in self.services if service['type'].lower() == self.server_types[self.server_type].lower()]
             await asyncio.gather(*tasks)
 
         print("All services loaded. Ready to go.")
@@ -648,7 +698,7 @@ class EsriConnector:
         Build a lookup table from scratch and save it to a JSON file.
 
         Args:
-            parent_path (Path): Parent path to save the lookup file.
+            parent_path (Path): Parent path to save the service_table pickle and lookup files.
             included_services (List[str]): List of services to include in the lookup. Defaults to [], which is interpreted as as 'all'.
             replace_old (bool): Whether to replace the old lookup file. Defaults to True.
 
@@ -656,12 +706,18 @@ class EsriConnector:
             pd.DataFrame: The lookup table as a pandas DataFrame.
         """
         print("Transforming data to pandas")
-        lookup_df = await self.metadata_as_pandas(included_services=included_services)
+        if included_services:
+            self._use_subset = included_services
+        await self.connect_to_server()
+
+        lookup_df = await self.metadata_as_pandas(included_services=self._use_subset)
         lookup_df = pd.DataFrame().from_dict(lookup_df)
         print("Writing data")
         if replace_old:
             async with aiofiles.open(parent_path / f'lookups/{self._name}_lookup.json', 'w') as f:
                 await f.write(lookup_df.to_json())
+            with open(parent_path / f'PickleJar/{self._name}.pickle', "wb") as f:
+                f.write(pickle.dumps(self.service_table))
         return lookup_df
 
 
@@ -694,20 +750,18 @@ class FeatureServer():
 
             async def download_test_data():
                 og = OpenGeography(max_retries=30, retry_delay=2)
-                await og.initialise()
-
-                fs_service_table = og.service_table
                 fs = FeatureServer()
 
                 column_name = 'WD23NM'
                 geographic_areas = ['Brockley']
                 service_name = 'Wards_December_2023_Boundaries_UK_BSC'
+
                 layers = og.select_layers_by_service(service_name=service_name)  # choose the first layer of the 'Wards_December_2023_Boundaries_UK_BSC' service
                 layer_full_name = layers[0].full_name  # use the layer's ``full_name`` attribute to select it in ``fs.setup()`` and when creating the ``where_clause``
 
-                where_clause = where_clause_maker(string_list=geographic_areas, column_name=column_name, service_name=layer_full_name)  # a helper function that creates the SQL where clause for Esri Servers
+                where_clause = where_clause_maker(values=geographic_areas, column=column_name)  # a helper function that creates the SQL where clause for Esri Servers
 
-                await fs.setup(full_name=layer_full_name, service_table=fs_service_table, max_retries=30, retry_delay=2, chunk_size=50)
+                await fs.setup(full_name=layer_full_name, esri_server=og._name, max_retries=30, retry_delay=2, chunk_size=50)
                 output = await fs.download(where_clause=where_clause, return_geometry=True)
                 print(output)
 
@@ -726,7 +780,7 @@ class FeatureServer():
         config = load_config()
         self.proxy = proxy if proxy is not None else config.get('proxies', None).get('https', None)
 
-    async def setup(self, full_name: str = None, service_name: str = None, layer_name: str = None, service_table: Dict[str, Layer] = {}, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50) -> None:
+    async def setup(self, full_name: str = None, service_name: str = None, layer_name: str = None, esri_server: str = None, max_retries: int = 10, retry_delay: int = 20, chunk_size: int = 50, parent_path: Path = Path(__file__).resolve().parent) -> None:
         """
         Set up the FeatureServer Service object for downloading.
 
@@ -734,10 +788,11 @@ class FeatureServer():
             full_name (str): The full name of the Feature Server service. Provide a value for either this argument or alternatively to ``service_name`` and ``layer_name``, which the method builds the ``full_name``.
             service_name (str): The name of the Feature Server service. Provide a value together with ``layer_name``.
             layer_name (str): The name of the layer to download. Provide a value together with ``service_name``.
-            service_table (Dict[str, Layer]): Mandatory. A dictionary of Feature Server Layer objects.
+            esri_server (str): Mandatory. The name of the server to be used. This should match the name of the lookup file. For instance, for Open Geography Portal, the name is Open_Geography_Portal
             max_retries (int): The maximum number of retries for a request.
             retry_delay (int): The delay in seconds between retries.
             chunk_size (int): The number of records to download in each chunk.
+            parent_path (Path): Parent path to save the service_table pickle and lookup files.
 
         Returns:
             None
@@ -745,6 +800,7 @@ class FeatureServer():
         try:
             if not full_name:
                 full_name = f"{service_name} - {layer_name}"
+            service_table = read_service_table(parent_path, esri_server)
             self.feature_service = service_table.get(full_name)
 
             self.max_retries = max_retries
