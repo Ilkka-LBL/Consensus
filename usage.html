@@ -3,23 +3,23 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; Consensus 1.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Usage &mdash; Consensus 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=00f267c6"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Consensus.lookups package" href="Consensus.lookups.html" /> 
+    <link rel="prev" title="Consensus.PickleJar package" href="Consensus.PickleJar.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -86,7 +86,7 @@
 <section id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>To use Consensus, first install it using pip directly:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>Consensus
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>Consensus
 </pre></div>
 </div>
 <p>or from Github:</p>
@@ -100,7 +100,7 @@
 <section id="creating-the-config-json-file">
 <h3>Creating the config.json file<a class="headerlink" href="#creating-the-config-json-file" title="Link to this heading"></a></h3>
 <p>Note that the modules and classes in Consensus rely on the keys provided in this config file. However, you can extend the <code class="docutils literal notranslate"><span class="pre">config.json</span></code> file with the <code class="docutils literal notranslate"><span class="pre">update_config()</span></code> method to use any other API keys and secrets that you may want. The file is stored as a json file and in Python you can work with nested dictionaries.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.ConfigManager</span> <span class="kn">import</span> <span class="n">ConfigManager</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.ConfigManager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigManager</span>
 </pre></div>
 </div>
 <p>This class has three methods for saving, updating, and resetting the <code class="docutils literal notranslate"><span class="pre">config.json</span></code> file. The <code class="docutils literal notranslate"><span class="pre">config.json</span></code> file resides in the folder “Consensus/config” inside the package installation folder.</p>
@@ -119,7 +119,7 @@
 <p>For the <code class="docutils literal notranslate"><span class="pre">DownloadFromNomis()</span></code> class to function, you must provide at least the “nomis_api_key” API key, which you can get by signing up on www.nomisweb.co.uk and heading to your profile settings.
 Likewise, for <code class="docutils literal notranslate"><span class="pre">LGInform()</span></code> class to function, you must provide the “lg_inform_key” and “lg_inform_secret”, although your institution must also have signed up to use their platform.</p>
 <p>Minimum configuration example using Nomis:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.ConfigManager</span> <span class="kn">import</span> <span class="n">ConfigManager</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.ConfigManager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigManager</span>
 
 <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;nomis_api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;your_new_api_key_value&quot;</span><span class="p">}</span>
 
@@ -128,7 +128,7 @@ Likewise, for <code class="docutils literal notranslate"><span class="pre">LGInf
 </pre></div>
 </div>
 <p>If you also want to add proxies:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.ConfigManager</span> <span class="kn">import</span> <span class="n">ConfigManager</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.ConfigManager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigManager</span>
 
 <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{</span>
                <span class="s2">&quot;nomis_api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;your_new_api_key_value&quot;</span><span class="p">,</span>
@@ -142,14 +142,14 @@ Likewise, for <code class="docutils literal notranslate"><span class="pre">LGInf
 </section>
 <section id="building-a-lookup-table-for-open-geography-portal">
 <h3>Building a lookup table for Open Geography Portal<a class="headerlink" href="#building-a-lookup-table-for-open-geography-portal" title="Link to this heading"></a></h3>
-<p>Building a <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> file is necessary if you want to make full use of the capabilities of this package. The <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> file is used by the class <code class="docutils literal notranslate"><span class="pre">Consensus.GeocodeMerger.SmartLinker()</span></code> to search for the quickest path from your starting column to the ending column. However, <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> class has a fallback for creating the lookup file if it is not already available. If you instead choose to use <code class="docutils literal notranslate"><span class="pre">Consensus.EsriServers.OpenGeography()</span></code> class in combination with <code class="docutils literal notranslate"><span class="pre">Consensus.EsriConnector.FeatureServer()</span></code> class to directly access Open Geography Portal you may forgo creating the lookup table, although the package comes with one pre-built and using and updating it is very much recommended. While accessing Open Geography directly gives you more control over what you download, it is also more tedious as you will have to write longer scripts, particularly when accessing several datasets that you want to merge.</p>
-<p>You can create <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> (or update it) by running the below snippet:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.EsriServers</span> <span class="kn">import</span> <span class="n">OpenGeography</span>
-<span class="kn">import</span> <span class="nn">asyncio</span>
+<p>Building a <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> file and the accompanying <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal.pickle</span></code> file is necessary if you want to make full use of the capabilities of this package. The <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> file is used by the class <code class="docutils literal notranslate"><span class="pre">Consensus.GeocodeMerger.SmartLinker()</span></code> to search for the quickest path from your starting table (through the <code class="docutils literal notranslate"><span class="pre">starting_columns</span></code> attribute) to the ending table (via <code class="docutils literal notranslate"><span class="pre">ending_columns</span></code> attribute), whereas the <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal.pickle</span></code> file is used by the <code class="docutils literal notranslate"><span class="pre">Consensus.EsriConnector.FeatureServer()</span></code> to download the filtered data. While accessing Open Geography Portal directly through the combination of <code class="docutils literal notranslate"><span class="pre">Consensus.EsriServers.OpenGeography()</span></code> and <code class="docutils literal notranslate"><span class="pre">Consensus.EsriConnector.FeatureServer()</span></code> classes gives you more control over what you download, it is also more tedious as you will have to write longer scripts, particularly when accessing several datasets that you want to merge.</p>
+<p>You can create <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> and <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal.pickle</span></code> files by running the below snippet:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.EsriServers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenGeography</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
    <span class="n">og</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-   <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">og</span><span class="o">.</span><span class="n">initialize</span><span class="p">())</span>
+   <span class="n">og</span><span class="o">.</span><span class="n">initiliase</span><span class="p">()</span>
    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">og</span><span class="o">.</span><span class="n">build_lookup</span><span class="p">(</span><span class="n">replace_old</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -157,25 +157,20 @@ Likewise, for <code class="docutils literal notranslate"><span class="pre">LGInf
 </pre></div>
 </div>
 <p>or inside Jupyter notebook cells:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.EsriServers</span> <span class="kn">import</span> <span class="n">OpenGeography</span>
-<span class="kn">import</span> <span class="nn">asyncio</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.EsriServers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenGeography</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-   <span class="n">og</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-   <span class="k">await</span> <span class="n">og</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
-   <span class="k">await</span> <span class="n">og</span><span class="o">.</span><span class="n">build_lookup</span><span class="p">(</span><span class="n">replace_old</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># and then run the code in a new cell:</span>
-<span class="k">await</span> <span class="n">main</span><span class="p">()</span>
+<span class="n">og</span> <span class="o">=</span> <span class="n">OpenGeography</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">og</span><span class="o">.</span><span class="n">initiliase</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">og</span><span class="o">.</span><span class="n">build_lookup</span><span class="p">(</span><span class="n">replace_old</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that Open Geography Portal uses ESRI web servers and they do not always respond to queries. To circumnvent the non-responsiveness, we set <code class="docutils literal notranslate"><span class="pre">max_retries=30</span></code>. On rare occasions, this is not enough and you may have to increase the number of retries.
-Another, related idiosyncrasy with this approach is that the connection may drop during the building of the <code class="docutils literal notranslate"><span class="pre">Open_Geography_Portal_lookup.json</span></code> file resulting in some, but not all, datasets being left out of the final lookup file. In these cases, the package will report failures, but will not try to rectify it. We may fix this behaviour later.</p>
+<p>Note that Open Geography Portal uses ESRI servers and they do not always respond to queries. To circumvent the non-responsiveness, we set <code class="docutils literal notranslate"><span class="pre">max_retries=30</span></code>. On rare occasions, this is not enough and you may have to increase the number of retries. The <code class="docutils literal notranslate"><span class="pre">max_retries</span></code> argument sets the number of times the class tries to load the list of all services available in the server, as well as how many times each layer of any given server is attempted to load into the class’ <code class="docutils literal notranslate"><span class="pre">service_table</span></code> attribute. This attribute is key to building the lookup table and the accompanying pickle file.</p>
 </section>
 <section id="explore-uk-geographies">
 <h3>Explore UK geographies<a class="headerlink" href="#explore-uk-geographies" title="Link to this heading"></a></h3>
 <p>The package contains a <code class="docutils literal notranslate"><span class="pre">GeoHelper()</span></code> class that is designed to help you understand UK geographies and select the starting and ending columns when using <code class="docutils literal notranslate"><span class="pre">SmartLinker().run_graph()</span></code>. This class also relies on the Open Geography Portal lookup file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.GeocodeMerger</span> <span class="kn">import</span> <span class="n">GeoHelper</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.GeocodeMerger</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeoHelper</span>
 
 <span class="n">gh</span> <span class="o">=</span> <span class="n">GeoHelper</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">geography_keys</span><span class="p">())</span>  <span class="c1"># outputs a dictionary of explanations for nearly all UK geographic units.</span>
@@ -190,11 +185,10 @@ Another, related idiosyncrasy with this approach is that the connection may drop
 <h2>Example pipeline<a class="headerlink" href="#example-pipeline" title="Link to this heading"></a></h2>
 <p>Let’s say you’ve explored the geographies using <code class="docutils literal notranslate"><span class="pre">GeoHelper()</span></code> and decided you want to map Tenure data from Census 2021 to 2022 wards. Using <code class="docutils literal notranslate"><span class="pre">GeoHelper().geographies_filter('WD')</span></code> you found the column <code class="docutils literal notranslate"><span class="pre">WD22CD</span></code>.
 To download the relevant geometry, you can do the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">get_data</span><span class="p">():</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">():</span>
    <span class="n">gss</span> <span class="o">=</span> <span class="n">SmartLinker</span><span class="p">()</span>
-   <span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>  <span class="c1"># order is important - you must run initialise() before anything else.</span>
    <span class="n">gss</span><span class="o">.</span><span class="n">allow_geometry</span><span class="p">(</span><span class="s1">&#39;geometry_only&#39;</span><span class="p">)</span>  <span class="c1"># use this method to restrict the graph search space to tables with geometry.</span>
-   <span class="n">gss</span><span class="o">.</span><span class="n">run_graph</span><span class="p">(</span><span class="n">starting_column</span><span class="o">=</span><span class="s1">&#39;WD22CD&#39;</span><span class="p">,</span> <span class="n">ending_column</span><span class="o">=</span><span class="s1">&#39;LAD22CD&#39;</span><span class="p">,</span> <span class="n">geographic_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Lewisham&#39;</span><span class="p">,</span> <span class="s1">&#39;Southwark&#39;</span><span class="p">],</span> <span class="n">geographic_area_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LAD22NM&#39;</span><span class="p">])</span>  <span class="c1"># you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.</span>
+   <span class="n">gss</span><span class="o">.</span><span class="n">run_graph</span><span class="p">(</span><span class="n">starting_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;WD22CD&#39;</span><span class="p">],</span> <span class="n">ending_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LAD22CD&#39;</span><span class="p">],</span> <span class="n">geographic_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Lewisham&#39;</span><span class="p">,</span> <span class="s1">&#39;Southwark&#39;</span><span class="p">],</span> <span class="n">geographic_area_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LAD22NM&#39;</span><span class="p">])</span>  <span class="c1"># you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.</span>
    <span class="n">codes</span> <span class="o">=</span> <span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">geodata</span><span class="p">(</span><span class="n">selected_path</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>  <span class="c1"># the selected path is the first in the list of potential paths output by ``run_graph()`` method. Increase chunk_size if your download is slow and try decreasing it if you are being throttled (or encounter weird errors).</span>
    <span class="nb">print</span><span class="p">(</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;table_data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># the output is a dictionary of ``{&#39;path&#39;: [[table1_of_path_1, table2_of_path1], [table1_of_path2, table2_of_path2]], &#39;table_data&#39;:[data_for_path1, data_for_path2]}``</span>
    <span class="k">return</span> <span class="n">codes</span><span class="p">[</span><span class="s1">&#39;table_data&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -202,11 +196,11 @@ To download the relevant geometry, you can do the following:</p>
 </pre></div>
 </div>
 <p>From here, you can take the <code class="docutils literal notranslate"><span class="pre">WD22CD</span></code> column from <code class="docutils literal notranslate"><span class="pre">ward_geos</span></code> and use it as input to the <code class="docutils literal notranslate"><span class="pre">Consensus.Nomis.DownloadFromNomis()</span></code> class if you wanted to:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.Nomis</span> <span class="kn">import</span> <span class="n">DownloadFromNomis</span>
-<span class="kn">from</span> <span class="nn">Consensus.ConfigManager</span> <span class="kn">import</span> <span class="n">ConfigManager</span>
-<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.Nomis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DownloadFromNomis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.ConfigManager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span>
 
 <span class="c1"># get your API keys and proxy settings from .env file</span>
 <span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.env&#39;</span><span class="p">)</span>  <span class="c1"># assuming .env file is in your working directory</span>
@@ -244,7 +238,7 @@ To download the relevant geometry, you can do the following:</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">df_lewisham_and_southwark_wards</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now you have both the geopandas GeoDataFrame() of the wards and the TS054 - Tenure data for the wards and you’re free to create maps and graphs as you like.</p>
+<p>Now you have both the geopandas <code class="docutils literal notranslate"><span class="pre">GeoDataFrame()</span></code> of the wards and the TS054 - Tenure data for the wards and you’re free to create maps and graphs as you like.</p>
 </section>
 </section>
 
@@ -252,7 +246,7 @@ To download the relevant geometry, you can do the following:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Consensus.lookups.html" class="btn btn-neutral float-left" title="Consensus.lookups package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Consensus.PickleJar.html" class="btn btn-neutral float-left" title="Consensus.PickleJar package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

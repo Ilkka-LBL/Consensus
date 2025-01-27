@@ -3,23 +3,23 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.utils module &mdash; Consensus 1.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Consensus.utils module &mdash; Consensus 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=00f267c6"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Consensus.config package" href="Consensus.config.html" />
+    <link rel="next" title="Consensus.server_selector_util module" href="Consensus.server_selector_util.html" />
     <link rel="prev" title="Consensus.config_utils module" href="Consensus.config_utils.html" /> 
 </head>
 
@@ -54,15 +54,16 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Consensus.utils module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils._server_selector"><code class="docutils literal notranslate"><span class="pre">_server_selector()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.get_server"><code class="docutils literal notranslate"><span class="pre">get_server()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.get_server_name"><code class="docutils literal notranslate"><span class="pre">get_server_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#utility-functions">Utility functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.read_lookup"><code class="docutils literal notranslate"><span class="pre">read_lookup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.read_service_table"><code class="docutils literal notranslate"><span class="pre">read_service_table()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Consensus.utils.where_clause_maker"><code class="docutils literal notranslate"><span class="pre">where_clause_maker()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html">Consensus.server_selector_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.PickleJar.html">Consensus.PickleJar package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
@@ -95,57 +96,12 @@
              
   <section id="module-Consensus.utils">
 <span id="consensus-utils-module"></span><h1>Consensus.utils module<a class="headerlink" href="#module-Consensus.utils" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="Consensus.utils._server_selector">
-<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">_server_selector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils._server_selector" title="Link to this definition"></a></dt>
-<dd><p>Select the server based on the provided name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dictionary of servers.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, Any]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Consensus.utils.get_server">
-<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">get_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.get_server" title="Link to this definition"></a></dt>
-<dd><p>Helper function to get the server based on the provided name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>str</em>) – Name of the server.</p></li>
-<li><p><strong>**kwargs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span>) – Keyword arguments to pass to the server class.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Instance of the server class.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Any</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Consensus.utils.get_server_name">
-<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">get_server_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.get_server_name" title="Link to this definition"></a></dt>
-<dd><p>Get the name of the server.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>server</strong> (<em>str</em>) – Name of the server.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Name of the server.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="utility-functions">
+<h2>Utility functions<a class="headerlink" href="#utility-functions" title="Link to this heading"></a></h2>
+<p>This module contains helper functions that can be used alone or they are used by more than one of the classes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">where_clause_maker()</span></code> function is used to create a SQL where clause for downloading data from Esri servers.
+<code class="docutils literal notranslate"><span class="pre">read_lookup()</span></code> is used by the <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> to build a graph and <code class="docutils literal notranslate"><span class="pre">read_service_table()</span></code> is used by <code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code> to select the right Esri service from a pickle file. Both the lookup and the pickle file are created during the lookup building.</p>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="Consensus.utils.read_lookup">
 <span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">read_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lookup_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.read_lookup" title="Link to this definition"></a></dt>
@@ -162,6 +118,26 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Consensus.utils.read_service_table">
+<span class="sig-prename descclassname"><span class="pre">Consensus.utils.</span></span><span class="sig-name descname"><span class="pre">read_service_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">esri_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.utils.read_service_table" title="Link to this definition"></a></dt>
+<dd><p>Read service table pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_path</strong> (<em>Path</em>) – <code class="docutils literal notranslate"><span class="pre">pathlib.Path()</span></code> to the folder where the Esri server pickle file is currently saved.</p></li>
+<li><p><strong>esri_server</strong> (<em>str</em>) – The name of the Esri server. For instance, for Open Geography Portal, this would be Open_Geography_Portal. This can be output from any Esri server using the <code class="docutils literal notranslate"><span class="pre">_name</span></code> method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Layer]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -194,7 +170,7 @@ You must also include the layer’s name.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Consensus.config_utils.html" class="btn btn-neutral float-left" title="Consensus.config_utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Consensus.config.html" class="btn btn-neutral float-right" title="Consensus.config package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Consensus.server_selector_util.html" class="btn btn-neutral float-right" title="Consensus.server_selector_util module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

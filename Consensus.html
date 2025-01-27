@@ -3,18 +3,18 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus package &mdash; Consensus 1.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Consensus package &mdash; Consensus 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=00f267c6"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -72,16 +72,20 @@
              
   <section id="consensus-package">
 <h1>Consensus package<a class="headerlink" href="#consensus-package" title="Link to this heading"></a></h1>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<section id="data-folders">
+<h2>Data folders<a class="headerlink" href="#data-folders" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="Consensus.config.html">Consensus.config folder</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config.html#module-Consensus.config">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups package</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups folder</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html#module-Consensus.lookups">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Consensus.PickleJar.html">Consensus.PickleJar package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.PickleJar.html#module-Consensus.PickleJar">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -116,20 +120,22 @@
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.server_types"><code class="docutils literal notranslate"><span class="pre">EsriConnector.server_types</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.services"><code class="docutils literal notranslate"><span class="pre">EsriConnector.services</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.service_table"><code class="docutils literal notranslate"><span class="pre">EsriConnector.service_table</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.initialise"><code class="docutils literal notranslate"><span class="pre">EsriConnector.initialise()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._validate_response"><code class="docutils literal notranslate"><span class="pre">EsriConnector._validate_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._name"><code class="docutils literal notranslate"><span class="pre">EsriConnector._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._initialise"><code class="docutils literal notranslate"><span class="pre">EsriConnector._initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._load_all_services"><code class="docutils literal notranslate"><span class="pre">EsriConnector._load_all_services()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.print_all_services"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_all_services()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.__init__"><code class="docutils literal notranslate"><span class="pre">EsriConnector.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector._fetch_response"><code class="docutils literal notranslate"><span class="pre">EsriConnector._fetch_response()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id0"><code class="docutils literal notranslate"><span class="pre">EsriConnector._load_all_services()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id1"><code class="docutils literal notranslate"><span class="pre">EsriConnector._validate_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id0"><code class="docutils literal notranslate"><span class="pre">EsriConnector._initialise()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id1"><code class="docutils literal notranslate"><span class="pre">EsriConnector._load_all_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id2"><code class="docutils literal notranslate"><span class="pre">EsriConnector._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id3"><code class="docutils literal notranslate"><span class="pre">EsriConnector.base_url</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.build_lookup"><code class="docutils literal notranslate"><span class="pre">EsriConnector.build_lookup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.connect_to_server"><code class="docutils literal notranslate"><span class="pre">EsriConnector.connect_to_server()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.field_matching_condition"><code class="docutils literal notranslate"><span class="pre">EsriConnector.field_matching_condition()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.get_layer_obj"><code class="docutils literal notranslate"><span class="pre">EsriConnector.get_layer_obj()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id2"><code class="docutils literal notranslate"><span class="pre">EsriConnector.initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.metadata_as_pandas"><code class="docutils literal notranslate"><span class="pre">EsriConnector.metadata_as_pandas()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id3"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_all_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id4"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_all_services()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.print_object_data"><code class="docutils literal notranslate"><span class="pre">EsriConnector.print_object_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.select_layers_by_layers"><code class="docutils literal notranslate"><span class="pre">EsriConnector.select_layers_by_layers()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector.select_layers_by_service"><code class="docutils literal notranslate"><span class="pre">EsriConnector.select_layers_by_service()</span></code></a></li>
@@ -164,19 +170,19 @@
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer.__init__"><code class="docutils literal notranslate"><span class="pre">Layer.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer._fetch"><code class="docutils literal notranslate"><span class="pre">Layer._fetch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer._record_count"><code class="docutils literal notranslate"><span class="pre">Layer._record_count()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id4"><code class="docutils literal notranslate"><span class="pre">Layer.data_from_layers</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id5"><code class="docutils literal notranslate"><span class="pre">Layer.description</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id6"><code class="docutils literal notranslate"><span class="pre">Layer.fields</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id7"><code class="docutils literal notranslate"><span class="pre">Layer.full_name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id8"><code class="docutils literal notranslate"><span class="pre">Layer.has_geometry</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id9"><code class="docutils literal notranslate"><span class="pre">Layer.id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id10"><code class="docutils literal notranslate"><span class="pre">Layer.lasteditdate</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id11"><code class="docutils literal notranslate"><span class="pre">Layer.layer_name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id12"><code class="docutils literal notranslate"><span class="pre">Layer.matchable_fields</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id13"><code class="docutils literal notranslate"><span class="pre">Layer.primary_key</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id14"><code class="docutils literal notranslate"><span class="pre">Layer.service_name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id15"><code class="docutils literal notranslate"><span class="pre">Layer.type</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id16"><code class="docutils literal notranslate"><span class="pre">Layer.url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id5"><code class="docutils literal notranslate"><span class="pre">Layer.data_from_layers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id6"><code class="docutils literal notranslate"><span class="pre">Layer.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id7"><code class="docutils literal notranslate"><span class="pre">Layer.fields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id8"><code class="docutils literal notranslate"><span class="pre">Layer.full_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id9"><code class="docutils literal notranslate"><span class="pre">Layer.has_geometry</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id10"><code class="docutils literal notranslate"><span class="pre">Layer.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id11"><code class="docutils literal notranslate"><span class="pre">Layer.lasteditdate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id12"><code class="docutils literal notranslate"><span class="pre">Layer.layer_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id13"><code class="docutils literal notranslate"><span class="pre">Layer.matchable_fields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id14"><code class="docutils literal notranslate"><span class="pre">Layer.primary_key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id15"><code class="docutils literal notranslate"><span class="pre">Layer.service_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id16"><code class="docutils literal notranslate"><span class="pre">Layer.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id17"><code class="docutils literal notranslate"><span class="pre">Layer.url</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a><ul>
@@ -198,26 +204,26 @@
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service._matchable_fields"><code class="docutils literal notranslate"><span class="pre">Service._matchable_fields()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.__init__"><code class="docutils literal notranslate"><span class="pre">Service.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service._fetch"><code class="docutils literal notranslate"><span class="pre">Service._fetch()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id17"><code class="docutils literal notranslate"><span class="pre">Service._matchable_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id18"><code class="docutils literal notranslate"><span class="pre">Service._matchable_fields()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service._service_attributes"><code class="docutils literal notranslate"><span class="pre">Service._service_attributes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id18"><code class="docutils literal notranslate"><span class="pre">Service.description</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id19"><code class="docutils literal notranslate"><span class="pre">Service.featureservers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id20"><code class="docutils literal notranslate"><span class="pre">Service.field_matching_condition</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id21"><code class="docutils literal notranslate"><span class="pre">Service.fields</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id22"><code class="docutils literal notranslate"><span class="pre">Service.get_download_urls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id19"><code class="docutils literal notranslate"><span class="pre">Service.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id20"><code class="docutils literal notranslate"><span class="pre">Service.featureservers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id21"><code class="docutils literal notranslate"><span class="pre">Service.field_matching_condition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id22"><code class="docutils literal notranslate"><span class="pre">Service.fields</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id23"><code class="docutils literal notranslate"><span class="pre">Service.get_download_urls()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.get_layers"><code class="docutils literal notranslate"><span class="pre">Service.get_layers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id23"><code class="docutils literal notranslate"><span class="pre">Service.layers</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id24"><code class="docutils literal notranslate"><span class="pre">Service.mapservers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id25"><code class="docutils literal notranslate"><span class="pre">Service.metadata</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id26"><code class="docutils literal notranslate"><span class="pre">Service.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id27"><code class="docutils literal notranslate"><span class="pre">Service.output_formats</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id28"><code class="docutils literal notranslate"><span class="pre">Service.primary_key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id24"><code class="docutils literal notranslate"><span class="pre">Service.layers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id25"><code class="docutils literal notranslate"><span class="pre">Service.mapservers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id26"><code class="docutils literal notranslate"><span class="pre">Service.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id27"><code class="docutils literal notranslate"><span class="pre">Service.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id28"><code class="docutils literal notranslate"><span class="pre">Service.output_formats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id29"><code class="docutils literal notranslate"><span class="pre">Service.primary_key</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.service_details"><code class="docutils literal notranslate"><span class="pre">Service.service_details()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Service.service_metadata"><code class="docutils literal notranslate"><span class="pre">Service.service_metadata()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id29"><code class="docutils literal notranslate"><span class="pre">Service.tables</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id30"><code class="docutils literal notranslate"><span class="pre">Service.type</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id31"><code class="docutils literal notranslate"><span class="pre">Service.url</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id32"><code class="docutils literal notranslate"><span class="pre">Service.wfsservers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id30"><code class="docutils literal notranslate"><span class="pre">Service.tables</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id31"><code class="docutils literal notranslate"><span class="pre">Service.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id32"><code class="docutils literal notranslate"><span class="pre">Service.url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriConnector.html#id33"><code class="docutils literal notranslate"><span class="pre">Service.wfsservers()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -226,12 +232,14 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography"><code class="docutils literal notranslate"><span class="pre">OpenGeography</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.__init__"><code class="docutils literal notranslate"><span class="pre">OpenGeography.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography._fetch_response"><code class="docutils literal notranslate"><span class="pre">OpenGeography._fetch_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography._initialise"><code class="docutils literal notranslate"><span class="pre">OpenGeography._initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography._load_all_services"><code class="docutils literal notranslate"><span class="pre">OpenGeography._load_all_services()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography._validate_response"><code class="docutils literal notranslate"><span class="pre">OpenGeography._validate_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography._name"><code class="docutils literal notranslate"><span class="pre">OpenGeography._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.base_url"><code class="docutils literal notranslate"><span class="pre">OpenGeography.base_url</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.build_lookup"><code class="docutils literal notranslate"><span class="pre">OpenGeography.build_lookup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.connect_to_server"><code class="docutils literal notranslate"><span class="pre">OpenGeography.connect_to_server()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.field_matching_condition"><code class="docutils literal notranslate"><span class="pre">OpenGeography.field_matching_condition()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.get_layer_obj"><code class="docutils literal notranslate"><span class="pre">OpenGeography.get_layer_obj()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.initialise"><code class="docutils literal notranslate"><span class="pre">OpenGeography.initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.metadata_as_pandas"><code class="docutils literal notranslate"><span class="pre">OpenGeography.metadata_as_pandas()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.print_all_services"><code class="docutils literal notranslate"><span class="pre">OpenGeography.print_all_services()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.OpenGeography.print_object_data"><code class="docutils literal notranslate"><span class="pre">OpenGeography.print_object_data()</span></code></a></li>
@@ -242,12 +250,14 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL"><code class="docutils literal notranslate"><span class="pre">TFL</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.__init__"><code class="docutils literal notranslate"><span class="pre">TFL.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL._fetch_response"><code class="docutils literal notranslate"><span class="pre">TFL._fetch_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL._initialise"><code class="docutils literal notranslate"><span class="pre">TFL._initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL._load_all_services"><code class="docutils literal notranslate"><span class="pre">TFL._load_all_services()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL._validate_response"><code class="docutils literal notranslate"><span class="pre">TFL._validate_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL._name"><code class="docutils literal notranslate"><span class="pre">TFL._name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.base_url"><code class="docutils literal notranslate"><span class="pre">TFL.base_url</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.build_lookup"><code class="docutils literal notranslate"><span class="pre">TFL.build_lookup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.connect_to_server"><code class="docutils literal notranslate"><span class="pre">TFL.connect_to_server()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.field_matching_condition"><code class="docutils literal notranslate"><span class="pre">TFL.field_matching_condition()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.get_layer_obj"><code class="docutils literal notranslate"><span class="pre">TFL.get_layer_obj()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.initialise"><code class="docutils literal notranslate"><span class="pre">TFL.initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.metadata_as_pandas"><code class="docutils literal notranslate"><span class="pre">TFL.metadata_as_pandas()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.print_all_services"><code class="docutils literal notranslate"><span class="pre">TFL.print_all_services()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.EsriServers.html#Consensus.EsriServers.TFL.print_object_data"><code class="docutils literal notranslate"><span class="pre">TFL.print_object_data()</span></code></a></li>
@@ -299,23 +309,23 @@
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker.graph</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.lookup"><code class="docutils literal notranslate"><span class="pre">SmartLinker.lookup</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.local_authorities"><code class="docutils literal notranslate"><span class="pre">SmartLinker.local_authorities</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.initialise"><code class="docutils literal notranslate"><span class="pre">SmartLinker.initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.run_graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker.run_graph()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.geodata"><code class="docutils literal notranslate"><span class="pre">SmartLinker.geodata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.allow_geometry"><code class="docutils literal notranslate"><span class="pre">SmartLinker.allow_geometry()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.__init__"><code class="docutils literal notranslate"><span class="pre">SmartLinker.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._check_intersection_of_two_lists"><code class="docutils literal notranslate"><span class="pre">SmartLinker._check_intersection_of_two_lists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._create_graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker._create_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._find_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker._find_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._find_shortest_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker._find_shortest_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._get_ogp_table"><code class="docutils literal notranslate"><span class="pre">SmartLinker._get_ogp_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._get_starting_point"><code class="docutils literal notranslate"><span class="pre">SmartLinker._get_starting_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._get_starting_point_without_local_authority_constraint"><code class="docutils literal notranslate"><span class="pre">SmartLinker._get_starting_point_without_local_authority_constraint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._initialise"><code class="docutils literal notranslate"><span class="pre">SmartLinker._initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker._path_to_tables"><code class="docutils literal notranslate"><span class="pre">SmartLinker._path_to_tables()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#id0"><code class="docutils literal notranslate"><span class="pre">SmartLinker.allow_geometry()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.create_graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker.create_graph()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.find_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker.find_paths()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.find_shortest_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker.find_shortest_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#id1"><code class="docutils literal notranslate"><span class="pre">SmartLinker.geodata()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.get_starting_point"><code class="docutils literal notranslate"><span class="pre">SmartLinker.get_starting_point()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.get_starting_point_without_local_authority_constraint"><code class="docutils literal notranslate"><span class="pre">SmartLinker.get_starting_point_without_local_authority_constraint()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#id2"><code class="docutils literal notranslate"><span class="pre">SmartLinker.initialise()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#Consensus.GeocodeMerger.SmartLinker.paths_to_explore"><code class="docutils literal notranslate"><span class="pre">SmartLinker.paths_to_explore()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#id3"><code class="docutils literal notranslate"><span class="pre">SmartLinker.run_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Consensus.GeocodeMerger.html#id2"><code class="docutils literal notranslate"><span class="pre">SmartLinker.run_graph()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -460,11 +470,17 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils._server_selector"><code class="docutils literal notranslate"><span class="pre">_server_selector()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.get_server"><code class="docutils literal notranslate"><span class="pre">get_server()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.get_server_name"><code class="docutils literal notranslate"><span class="pre">get_server_name()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#utility-functions">Utility functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.read_lookup"><code class="docutils literal notranslate"><span class="pre">read_lookup()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.read_service_table"><code class="docutils literal notranslate"><span class="pre">read_service_table()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html#Consensus.utils.where_clause_maker"><code class="docutils literal notranslate"><span class="pre">where_clause_maker()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Consensus.server_selector_util.html">Consensus.server_selector_util module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html#purpose-of-server-selector-util">Purpose of server_selector_util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html#Consensus.server_selector_util.get_server"><code class="docutils literal notranslate"><span class="pre">get_server()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html#Consensus.server_selector_util.get_server_name"><code class="docutils literal notranslate"><span class="pre">get_server_name()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html#Consensus.server_selector_util.server_selector"><code class="docutils literal notranslate"><span class="pre">server_selector()</span></code></a></li>
 </ul>
 </li>
 </ul>

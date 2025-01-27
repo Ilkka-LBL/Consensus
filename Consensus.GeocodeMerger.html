@@ -3,18 +3,18 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.GeocodeMerger module &mdash; Consensus 1.1.4 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Consensus.GeocodeMerger module &mdash; Consensus 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=00f267c6"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -90,23 +90,23 @@
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker.graph</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.lookup"><code class="docutils literal notranslate"><span class="pre">SmartLinker.lookup</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.local_authorities"><code class="docutils literal notranslate"><span class="pre">SmartLinker.local_authorities</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.initialise"><code class="docutils literal notranslate"><span class="pre">SmartLinker.initialise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.run_graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker.run_graph()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.geodata"><code class="docutils literal notranslate"><span class="pre">SmartLinker.geodata()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.allow_geometry"><code class="docutils literal notranslate"><span class="pre">SmartLinker.allow_geometry()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.__init__"><code class="docutils literal notranslate"><span class="pre">SmartLinker.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._check_intersection_of_two_lists"><code class="docutils literal notranslate"><span class="pre">SmartLinker._check_intersection_of_two_lists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._create_graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker._create_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._find_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker._find_paths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._find_shortest_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker._find_shortest_paths()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._get_ogp_table"><code class="docutils literal notranslate"><span class="pre">SmartLinker._get_ogp_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._get_starting_point"><code class="docutils literal notranslate"><span class="pre">SmartLinker._get_starting_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._get_starting_point_without_local_authority_constraint"><code class="docutils literal notranslate"><span class="pre">SmartLinker._get_starting_point_without_local_authority_constraint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._initialise"><code class="docutils literal notranslate"><span class="pre">SmartLinker._initialise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker._path_to_tables"><code class="docutils literal notranslate"><span class="pre">SmartLinker._path_to_tables()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">SmartLinker.allow_geometry()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.create_graph"><code class="docutils literal notranslate"><span class="pre">SmartLinker.create_graph()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.find_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker.find_paths()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.find_shortest_paths"><code class="docutils literal notranslate"><span class="pre">SmartLinker.find_shortest_paths()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">SmartLinker.geodata()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.get_starting_point"><code class="docutils literal notranslate"><span class="pre">SmartLinker.get_starting_point()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.get_starting_point_without_local_authority_constraint"><code class="docutils literal notranslate"><span class="pre">SmartLinker.get_starting_point_without_local_authority_constraint()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">SmartLinker.initialise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Consensus.GeocodeMerger.SmartLinker.paths_to_explore"><code class="docutils literal notranslate"><span class="pre">SmartLinker.paths_to_explore()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">SmartLinker.run_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">SmartLinker.run_graph()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -116,8 +116,10 @@
 <li class="toctree-l2"><a class="reference internal" href="Consensus.Nomis.html">Consensus.Nomis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.config_utils.html">Consensus.config_utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Consensus.utils.html">Consensus.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.server_selector_util.html">Consensus.server_selector_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.config.html">Consensus.config folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.lookups.html">Consensus.lookups folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Consensus.PickleJar.html">Consensus.PickleJar package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
@@ -152,26 +154,27 @@
 <span id="consensus-geocodemerger-module"></span><h1>Consensus.GeocodeMerger module<a class="headerlink" href="#module-Consensus.GeocodeMerger" title="Link to this heading"></a></h1>
 <section id="using-smartlinker">
 <h2>Using <cite>SmartLinker()</cite><a class="headerlink" href="#using-smartlinker" title="Link to this heading"></a></h2>
-<p>This module provides a <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> class that finds the shortest path between two columns in different tables in Open Geography Portal. The idea for this class was borne out of the need to constantly access Open Geography Portal for data science projects, creating complex lookup merges for comparing 2011 and 2021 Census data. You can think of this class as a convenience wrapper for downloading data from many datasets in Open Geography Portal. <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> class takes a starting and ending column, list of geographic areas and the column where the values of geographic areas should be, and finds the shortest path between the start and end points.
-We do this by using graph theory, specifically the Breadth-first search method between the columns of all tables on Open Geography Portal.
+<p>This module provides a <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> class that finds the shortest path between two columns in different tables in Open Geography Portal. The idea for this class was borne out of the need to constantly access Open Geography Portal for data science projects, creating complex lookup merges for comparing 2011 and 2021 Census data. You can think of this class as a convenience wrapper for downloading data from many datasets in Open Geography Portal. <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> class takes a list of starting and ending columns, list of geographic areas and a list of columns where the values of geographic areas should be, and finds the shortest path between the start and end points.
+We do this by using graph theory, specifically the breadth-first search method between the columns of all tables on Open Geography Portal.
 The end result is not by any means perfect and you are advised to try different paths and to check that the output makes sense.</p>
-<p>You can furher use the output of this class to download data from Nomis using the <code class="docutils literal notranslate"><span class="pre">Consensus.Nomis.DownloadFromNomis()</span></code> class. More specifically, if you know the geographic areas (e.g. wards) you are interested in are available for a specific Census table (say, TS054 - Tenure from Census 2021), you can find the ward geocodes using <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> and then input those to <code class="docutils literal notranslate"><span class="pre">DownloadFromNomis().download()</span></code> to access Nomis data.</p>
+<p>You can further use the output of this class to download data from Nomis using the <code class="docutils literal notranslate"><span class="pre">Consensus.Nomis.DownloadFromNomis()</span></code> class. More specifically, if you know the geographic areas (e.g. wards) you are interested in are available for a specific Census table (say, TS054 - Tenure from Census 2021), you can find the ward geocodes using <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> and then input those to <code class="docutils literal notranslate"><span class="pre">DownloadFromNomis().download()</span></code> to access Nomis data.</p>
 </section>
 <section id="usage">
 <h2>Usage:<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <p>This class works as follows.</p>
-<p>Internally, on initialising the class with <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">SmartLinker().initialise()</span></code>, a json lookup file of the available tables in Open Geography Portal is read if the json file exists or created if it is not available.
-Then, using the information contained in the json file, a graph of connections between table columns is created using the <code class="docutils literal notranslate"><span class="pre">run_graph()</span></code> method. At this point the user provides the names of the starting and ending columns,
+<p>Internally, on creating an instance of the class, a json lookup file and a pickle file of the Esri server’s services is read.
+Then, using the information contained in the json file, a graph of connections between table columns is created using the <code class="docutils literal notranslate"><span class="pre">run_graph()</span></code> method. At this point the user provides a list of the names of the columns that should be included in the first and the last tables,
 an optional list of <code class="docutils literal notranslate"><span class="pre">geographic_areas</span></code> and an optional list of columns for the <code class="docutils literal notranslate"><span class="pre">geographic_area_columns</span></code> that the <code class="docutils literal notranslate"><span class="pre">geographic_areas</span></code> uses to create a subset of data.</p>
-<p>Following the creation of the graph, all possible starting points are searched for (i.e., which tables contain the user-provided starting_table). After this, we look for the shortest paths to the ending column.
-To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
+<p>Following the creation of the graph, all possible starting points are searched for. After this, we look for the shortest paths.
+To do this, we look for all possible paths from all tables that contain all columns listed in <code class="docutils literal notranslate"><span class="pre">starting_columns</span></code> to all tables that contain all columns listed in <code class="docutils literal notranslate"><span class="pre">ending_columns</span></code> and count how many steps there are between each table.
 The <code class="docutils literal notranslate"><span class="pre">run_graph()</span></code> method prints out a numbered list of possible paths.</p>
-<p>The user can get their chosen data using the <code class="docutils literal notranslate"><span class="pre">geodata()</span></code> method by providing an integer matching their chosen path to the <code class="docutils literal notranslate"><span class="pre">selected_path</span></code> argument.</p>
+<p>The user can get their chosen data using the <code class="docutils literal notranslate"><span class="pre">geodata()</span></code> method by providing an integer matching their chosen path to the <code class="docutils literal notranslate"><span class="pre">selected_path</span></code> argument.
+This will then initiate the download phase, in which the code creates sequential SQL commands and uses <code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code> class to download the intended data.</p>
 <section id="intended-workflow">
 <h3>Intended workflow<a class="headerlink" href="#intended-workflow" title="Link to this heading"></a></h3>
 <p>First explore the possible geographies.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.GeocodeMerger</span> <span class="kn">import</span> <span class="n">SmartLinker</span><span class="p">,</span> <span class="n">GeoHelper</span>
-<span class="kn">import</span> <span class="nn">asyncio</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.GeocodeMerger</span><span class="w"> </span><span class="kn">import</span> <span class="n">SmartLinker</span><span class="p">,</span> <span class="n">GeoHelper</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
 <span class="n">gh</span> <span class="o">=</span> <span class="n">GeoHelper</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">gh</span><span class="o">.</span><span class="n">geography_keys</span><span class="p">())</span>  <span class="c1"># outputs a dictionary of explanations for nearly all UK geographic units.</span>
@@ -180,9 +183,8 @@ The <code class="docutils literal notranslate"><span class="pre">run_graph()</sp
 </pre></div>
 </div>
 <p>Once you’ve decided you want to look at 2022 wards, you can do the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">get_data</span><span class="p">():</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">():</span>
     <span class="n">gss</span> <span class="o">=</span> <span class="n">SmartLinker</span><span class="p">()</span>
-    <span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
     <span class="n">gss</span><span class="o">.</span><span class="n">allow_geometry</span><span class="p">(</span><span class="s1">&#39;geometry_only&#39;</span><span class="p">)</span>  <span class="c1"># use this method to restrict the graph search space to tables with geometry</span>
     <span class="n">gss</span><span class="o">.</span><span class="n">allow_geometry</span><span class="p">(</span><span class="s1">&#39;connected_tables&#39;</span><span class="p">)</span>  <span class="c1"># set this to ``True`` if you must have geometries in the *connected* table</span>
     <span class="n">gss</span><span class="o">.</span><span class="n">run_graph</span><span class="p">(</span><span class="n">starting_column</span><span class="o">=</span><span class="s1">&#39;WD22CD&#39;</span><span class="p">,</span> <span class="n">ending_column</span><span class="o">=</span><span class="s1">&#39;LAD22CD&#39;</span><span class="p">,</span> <span class="n">geographic_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Lewisham&#39;</span><span class="p">,</span> <span class="s1">&#39;Southwark&#39;</span><span class="p">],</span> <span class="n">geographic_area_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LAD22NM&#39;</span><span class="p">])</span>  <span class="c1"># you can choose the starting and ending columns using ``GeoHelper().geographies_filter()`` method.</span>
@@ -408,7 +410,7 @@ set self.__traceback__ to tb and return self.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.lookup_location">
 <span class="sig-name descname"><span class="pre">lookup_location</span></span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.lookup_location" title="Link to this definition"></a></dt>
-<dd><p>Path to the <code class="docutils literal notranslate"><span class="pre">lookup.json</span></code> file. Defaults to None.</p>
+<dd><p>Path to the <code class="docutils literal notranslate"><span class="pre">lookup.json</span></code> file. Defaults to None. Doesn’t need to be set if you’re just using the default.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path</p>
@@ -435,12 +437,6 @@ set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.initialise">
-<span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.initialise" title="Link to this definition"></a></dt>
-<dd><p>This method reads the lookup.json file and creates the graph.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.run_graph">
 <span class="sig-name descname"><span class="pre">run_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.run_graph" title="Link to this definition"></a></dt>
 <dd><p>This method creates the graph by searching through the lookup.json file for data with shared column names, given the names of the starting and ending columns.</p>
@@ -460,20 +456,19 @@ set self.__traceback__ to tb and return self.</p>
 
 <dl>
 <dt>Usage:</dt><dd><p>This class works as follows.</p>
-<p>Internally, on initialising the class with <code class="docutils literal notranslate"><span class="pre">SmartLinker().initialise()</span></code>, a json lookup file of the available tables in Open Geography Portal is read if the json file exists. If it is not available, you must build the lookup file first using the appropriate <code class="docutils literal notranslate"><span class="pre">EsriConnector()</span></code> sub-class.
-Then, using the information contained in the json file, a graph of connections between table columns is created using the <code class="docutils literal notranslate"><span class="pre">run_graph()</span></code> method. At this point the user provides the names of the starting and ending columns,
+<p>Internally, on creating an instance of the class, a json lookup file and a pickle file of the Esri server’s services is read.
+Then, using the information contained in the json file, a graph of connections between table columns is created using the <code class="docutils literal notranslate"><span class="pre">run_graph()</span></code> method. At this point the user provides a list of the names of the columns that should be included in the first and the last tables,
 an optional list of <code class="docutils literal notranslate"><span class="pre">geographic_areas</span></code> and an optional list of columns for the <code class="docutils literal notranslate"><span class="pre">geographic_area_columns</span></code> that the <code class="docutils literal notranslate"><span class="pre">geographic_areas</span></code> uses to create a subset of data.</p>
-<p>Following the creation of the graph, all possible starting points are searched for (i.e., which tables contain the user-provided starting_table). After this, we look for the shortest paths to the ending column.
-To do this, we look for all possible paths from all starting_columns to ending_columns and count how many steps there are between each table.
+<p>Following the creation of the graph, all possible starting points are searched for. After this, we look for the shortest paths.
+To do this, we look for all possible paths from all tables that contain all columns listed in <code class="docutils literal notranslate"><span class="pre">starting_columns</span></code> to all tables that contain all columns listed in <code class="docutils literal notranslate"><span class="pre">ending_columns</span></code> and count how many steps there are between each table.
 The <code class="docutils literal notranslate"><span class="pre">run_graph()</span></code> method prints out a numbered list of possible paths.</p>
-<p>The user can get their chosen data using the <code class="docutils literal notranslate"><span class="pre">geodata()</span></code> method by providing an integer matching their chosen path to the <code class="docutils literal notranslate"><span class="pre">selected_path</span></code> argument.</p>
+<p>The user can get their chosen data using the <code class="docutils literal notranslate"><span class="pre">geodata()</span></code> method by providing an integer matching their chosen path to the <code class="docutils literal notranslate"><span class="pre">selected_path</span></code> argument. This will then initiate the download phase, in which the code creates sequential SQL commands and uses <code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code> class to download the intended data.</p>
 <p>The intended workflow is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Consensus.GeocodeMerger</span> <span class="kn">import</span> <span class="n">SmartLinker</span>
-<span class="kn">import</span> <span class="nn">asyncio</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.GeocodeMerger</span><span class="w"> </span><span class="kn">import</span> <span class="n">SmartLinker</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">example</span><span class="p">():</span>
     <span class="n">gss</span> <span class="o">=</span> <span class="n">SmartLinker</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="s1">&#39;OGP&#39;</span><span class="p">)</span>  <span class="c1"># change ``server`` argument to &#39;TFL&#39; if you so wish. This class may not perform well for all Esri servers as the stored data tables may not have many or any common column names and therefore this class may build a disconnected graph.</span>
-    <span class="k">await</span> <span class="n">gss</span><span class="o">.</span><span class="n">initialise</span><span class="p">()</span>
     <span class="n">gss</span><span class="o">.</span><span class="n">allow_geometry</span><span class="p">(</span><span class="s1">&#39;geometry_only&#39;</span><span class="p">)</span>  <span class="c1"># use this method to restrict the graph search space to tables with geometry</span>
     <span class="n">gss</span><span class="o">.</span><span class="n">allow_geometry</span><span class="p">(</span><span class="s1">&#39;connected_tables&#39;</span><span class="p">)</span>  <span class="c1"># set this to ``True`` if you must have geometries in the *connected* table</span>
     <span class="n">gss</span><span class="o">.</span><span class="n">run_graph</span><span class="p">(</span><span class="n">starting_column</span><span class="o">=</span><span class="s1">&#39;WD22CD&#39;</span><span class="p">,</span> <span class="n">ending_column</span><span class="o">=</span><span class="s1">&#39;LAD22CD&#39;</span><span class="p">,</span> <span class="n">geographic_areas</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Lewisham&#39;</span><span class="p">,</span> <span class="s1">&#39;Southwark&#39;</span><span class="p">],</span> <span class="n">geographic_area_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LAD22NM&#39;</span><span class="p">])</span>  <span class="c1"># the starting and ending columns should end in CD</span>
@@ -504,6 +499,62 @@ The <code class="docutils literal notranslate"><span class="pre">run_graph()</sp
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._check_intersection_of_two_lists">
+<span class="sig-name descname"><span class="pre">_check_intersection_of_two_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields_to_match</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._check_intersection_of_two_lists" title="Link to this definition"></a></dt>
+<dd><p>Check if a list of columns exists in a row of data in the lookup table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns true if all the columns listed in starting_columns are present in the layer.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._create_graph">
+<span class="sig-name descname"><span class="pre">_create_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._create_graph" title="Link to this definition"></a></dt>
+<dd><p>Create a graph of connections between tables using common column names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple containing a dictionary representing the graph and a list of table-column pairs.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple[Dict[str, List[Tuple[str, str]]], List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._find_paths">
+<span class="sig-name descname"><span class="pre">_find_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._find_paths" title="Link to this definition"></a></dt>
+<dd><p>Find all paths given all start and end options using <code class="docutils literal notranslate"><span class="pre">BFS_SP()</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the possible paths. Paths are sorted alphabetically.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, List]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._find_shortest_paths">
+<span class="sig-name descname"><span class="pre">_find_shortest_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._find_shortest_paths" title="Link to this definition"></a></dt>
+<dd><p>From all path options, choose shortest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of the shortest paths.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._get_ogp_table">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_ogp_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathway</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">where_clause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1=1'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._get_ogp_table" title="Link to this definition"></a></dt>
 <dd><p>Uses <code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code> to download data from Open Geography Portal. Keyword arguments are passed to <code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code>.</p>
@@ -520,6 +571,51 @@ The <code class="docutils literal notranslate"><span class="pre">run_graph()</sp
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[pd.DataFrame, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._get_starting_point">
+<span class="sig-name descname"><span class="pre">_get_starting_point</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._get_starting_point" title="Link to this definition"></a></dt>
+<dd><p>Starting point is hard coded as being from any table with ‘LAD’, ‘UTLA’, or ‘LTLA’ columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the starting tables and their columns.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._get_starting_point_without_local_authority_constraint">
+<span class="sig-name descname"><span class="pre">_get_starting_point_without_local_authority_constraint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._get_starting_point_without_local_authority_constraint" title="Link to this definition"></a></dt>
+<dd><p>Starting point is any table with a suitable column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing the starting tables and their columns.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker._initialise">
+<span class="sig-name descname"><span class="pre">_initialise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker._initialise" title="Link to this definition"></a></dt>
+<dd><p>Initialise the connections to the selected Esri server and prepare the async Feature Server for downloading.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the server does not have a service table.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -558,48 +654,6 @@ The <code class="docutils literal notranslate"><span class="pre">run_graph()</sp
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.create_graph">
-<span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.create_graph" title="Link to this definition"></a></dt>
-<dd><p>Create a graph of connections between tables using common column names.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A tuple containing a dictionary representing the graph and a list of table-column pairs.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tuple[Dict[str, List[Tuple[str, str]]], List[str]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.find_paths">
-<span class="sig-name descname"><span class="pre">find_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.find_paths" title="Link to this definition"></a></dt>
-<dd><p>Find all paths given all start and end options using <code class="docutils literal notranslate"><span class="pre">BFS_SP()</span></code> function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing the possible paths. Paths are sorted alphabetically.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, List]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.find_shortest_paths">
-<span class="sig-name descname"><span class="pre">find_shortest_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.find_shortest_paths" title="Link to this definition"></a></dt>
-<dd><p>From all path options, choose shortest.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of the shortest paths.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>List[str]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="id1">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retun_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Get a dictionary of pandas dataframes that have been either merged and filtered by geographic_areas or all individual tables.</p>
@@ -621,51 +675,6 @@ The <code class="docutils literal notranslate"><span class="pre">run_graph()</sp
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.get_starting_point">
-<span class="sig-name descname"><span class="pre">get_starting_point</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.get_starting_point" title="Link to this definition"></a></dt>
-<dd><p>Starting point is hard coded as being from any table with ‘LAD’, ‘UTLA’, or ‘LTLA’ columns.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing the starting tables and their columns.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, List[str]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.get_starting_point_without_local_authority_constraint">
-<span class="sig-name descname"><span class="pre">get_starting_point_without_local_authority_constraint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.get_starting_point_without_local_authority_constraint" title="Link to this definition"></a></dt>
-<dd><p>Starting point is any table with a suitable column.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing the starting tables and their columns.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, List[str]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
-<dd><p>Initialise the connections to the selected Esri server and prepare the async Feature Server for downloading.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If the server does not have a service table.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="Consensus.GeocodeMerger.SmartLinker.paths_to_explore">
 <span class="sig-name descname"><span class="pre">paths_to_explore</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.GeocodeMerger.SmartLinker.paths_to_explore" title="Link to this definition"></a></dt>
 <dd><p>Returns all possible paths (only table names) as a dictionary. The keys can be used to select your desired path by inputting it like: <code class="docutils literal notranslate"><span class="pre">geodata(selected_path=key)</span></code>.</p>
@@ -680,15 +689,15 @@ The <code class="docutils literal notranslate"><span class="pre">run_graph()</sp
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">run_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starting_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ending_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geographic_areas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geographic_area_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['LAD22NM',</span> <span class="pre">'UTLA22NM',</span> <span class="pre">'LTLA22NM']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">run_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starting_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ending_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geographic_areas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geographic_area_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['LAD22NM',</span> <span class="pre">'UTLA22NM',</span> <span class="pre">'LTLA22NM']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
 <dd><p>Use this method to create the graph given start and end points, as well as the local authority.
 The starting_column and ending_column parameters should end in “CD”. For example LAD21CD or WD23CD.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>starting_column</strong> (<em>str</em>) – The starting column for the graph search.</p></li>
-<li><p><strong>ending_column</strong> (<em>str</em>) – The ending column for the graph search.</p></li>
+<li><p><strong>starting_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – The list of columns that should exist in the first table of the graph. Adding more columns will provide more refined selection. This matching is done against matchable fields, not all fields of a table.</p></li>
+<li><p><strong>ending_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – The list of columns that should exist in the last table of the graph. This matching is done against matchable fields, not all fields of a table.</p></li>
 <li><p><strong>geographic_areas</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of geographic areas to filter the data by.</p></li>
 <li><p><strong>geographic_area_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of columns to use when filtering the data using the <code class="docutils literal notranslate"><span class="pre">geographic_areas</span></code> list. Defaults to [‘LAD22NM’, ‘UTLA22NM’, ‘LTLA22NM’].</p></li>
 </ul>
