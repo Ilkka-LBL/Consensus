@@ -23,7 +23,3 @@ where_clause = where_clause_maker(values=geographic_areas, column=column_name)
 output = await fs.download(where_clause=where_clause, return_geometry=True)
 assert output['WD23NM'].nunique() == 1
 print(output)
-
-
-# %%
-og._name

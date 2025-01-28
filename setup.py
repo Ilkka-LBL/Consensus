@@ -50,7 +50,7 @@ all_files = extra_files + config + pickles
 
 setup(
     name='Consensus',
-    version='1.2.0',
+    version='1.2.1',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     url='https://ilkka-lbl.github.io/Consensus/',

@@ -60,6 +60,7 @@ class TestOGP(unittest.IsolatedAsyncioTestCase):
     async def test_6_featureserver(self) -> None:
         print("\n Test 6 - Changing the conditions under which fields are matchable by SmartLinker()")
         og = OpenGeography(max_retries=self.max_retries, retry_delay=2)
+
         def matching_conditons(field):
             print(field)
             if field['type'].upper() == 'ESRIFIELDTYPESTRING' and field['name'].upper() not in ['GLOBALID', 'FID', 'ID', 'OBJECTID']:

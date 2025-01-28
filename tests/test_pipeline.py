@@ -5,7 +5,7 @@ sys_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, sys_path)
 
 from Consensus.ConfigManager import ConfigManager
-from Consensus.GeocodeMerger import SmartLinker, GeoHelper
+from Consensus.GeocodeMerger import SmartLinker
 from Consensus.Nomis import DownloadFromNomis
 
 import unittest
@@ -57,8 +57,8 @@ class TestNomis(unittest.TestCase):
         nomis.detailed_info_for_table('NM_2072_1')  # TS054 - Tenure
 
         # If you want the data for the whole country:
-        #df_bulk = nomis.bulk_download('NM_2072_1')
-        #print(df_bulk)
+        # df_bulk = nomis.bulk_download('NM_2072_1')
+        # print(df_bulk)
 
         # And if you want just an extract for a specific geography, in our case all wards in Lewisham and Southwark:
         geography = {'geography': list(output['WD22CD'].unique())}  # you can extend this list

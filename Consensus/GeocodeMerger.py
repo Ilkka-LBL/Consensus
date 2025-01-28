@@ -201,7 +201,6 @@ class SmartLinker:
         self.lookup = None
         self.force_geometry = False
         self.server = get_server(server, **kwargs)
-        self.server.initialise()
         # Initialise attributes that don't require async operations
         self.lookup_folder = lookup_folder
 

@@ -41,7 +41,6 @@ class TestGraphBuilder(unittest.TestCase):
 
         # Debugging: Print the graph's nodes
         print("Graph nodes:", builder.graph.nodes)  # Inspect the graph structure
-    
         # Test: There should be 4 nodes in the graph: two tables and two columns
         self.assertEqual(len(builder.graph.nodes), 4)  # Expected 4 nodes: two tables and two columns
 
@@ -81,16 +80,16 @@ class TestDatabaseManager(unittest.TestCase):
         # Create mock return values for read_csv and connect
         mock_df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})  # Mocked DataFrame
         mock_conn = MagicMock()  # Mocked database connection
-        
+
         mock_read_csv.return_value = mock_df  # When read_csv is called, return mock_df
         mock_connect.return_value = mock_conn  # When duckdb.connect is called, return mock_conn
 
         # Create an instance of DatabaseManager
         db_manager = DatabaseManager('path_to_db.db')  # Adjust the database path as needed
-        
+
         # Mock input for create_database method (using the dictionary format expected)
         table_paths = {'table1': Path('path_to_csv.csv'), 'table2': Path('path_to_csv.csv')}
-        
+
         # Call the method you're testing
         db_manager.create_database(table_paths)
 
@@ -108,9 +107,6 @@ class TestDatabaseManager(unittest.TestCase):
         # Optionally, check the number of times to_sql was called (one per table)
         self.assertEqual(mock_to_sql.call_count, 2)  # Two tables (table1, table2) should be processed
 
-
-
-
     @patch("duckdb.connect")
     @patch("pandas.read_csv")
     @patch("pandas.read_excel")
@@ -118,16 +114,16 @@ class TestDatabaseManager(unittest.TestCase):
         # Mock the connection and methods
         mock_conn = MagicMock()
         mock_connect.return_value = mock_conn
-        
+
         # Mock DataFrames for the CSV and Excel files
         mock_read_csv.return_value = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
         mock_read_excel.return_value = pd.DataFrame({'col1': [1, 2], 'col2': [7, 8]})
 
         db_manager = DatabaseManager("test_db.duckdb")
-        
+
         # Mock table_paths dictionary
         table_paths = {"table1": Path("test.csv"), "table2": Path("test.xlsx")}
-        
+
         # Act
         path = ["table1", "table2"]  # Example path for testing
         result_df = db_manager.query_tables_from_path(path, table_paths)
@@ -141,7 +137,7 @@ class TestDatabaseManager(unittest.TestCase):
         # Assert the result is as expected
         print("Resulting DataFrame after inner join:")
         print(result_df)
-        
+
         # Assert that the shape is (2, 2), as the join should result in 2 rows and 2 columns.
         # The join is inner by default, and 'col1' should match between both DataFrames.
         self.assertEqual(result_df.shape, (2, 3))
