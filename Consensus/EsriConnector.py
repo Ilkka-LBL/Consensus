@@ -25,16 +25,17 @@ This module provides a class for interacting with the Esri REST API. This is the
 
 Note that all base URLs of your custom servers have to end in "?f=json". Here's a list of URLs that you can experiment with:
 
-- [MetOffice]: https://services.arcgis.com/Lq3V5RFuTBC9I7kv/ArcGIS/rest/services?f=json
-- [National highways]: https://services-eu1.arcgis.com/mZXeBXkkZpekxjXT/ArcGIS/rest/services?f=json
-- [Natural England]: https://services.arcgis.com/JJzESW51TqeY9uat/ArcGIS/rest/services?f=json
-- [Historic England]: https://services-eu1.arcgis.com/ZOdPfBS3aqqDYPUQ/ArcGIS/rest/services?f=json
-- [British Geological Survey]: https://services3.arcgis.com/7bJVHfju2RXdGZa4/ArcGIS/rest/services?f=json
-- [Sustrans (National Cycle Network)]: https://services5.arcgis.com/1ZHcUS1lwPTg4ms0/ArcGIS/rest/services?f=json
-- [RSPB]: https://services1.arcgis.com/h1C9f6qsGKmqXsVs/ArcGIS/rest/services?f=json
-- [Crown Estate (e.g. wind turbine agreements)]: https://services2.arcgis.com/PZklK9Q45mfMFuZs/ArcGIS/rest/services?f=json
-- [National Trust]: https://services-eu1.arcgis.com/NPIbx47lsIiu2pqz/ArcGIS/rest/services?f=json
-- [UK Air]: https://ukair.maps.rcdo.co.uk/ukairserver/rest/services/Hosted?f=json
+- [MetOffice](https://services.arcgis.com/Lq3V5RFuTBC9I7kv/ArcGIS/rest/services?f=json): https://services.arcgis.com/Lq3V5RFuTBC9I7kv/ArcGIS/rest/services?f=json
+- [National highways](https://services-eu1.arcgis.com/mZXeBXkkZpekxjXT/ArcGIS/rest/services?f=json): https://services-eu1.arcgis.com/mZXeBXkkZpekxjXT/ArcGIS/rest/services?f=json
+- [Natural England](https://services.arcgis.com/JJzESW51TqeY9uat/ArcGIS/rest/services?f=json): https://services.arcgis.com/JJzESW51TqeY9uat/ArcGIS/rest/services?f=json
+- [Historic England](https://services-eu1.arcgis.com/ZOdPfBS3aqqDYPUQ/ArcGIS/rest/services?f=json): https://services-eu1.arcgis.com/ZOdPfBS3aqqDYPUQ/ArcGIS/rest/services?f=json
+- [British Geological Survey](https://services3.arcgis.com/7bJVHfju2RXdGZa4/ArcGIS/rest/services?f=json): https://services3.arcgis.com/7bJVHfju2RXdGZa4/ArcGIS/rest/services?f=json
+- [Sustrans (National Cycle Network)](https://services5.arcgis.com/1ZHcUS1lwPTg4ms0/ArcGIS/rest/services?f=json): https://services5.arcgis.com/1ZHcUS1lwPTg4ms0/ArcGIS/rest/services?f=json
+- [RSPB](https://services1.arcgis.com/h1C9f6qsGKmqXsVs/ArcGIS/rest/services?f=json): https://services1.arcgis.com/h1C9f6qsGKmqXsVs/ArcGIS/rest/services?f=json
+- [Crown Estate (e.g. wind turbine agreements)](https://services2.arcgis.com/PZklK9Q45mfMFuZs/ArcGIS/rest/services?f=json): https://services2.arcgis.com/PZklK9Q45mfMFuZs/ArcGIS/rest/services?f=json
+- [National Trust](https://services-eu1.arcgis.com/NPIbx47lsIiu2pqz/ArcGIS/rest/services?f=json): https://services-eu1.arcgis.com/NPIbx47lsIiu2pqz/ArcGIS/rest/services?f=json
+- [UK Air](https://ukair.maps.rcdo.co.uk/ukairserver/rest/services/Hosted?f=json): https://ukair.maps.rcdo.co.uk/ukairserver/rest/services/Hosted?f=json
+- [Forestry Commission/Forest Research](https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services?f=json): https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services?f=json
 
 
 Even individual towns have their own ArcGIS servers:
@@ -58,7 +59,7 @@ Currently, there is no support for Esri ArcGIS servers that are not available to
     import asyncio
 
     async def download_test_data():
-        og = OpenGeography(max_retries=30, retry_delay=2)
+        og = OpenGeography()
 
         fs = FeatureServer()
 

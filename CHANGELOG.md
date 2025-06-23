@@ -15,6 +15,12 @@ TODO and future improvements
 10. Add more Esri ArcGIS servers as built-in classes.
 
 
+Version 1.2.2
+-------------
+- Bug: ``SmartLinker()`` could not merge tables if the column name cases differed. This was particularly an issue when merging postcodes from Open Geography Portal with other tables. 
+
+- Improved: Minor adjustment to ``EsriConnector()`` documentation.
+
 Version 1.2.1
 -------------
 - Bug: ``SmartLinker()`` was using the deprecated way of initialising Esri servers.

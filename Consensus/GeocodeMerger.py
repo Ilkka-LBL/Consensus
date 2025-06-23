@@ -374,13 +374,27 @@ class SmartLinker:
             for enum, pathway in enumerate(chosen_path[1:]):
                 connecting_column = pathway[1]
                 if self.geographic_areas:
-                    string_list = [f'{i}' for i in start_table[connecting_column].unique()]
+
+                    try:
+                        string_list = [f'{i}' for i in start_table[connecting_column].unique()]
+                        filter_column = connecting_column
+                        start_table.columns = start_table.columns
+                    except KeyError:
+                        try:
+                            string_list = [f'{i}' for i in start_table[connecting_column.upper()].unique()]
+                            filter_column = connecting_column.upper()
+                            start_table.columns = [i.upper() for i in start_table.columns]
+                        except KeyError:
+                            string_list = [f'{i}' for i in start_table[connecting_column.lower()].unique()]
+                            filter_column = connecting_column.lower()
+                            start_table.columns = [i.lower() for i in start_table.columns]
+
                     next_chunks = []
                     for enum, i in enumerate(range(0, len(string_list), 100)):
-                        print(f"Downloading tranche {i}-{i+100} of connected table {pathway[0]}")
+                        print(f"Downloading tranche {i}-{i + 100} of connected table {pathway[0]}")
                         print(f"Total items to download: {len(string_list)}")
                         string_chunk = string_list[i:i + 100]
-                        where_clause = where_clause_maker(string_chunk, connecting_column)
+                        where_clause = where_clause_maker(string_chunk, filter_column)
                         next_chunk = await self._get_ogp_table(pathway[0], where_clause=where_clause, **kwargs)
                         next_chunks.append(next_chunk)
 
@@ -389,13 +403,13 @@ class SmartLinker:
                 else:
                     next_table = await self._get_ogp_table(pathway[0], **kwargs)
 
-                next_table.columns = [col.upper() for col in list(next_table.columns)]
+                start_table.columns = [i.upper() for i in start_table.columns]
+                next_table.columns = [col.upper() for col in next_table.columns]
                 table_downloads['table_name'].append(pathway[0])
                 table_downloads['download_order'].append(enum + 1)
                 table_downloads['connected_to_previous_table_by_column'].append(pathway[1])
                 table_downloads['data'].append(next_table)
                 start_table = start_table.merge(next_table, on=connecting_column, how='left', suffixes=('', '_DROP')).filter(regex='^(?!.*_DROP)')  # always perform left join on the common column (based on its name), add "_DROP" to column names that are duplicated and then filter them out.
-
             start_table = start_table.drop_duplicates()
             start_table.dropna(axis='columns', how='all', inplace=True)
             if "GEOMETRY" in start_table.columns:
