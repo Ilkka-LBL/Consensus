@@ -928,8 +928,9 @@ class FeatureServer():
             async with aiohttp.ClientSession() as session:
                 try:
                     responses = await self.chunker(session, params)
-                except ZeroDivisionError:
-                    print("No records found in this Service. Try another Feature Service.")
+                except ZeroDivisionError as e:
+                    print("params:", params)
+                    raise RuntimeError("No records were returned by this Feature Service.") from e
 
             if 'geometry' in responses['features'][0].keys():
                 return gpd.GeoDataFrame.from_features(responses)

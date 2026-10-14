@@ -50,7 +50,7 @@ all_files = extra_files + config + pickles
 
 setup(
     name='Consensus',
-    version='1.2.2',
+    version='1.2.3',
     author='Ilkka Sipila',
     author_email='ilkka.sipila@lewisham.gov.uk',
     url='https://ilkka-lbl.github.io/Consensus/',
@@ -66,7 +66,7 @@ setup(
         'more-itertools>=10.4',
         'numpy>=1.26',
         'aiofiles>=24.1',
-        'aiohttp>=3.10',
+        'aiohttp>=3.14.5',
         'aiosignal>=1.3',
         'alabaster>=0.7',
         'docutils>=0.18',

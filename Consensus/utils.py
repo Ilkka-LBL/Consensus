@@ -33,6 +33,8 @@ def where_clause_maker(values: List[str], column: str) -> str:
     """
     assert column, "No column name provided"
     assert values, "No values provided"
+    assert type(values) is List, f"Provide a list, not a string for {values}"
+    assert type(column) is str, f"Provide a string for {column}"
     where_clause = f"{column} IN {str(tuple(values))}" if len(values) > 1 else f"{column} IN ('{str(values[0])}')"
     print(f"Selecting items based on SQL: {where_clause}")
     return where_clause

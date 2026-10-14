@@ -309,18 +309,18 @@ class SmartLinker:
         print("Table fields:")
         print(self.fs.feature_service)
         print(self.fs.feature_service.fields)
-        if 'geometry' in self.fs.feature_service.fields:
+        if 'geometry' in [str(field).lower() for field in self.fs.feature_service.fields]:
             return await self.fs.download(where_clause=where_clause, return_geometry=True)
         else:
             return await self.fs.download(where_clause=where_clause)
 
-    async def geodata(self, selected_path: int = None, retun_all: bool = False, **kwargs) -> Dict[str, List[Any]]:
+    async def geodata(self, selected_path: int = None, return_all: bool = False, **kwargs) -> Dict[str, List[Any]]:
         """
         Get a dictionary of pandas dataframes that have been either merged and filtered by geographic_areas or all individual tables.
 
         Args:
             selected_path (int): Choose the path from the output of ``run_graph()`` method.
-            retun_all (bool): Set this to True if you want to get individual tables that would otherwise get merged.
+            return_all (bool): Set this to True if you want to get individual tables that would otherwise get merged.
             **kwargs: These keyword arguments get passed to ``EsriConnector.FeatureServer().setup()``. Main keywords to use are ``max_retries``, ``timeout``, ``chunk_size``, and ``layer_number``. Change these if you're experiencing connectivity issues. For instance, add more retries and increase time between tries, and reduce ``chunk_size`` for each call so you're not being overwhelming the server. If you're not getting the layer you expected, you can try changing the ``layer_number`` - most should work with the default 0, but there is a possibility of multiple layers being available for a given dataset.
 
         Returns:
@@ -416,7 +416,7 @@ class SmartLinker:
                 start_table.rename(columns={'GEOMETRY': 'geometry'}, inplace=True)
             final_tables_to_return['table_data'].append(start_table)
 
-            if retun_all:
+            if return_all:
                 return table_downloads
             else:
                 return final_tables_to_return
@@ -444,6 +444,7 @@ class SmartLinker:
                             if str(has_geometry).upper() == "TRUE":
                                 for shared_column in shared_columns:
                                     graph[table].append((comparison_table, shared_column))
+                                
                             else:
                                 continue
                         else:

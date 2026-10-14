@@ -14,6 +14,10 @@ TODO and future improvements
 9. Rework LocalMerger module. It currently isn't fully implemented.
 10. Add more Esri ArcGIS servers as built-in classes.
 
+Version 1.2.3
+-------------
+- Improved: added assertions around ``where_clause_maker()``
+- Improved: changed error reporting in ``FeatureServer().download()`` method
 
 Version 1.2.2
 -------------
