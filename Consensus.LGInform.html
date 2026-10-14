@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.LGInform module &mdash; Consensus 1.2.2 documentation</title>
+  <title>Consensus.LGInform module &mdash; Consensus 1.2.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=fd7cadf9"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=590429e0"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -112,7 +112,7 @@
 <span id="consensus-lginform-module"></span><h1>Consensus.LGInform module<a class="headerlink" href="#module-Consensus.LGInform" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.LGInform.LGInform">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LGInform.</span></span><span class="sig-name descname"><span class="pre">LGInform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E09000023,Lewisham_CIPFA_Near_Neighbours'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Consensus.LGInform.</span></span><span class="sig-name descname"><span class="pre">LGInform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_secret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E09000023,Lewisham_CIPFA_Near_Neighbours'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LGInform.LGInform" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The class takes a dictionary of LG Inform datasets (such as {‘IMD_2010’: 841, ‘IMD_2009’: 842, ‘Death_of_enterprises’: 102}), finds all metrics, downloads the data, and merges them into one. The dictionary keys can be any string of your choosing, but the integer values must be one of <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a>
 The main method to download data for multiple datasets is the <code class="docutils literal notranslate"><span class="pre">mp_download()</span></code> method, which uses multiprocessing to download data from multiple datasets simultaneously. However, this requires that the class is called within <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__'</span></code>.
@@ -222,20 +222,20 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.env&#39;</span><span class="p">)</span>
+<span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'.env'</span><span class="p">)</span>
 <span class="n">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="p">)</span>
 
 
-<span class="n">lg_key</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LG_KEY&quot;</span><span class="p">)</span>  <span class="c1"># public key to LG Inform Plus</span>
-<span class="n">lg_secret</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LG_SECRET&quot;</span><span class="p">)</span>  <span class="c1"># secret to LG Inform Plus</span>
+<span class="n">lg_key</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"LG_KEY"</span><span class="p">)</span>  <span class="c1"># public key to LG Inform Plus</span>
+<span class="n">lg_secret</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"LG_SECRET"</span><span class="p">)</span>  <span class="c1"># secret to LG Inform Plus</span>
 <span class="n">conf</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">()</span>  <span class="c1"># Use ConfigManager to save environment variables and proxy address if you want the information to be stored with this package</span>
-<span class="n">conf</span><span class="o">.</span><span class="n">update_config</span><span class="p">(</span><span class="s2">&quot;lg_inform_key&quot;</span><span class="p">,</span> <span class="n">lg_key</span><span class="p">)</span>
-<span class="n">conf</span><span class="o">.</span><span class="n">update_config</span><span class="p">(</span><span class="s2">&quot;lg_inform_secret&quot;</span><span class="p">,</span> <span class="n">lg_secret</span><span class="p">)</span>
-<span class="n">out_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./data/mp_test/&#39;</span><span class="p">)</span>  <span class="c1"># folder to store final data</span>
-<span class="n">datasets</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;IMD_2010&#39;</span><span class="p">:</span> <span class="mi">841</span><span class="p">,</span> <span class="s1">&#39;IMD_2009&#39;</span><span class="p">:</span> <span class="mi">842</span><span class="p">,</span> <span class="s1">&#39;Death_of_enterprises&#39;</span><span class="p">:</span> <span class="mi">102</span><span class="p">}</span>  <span class="c1"># a dictionary of datasets. The key can be any string, but the integer value must be an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">update_config</span><span class="p">(</span><span class="s2">"lg_inform_key"</span><span class="p">,</span> <span class="n">lg_key</span><span class="p">)</span>
+<span class="n">conf</span><span class="o">.</span><span class="n">update_config</span><span class="p">(</span><span class="s2">"lg_inform_secret"</span><span class="p">,</span> <span class="n">lg_secret</span><span class="p">)</span>
+<span class="n">out_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'./data/mp_test/'</span><span class="p">)</span>  <span class="c1"># folder to store final data</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'IMD_2010'</span><span class="p">:</span> <span class="mi">841</span><span class="p">,</span> <span class="s1">'IMD_2009'</span><span class="p">:</span> <span class="mi">842</span><span class="p">,</span> <span class="s1">'Death_of_enterprises'</span><span class="p">:</span> <span class="mi">102</span><span class="p">}</span>  <span class="c1"># a dictionary of datasets. The key can be any string, but the integer value must be an identifier from https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>  <span class="c1"># when using the multiprocessing wrapper method, you have to run it under if __name__ &#39;__main__&#39; statement.</span>
-    <span class="n">api_call</span> <span class="o">=</span> <span class="n">LGInform</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;E09000023,Lewisham_CIPFA_Near_Neighbours&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="s1">'__main__'</span><span class="p">:</span>  <span class="c1"># when using the multiprocessing wrapper method, you have to run it under if __name__ '__main__' statement.</span>
+    <span class="n">api_call</span> <span class="o">=</span> <span class="n">LGInform</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">'E09000023,Lewisham_CIPFA_Near_Neighbours'</span><span class="p">)</span>
     <span class="c1">#api_call.download(datasets=datasets, output_folder=out_folder, latest_n=20, drop_discontinued=False)  # normal, single threaded download</span>
     <span class="n">api_call</span><span class="o">.</span><span class="n">mp_download</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="n">out_folder</span><span class="p">,</span> <span class="n">latest_n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">drop_discontinued</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 </pre></div>
@@ -248,10 +248,10 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>api_key</strong> (<em>str</em>) – Application Key to LG Inform Plus.</p></li>
-<li><p><strong>api_secret</strong> (<em>str</em>) – Application Secret to LG Inform Plus.</p></li>
-<li><p><strong>proxies</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Proxy address if known.</p></li>
-<li><p><strong>area</strong> (<em>str</em>) – A comma separated string of areas, excluding whitespace. You can either use GSS codes or use LG Inform’s off-the-shelf groups for areas. For instance, Lewisham GSS code is E09000023 and it’s CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as ‘E09000023,Lewisham_CIPFA_Near_Neighbours’.</p></li>
+<li><p><strong>api_key</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Application Key to LG Inform Plus.</p></li>
+<li><p><strong>api_secret</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Application Secret to LG Inform Plus.</p></li>
+<li><p><strong>proxies</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Proxy address if known.</p></li>
+<li><p><strong>area</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – A comma separated string of areas, excluding whitespace. You can either use GSS codes or use LG Inform’s off-the-shelf groups for areas. For instance, Lewisham GSS code is E09000023 and it’s CIPFA nearest neighbours is called Lewisham_CIPFA_Near_Neighbours. Together these would be input as ‘E09000023,Lewisham_CIPFA_Near_Neighbours’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -266,7 +266,7 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dd><p>This is just the same as download() method, but wrapped to be used with multiprocessing library.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>input_queue</strong> (<em>mp.Queue</em>) – A multiprocessing queue.</p>
+<dd class="field-odd"><p><strong>input_queue</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Queue</span></code></span>) – A multiprocessing queue.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -284,9 +284,9 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>datasets</strong> (<em>Dict</em><em>[</em><em>str</em><em>,</em><em>int</em><em>]</em>) – Dictionary of format {“some_name”: some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
-<li><p><strong>latest_n</strong> (<em>int</em>) – The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).</p></li>
-<li><p><strong>drop_discontinued</strong> (<em>bool</em>) – If you set this to False, the downloaded data will include discontinued metrics. Default is True.</p></li>
+<li><p><strong>datasets</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – Dictionary of format {“some_name”: some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
+<li><p><strong>latest_n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).</p></li>
+<li><p><strong>drop_discontinued</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – If you set this to False, the downloaded data will include discontinued metrics. Default is True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -305,16 +305,16 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>variables</strong> (<em>JSONDict</em>) – variables JSON from get_dataset_table_variables method.</p></li>
-<li><p><strong>latest_n</strong> (<em>int</em>) – Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.</p></li>
-<li><p><strong>arraytype</strong> (<em>str</em>) – Type of variables to download. Default is metricType-array.</p></li>
+<li><p><strong>variables</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span>) – variables JSON from get_dataset_table_variables method.</p></li>
+<li><p><strong>latest_n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.</p></li>
+<li><p><strong>arraytype</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Type of variables to download. Default is metricType-array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of JSON variables.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[JSONDict]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -326,15 +326,15 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>identifier</strong> (<em>int</em>) – metricType integer.</p></li>
-<li><p><strong>latest_n</strong> (<em>int</em>) – Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.</p></li>
+<li><p><strong>identifier</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – metricType integer.</p></li>
+<li><p><strong>latest_n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Latest n periods. Period could be year, quarter, month, week, or some other period such as the latest n publications.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Downloaded data as JSON.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JSONDict</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -346,8 +346,8 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>outputs</strong> (<em>List</em><em>[</em><em>JSONDict</em><em>]</em>) – A list of JSONDict objects.</p></li>
-<li><p><strong>drop_discontinued</strong> (<em>bool</em>) – Boolean to select whether to include discontinued metrics.</p></li>
+<li><p><strong>outputs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span>) – A list of JSONDict objects.</p></li>
+<li><p><strong>drop_discontinued</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Boolean to select whether to include discontinued metrics.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -365,13 +365,13 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dd><p>Given a dataset, output all the metricType numbers (dataset columns). The output dictionary is a JSON.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dataset</strong> (<em>int</em>) – The number of the dataset from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p>
+<dd class="field-odd"><p><strong>dataset</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The number of the dataset from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A JSON dictionary object</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JSONDict</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -382,13 +382,13 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dd><p>Transform downloaded json data to Pandas.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>json_data</strong> (<em>JSONDict</em>) – JSON data to transform.</p>
+<dd class="field-odd"><p><strong>json_data</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span>) – JSON data to transform.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Downloaded data as Pandas dataframe.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -399,13 +399,13 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dd><p>Merge the variables to form a table for a given dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – Dataset name string.</p>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Dataset name string.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>All variables of the dataset merged as one Pandas dataframe.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -417,10 +417,10 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>datasets</strong> (<em>Dict</em><em>[</em><em>str</em><em>,</em><em>int</em><em>]</em>) – Dictionary of format {“some_name”: some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
-<li><p><strong>latest_n</strong> (<em>int</em>) – The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).</p></li>
-<li><p><strong>drop_discontinued</strong> (<em>bool</em>) – If you set this to False, the downloaded data will include discontinued metrics. Default is True.</p></li>
-<li><p><strong>max_workers</strong> (<em>int</em>) – Set the number of workers for multiprocessing. Typically this would be the number of logical CPUs in your system. This will also process the datasets in chunks, so that if you list 16 datasets in your datasets dictionary and have 8 workers, the script will work through the datasets in two steps (16/8 = 2).</p></li>
+<li><p><strong>datasets</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – Dictionary of format {“some_name”: some_integer}’, where the integer value is an identifier from <a class="reference external" href="https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=">https://webservices.esd.org.uk/datasets?ApplicationKey=ExamplePPK&amp;Signature=YChwR9HU0Vbg8KZ5ezdGZt+EyL4=</a></p></li>
+<li><p><strong>latest_n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The period is currently restricted to using the latest n periods. This means that the period can be years, quarters, months, weeks or some other period (e.g. for Indices of Multiple Deprivation, the period refers to publications so that latest_n=2 would get data for 2019 and 2015).</p></li>
+<li><p><strong>drop_discontinued</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – If you set this to False, the downloaded data will include discontinued metrics. Default is True.</p></li>
+<li><p><strong>max_workers</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Set the number of workers for multiprocessing. Typically this would be the number of logical CPUs in your system. This will also process the datasets in chunks, so that if you list 16 datasets in your datasets dictionary and have 8 workers, the script will work through the datasets in two steps (16/8 = 2).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -438,13 +438,13 @@ If multiprocessing is not necessary, it’s better to use <code class="docutils 
 <dd><p>Each url needs to be signed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – URL to be signed.</p>
+<dd class="field-odd"><p><strong>url</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – URL to be signed.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Signed URL.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>

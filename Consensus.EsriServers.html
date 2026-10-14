@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.EsriServers module &mdash; Consensus 1.2.2 documentation</title>
+  <title>Consensus.EsriServers module &mdash; Consensus 1.2.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=fd7cadf9"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=590429e0"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -131,7 +131,7 @@
 <p>This module contains classes that connect to Esri Servers and download data from them. It is designed to be used in conjunction with the <code class="docutils literal notranslate"><span class="pre">Consensus.EsriConnector</span></code> module’s <code class="docutils literal notranslate"><span class="pre">FeatureServer()</span></code> class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.EsriServers.</span></span><span class="sig-name descname"><span class="pre">OpenGeography</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Consensus.EsriServers.</span></span><span class="sig-name descname"><span class="pre">OpenGeography</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector" title="Consensus.EsriConnector.EsriConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">EsriConnector</span></code></a></p>
 <section id="open-geography-portal">
 <h2>Open Geography Portal<a class="headerlink" href="#open-geography-portal" title="Link to this heading"></a></h2>
@@ -162,11 +162,11 @@
 
     <span class="n">fs</span> <span class="o">=</span> <span class="n">FeatureServer</span><span class="p">()</span>
 
-    <span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;WD23NM&#39;</span>
-    <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brockley&#39;</span><span class="p">]</span>
-    <span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Wards_December_2023_Boundaries_UK_BSC&#39;</span>
-    <span class="n">layers</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">select_layers_by_service</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># choose the first layer of the &#39;Wards_December_2023_Boundaries_UK_BSC&#39; service</span>
-    <span class="n">layer_full_name</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_name</span>  <span class="c1"># use the layer&#39;s ``full_name`` attribute to select it in ``fs.setup()``</span>
+    <span class="n">column_name</span> <span class="o">=</span> <span class="s1">'WD23NM'</span>
+    <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Brockley'</span><span class="p">]</span>
+    <span class="n">service_name</span> <span class="o">=</span> <span class="s1">'Wards_December_2023_Boundaries_UK_BSC'</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="n">og</span><span class="o">.</span><span class="n">select_layers_by_service</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># choose the first layer of the 'Wards_December_2023_Boundaries_UK_BSC' service</span>
+    <span class="n">layer_full_name</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_name</span>  <span class="c1"># use the layer's ``full_name`` attribute to select it in ``fs.setup()``</span>
 
     <span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">column_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
 
@@ -197,17 +197,17 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography._fetch_response">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography._fetch_response" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography._fetch_response" title="Link to this definition"></a></dt>
 <dd><p>Helper method to fetch the response from the Esri server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp.ClientSession object.</p>
+<dd class="field-odd"><p><strong>session</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientSession</span></code></span>) – The aiohttp.ClientSession object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The JSON response from the Esri server.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -228,7 +228,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography._load_all_services">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography._load_all_services" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography._load_all_services" title="Link to this definition"></a></dt>
 <dd><p>Load services into a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -242,38 +242,38 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography._name">
-<span class="sig-name descname"><span class="pre">_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Open_Geography_Portal'</span></em><a class="headerlink" href="#Consensus.EsriServers.OpenGeography._name" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Open_Geography_Portal'</span></span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography._name" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography.base_url">
-<span class="sig-name descname"><span class="pre">base_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json'</span></em><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.base_url" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">base_url</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services?f=json'</span></span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.base_url" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography.build_lookup">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_old</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.build_lookup" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_old</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.build_lookup" title="Link to this definition"></a></dt>
 <dd><p>Build a lookup table from scratch and save it to a JSON file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>parent_path</strong> (<em>Path</em>) – Parent path to save the service_table pickle and lookup files.</p></li>
-<li><p><strong>included_services</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of services to include in the lookup. Defaults to [], which is interpreted as as ‘all’.</p></li>
-<li><p><strong>replace_old</strong> (<em>bool</em>) – Whether to replace the old lookup file. Defaults to True.</p></li>
+<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – Parent path to save the service_table pickle and lookup files.</p></li>
+<li><p><strong>included_services</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – List of services to include in the lookup. Defaults to [], which is interpreted as as ‘all’.</p></li>
+<li><p><strong>replace_old</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to replace the old lookup file. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The lookup table as a pandas DataFrame.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography.connect_to_server">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect_to_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.connect_to_server" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">connect_to_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.connect_to_server" title="Link to this definition"></a></dt>
 <dd><p>Run this method to initialise the class session.
 Validate access to the base URL asynchronously using aiohttp. When a response is received, call <code class="docutils literal notranslate"><span class="pre">_load_all_services()</span></code> to load services into a dictionary.</p>
 <dl class="field-list simple">
@@ -288,31 +288,31 @@ Validate access to the base URL asynchronously using aiohttp. When a response is
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography.field_matching_condition">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_matching_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.field_matching_condition" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">field_matching_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.field_matching_condition" title="Link to this definition"></a></dt>
 <dd><p>Condition for matchable fields. This method is used by <code class="docutils literal notranslate"><span class="pre">Service()</span></code> to filter the fields that are added to the matchable_fields columns, which is subsequently used by <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> for matching data tables.
 This method is meant to be overwritten by the user if they want to change the condition for matchable fields. Each Esri ArcGIS server will have its own rules, so this will be left for the user to deal with.
 If you are using a built-in server (e.g. TFL or Open Geography Portal), then you don’t have to touch this method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>field</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – The field dictionary. This is the input coming from <code class="docutils literal notranslate"><span class="pre">Service()</span></code>.</p>
+<dd class="field-odd"><p><strong>field</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – The field dictionary. This is the input coming from <code class="docutils literal notranslate"><span class="pre">Service()</span></code>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the field ends with ‘CD’ or ‘NM’ and the last 4 characters before the end are numeric, or if the field is in the matchable_fields_extension list, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography.get_layer_obj">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_layer_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.get_layer_obj" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_layer_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.get_layer_obj" title="Link to this definition"></a></dt>
 <dd><p>Fetch metadata for a service and add it to the service table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>service</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Dictionary of services.</p></li>
+<li><p><strong>service</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Dictionary of services.</p></li>
 <li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp.ClientSession object.</p></li>
 </ul>
 </dd>
@@ -327,17 +327,17 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.OpenGeography.metadata_as_pandas">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata_as_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.metadata_as_pandas" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">metadata_as_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.OpenGeography.metadata_as_pandas" title="Link to this definition"></a></dt>
 <dd><p>Asynchronously create a Pandas DataFrame of selected tables’ metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>included_services</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of service names to include in the DataFrame. If empty, all services are included.</p>
+<dd class="field-odd"><p><strong>included_services</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – A list of service names to include in the DataFrame. If empty, all services are included.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A DataFrame containing the metadata of the selected services.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -362,7 +362,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd><p>Print the data of a Layer object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>layer_obj</strong> (<a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer" title="Consensus.EsriConnector.Layer"><em>Layer</em></a>) – The Layer object to print.</p>
+<dd class="field-odd"><p><strong>layer_obj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer" title="Consensus.EsriConnector.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a></span>) – The Layer object to print.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -380,13 +380,13 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd><p>Print a subset of the service table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>layer_name</strong> (<em>str</em>) – The name of the layer to print.</p>
+<dd class="field-odd"><p><strong>layer_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the layer to print.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of Layer objects for the selected service.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Any]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 <p>Added in version 1.1.0</p>
@@ -398,13 +398,13 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd><p>Print and output a subset of the service table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>service_name</strong> (<em>str</em>) – The name of the service to print.</p>
+<dd class="field-odd"><p><strong>service_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the service to print.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of Layer objects for the selected service.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Any]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 <p>Added in version 1.1.0</p>
@@ -415,7 +415,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.EsriServers.</span></span><span class="sig-name descname"><span class="pre">TFL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Consensus.EsriServers.</span></span><span class="sig-name descname"><span class="pre">TFL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.EsriConnector" title="Consensus.EsriConnector.EsriConnector"><code class="xref py py-class docutils literal notranslate"><span class="pre">EsriConnector</span></code></a></p>
 <p>—</p>
 <p>This module contains the TFL class, which is a subclass of <code class="docutils literal notranslate"><span class="pre">EsriConnector()</span></code>. It is used to connect to the TfL Open Data Hub and retrieve data.</p>
@@ -424,7 +424,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.EsriServers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TFL</span>
 
 <span class="n">tfl</span> <span class="o">=</span> <span class="n">TFL</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">tfl</span><span class="o">.</span><span class="n">print_all_services</span><span class="p">()</span>  <span class="c1"># a method to help you choose which service you&#39;d like to download data for.</span>
+<span class="n">tfl</span><span class="o">.</span><span class="n">print_all_services</span><span class="p">()</span>  <span class="c1"># a method to help you choose which service you'd like to download data for.</span>
 </pre></div>
 </div>
 <p>The above code will connect to the TfL Open Data Hub and print all available services. You select the service you want to connect to by copying the service name string that comes after “Service name:” in the output.</p>
@@ -434,7 +434,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">minimal</span><span class="p">():</span>
     <span class="n">tfl</span> <span class="o">=</span> <span class="n">TFL</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">metadata</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tfl</span><span class="o">.</span><span class="n">metadata_as_pandas</span><span class="p">(</span><span class="n">included_services</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Bus_Stops&#39;</span><span class="p">])</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tfl</span><span class="o">.</span><span class="n">metadata_as_pandas</span><span class="p">(</span><span class="n">included_services</span><span class="o">=</span><span class="p">[</span><span class="s1">'Bus_Stops'</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">minimal</span><span class="p">())</span>
@@ -450,13 +450,13 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
     <span class="n">fs</span> <span class="o">=</span> <span class="n">FeatureServer</span><span class="p">()</span>
 
-    <span class="n">service_name</span> <span class="o">=</span> <span class="s1">&#39;Bus_Stops&#39;</span>
-    <span class="n">layers</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">select_layers_by_service</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># choose the first layer of the &#39;Bus_Stops&#39; service</span>
-    <span class="n">layer_full_name</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_name</span>  <span class="c1"># use the layer&#39;s ``full_name`` attribute to select it in ``fs.setup()`` and when creating the ``where_clause``</span>
+    <span class="n">service_name</span> <span class="o">=</span> <span class="s1">'Bus_Stops'</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">select_layers_by_service</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="n">service_name</span><span class="p">)</span>  <span class="c1"># choose the first layer of the 'Bus_Stops' service</span>
+    <span class="n">layer_full_name</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_name</span>  <span class="c1"># use the layer's ``full_name`` attribute to select it in ``fs.setup()`` and when creating the ``where_clause``</span>
 
 
-    <span class="n">column_name</span> <span class="o">=</span> <span class="s1">&#39;STOP_NAME&#39;</span>
-    <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Hazel Mead&#39;</span><span class="p">]</span>
+    <span class="n">column_name</span> <span class="o">=</span> <span class="s1">'STOP_NAME'</span>
+    <span class="n">geographic_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Hazel Mead'</span><span class="p">]</span>
     <span class="n">where_clause</span> <span class="o">=</span> <span class="n">where_clause_maker</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">geographic_areas</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">column_name</span><span class="p">)</span>  <span class="c1"># a helper function that creates the SQL where clause for Esri Servers</span>
 
     <span class="k">await</span> <span class="n">fs</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">full_name</span><span class="o">=</span><span class="n">layer_full_name</span><span class="p">,</span> <span class="n">esri_server</span><span class="o">=</span><span class="n">tfl</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
@@ -485,17 +485,17 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL._fetch_response">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL._fetch_response" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">_fetch_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL._fetch_response" title="Link to this definition"></a></dt>
 <dd><p>Helper method to fetch the response from the Esri server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp.ClientSession object.</p>
+<dd class="field-odd"><p><strong>session</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientSession</span></code></span>) – The aiohttp.ClientSession object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The JSON response from the Esri server.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -516,7 +516,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL._load_all_services">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL._load_all_services" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">_load_all_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL._load_all_services" title="Link to this definition"></a></dt>
 <dd><p>Load services into a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -530,38 +530,38 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL._name">
-<span class="sig-name descname"><span class="pre">_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TFL'</span></em><a class="headerlink" href="#Consensus.EsriServers.TFL._name" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">_name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TFL'</span></span><a class="headerlink" href="#Consensus.EsriServers.TFL._name" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL.base_url">
-<span class="sig-name descname"><span class="pre">base_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://services1.arcgis.com/YswvgzOodUvqkoCN/ArcGIS/rest/services?f=json'</span></em><a class="headerlink" href="#Consensus.EsriServers.TFL.base_url" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">base_url</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://services1.arcgis.com/YswvgzOodUvqkoCN/ArcGIS/rest/services?f=json'</span></span><a class="headerlink" href="#Consensus.EsriServers.TFL.base_url" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL.build_lookup">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_old</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.build_lookup" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/Consensus/Consensus/Consensus')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_old</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.build_lookup" title="Link to this definition"></a></dt>
 <dd><p>Build a lookup table from scratch and save it to a JSON file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>parent_path</strong> (<em>Path</em>) – Parent path to save the service_table pickle and lookup files.</p></li>
-<li><p><strong>included_services</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of services to include in the lookup. Defaults to [], which is interpreted as as ‘all’.</p></li>
-<li><p><strong>replace_old</strong> (<em>bool</em>) – Whether to replace the old lookup file. Defaults to True.</p></li>
+<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – Parent path to save the service_table pickle and lookup files.</p></li>
+<li><p><strong>included_services</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – List of services to include in the lookup. Defaults to [], which is interpreted as as ‘all’.</p></li>
+<li><p><strong>replace_old</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to replace the old lookup file. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The lookup table as a pandas DataFrame.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL.connect_to_server">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect_to_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.connect_to_server" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">connect_to_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.connect_to_server" title="Link to this definition"></a></dt>
 <dd><p>Run this method to initialise the class session.
 Validate access to the base URL asynchronously using aiohttp. When a response is received, call <code class="docutils literal notranslate"><span class="pre">_load_all_services()</span></code> to load services into a dictionary.</p>
 <dl class="field-list simple">
@@ -576,32 +576,32 @@ Validate access to the base URL asynchronously using aiohttp. When a response is
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL.field_matching_condition">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_matching_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.field_matching_condition" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">field_matching_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.field_matching_condition" title="Link to this definition"></a></dt>
 <dd><p>Condition for matchable fields. This method is used by <code class="docutils literal notranslate"><span class="pre">Service()</span></code> to filter the fields that are added to the matchable_fields columns, which is subsequently used by <code class="docutils literal notranslate"><span class="pre">SmartLinker()</span></code> for matching data tables.
 This method is meant to be overwritten by the user if they want to change the condition for matchable fields. Each Esri ArcGIS server will have its own rules, so this will be left for the user to deal with.
 If you are using a built-in server (e.g. TFL or Open Geography Portal), then you don’t have to touch this method.</p>
 <p>The current implementation for this class will return no columns other than the columns listed in matchable_fields_extension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>field</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – The field dictionary. This is the input coming from <code class="docutils literal notranslate"><span class="pre">Service()</span></code>.</p>
+<dd class="field-odd"><p><strong>field</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – The field dictionary. This is the input coming from <code class="docutils literal notranslate"><span class="pre">Service()</span></code>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the field ends with ‘CD’ or ‘NM’ and the last 4 characters before the end are numeric, or if the field is in the matchable_fields_extension list, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL.get_layer_obj">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_layer_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.get_layer_obj" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_layer_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.get_layer_obj" title="Link to this definition"></a></dt>
 <dd><p>Fetch metadata for a service and add it to the service table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>service</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Dictionary of services.</p></li>
+<li><p><strong>service</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Dictionary of services.</p></li>
 <li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp.ClientSession object.</p></li>
 </ul>
 </dd>
@@ -616,17 +616,17 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Consensus.EsriServers.TFL.metadata_as_pandas">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata_as_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.metadata_as_pandas" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">metadata_as_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">included_services</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.EsriServers.TFL.metadata_as_pandas" title="Link to this definition"></a></dt>
 <dd><p>Asynchronously create a Pandas DataFrame of selected tables’ metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>included_services</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of service names to include in the DataFrame. If empty, all services are included.</p>
+<dd class="field-odd"><p><strong>included_services</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – A list of service names to include in the DataFrame. If empty, all services are included.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A DataFrame containing the metadata of the selected services.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -651,7 +651,7 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd><p>Print the data of a Layer object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>layer_obj</strong> (<a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer" title="Consensus.EsriConnector.Layer"><em>Layer</em></a>) – The Layer object to print.</p>
+<dd class="field-odd"><p><strong>layer_obj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="Consensus.EsriConnector.html#Consensus.EsriConnector.Layer" title="Consensus.EsriConnector.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a></span>) – The Layer object to print.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -669,13 +669,13 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd><p>Print a subset of the service table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>layer_name</strong> (<em>str</em>) – The name of the layer to print.</p>
+<dd class="field-odd"><p><strong>layer_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the layer to print.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of Layer objects for the selected service.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Any]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 <p>Added in version 1.1.0</p>
@@ -687,13 +687,13 @@ If you are using a built-in server (e.g. TFL or Open Geography Portal), then you
 <dd><p>Print and output a subset of the service table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>service_name</strong> (<em>str</em>) – The name of the service to print.</p>
+<dd class="field-odd"><p><strong>service_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the service to print.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of Layer objects for the selected service.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Any]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 <p>Added in version 1.1.0</p>

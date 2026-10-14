@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.LocalMerger module &mdash; Consensus 1.2.2 documentation</title>
+  <title>Consensus.LocalMerger module &mdash; Consensus 1.2.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=fd7cadf9"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=590429e0"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -125,7 +125,7 @@
 <p>This module is not yet fully implemented and is a work in progress. Please let me know if you would like to contribute.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.DatabaseManager">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.DatabaseManager" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to manage a DuckDB database, including creating tables from file data
 and querying tables using various join types.</p>
@@ -184,9 +184,9 @@ and querying tables using various join types.</p>
 <p>Usage:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.LocalMerger</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseManager</span>
-<span class="n">db_manager</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">(</span><span class="s1">&#39;path/to/database.db&#39;</span><span class="p">)</span>
-<span class="n">db_manager</span><span class="o">.</span><span class="n">create_database</span><span class="p">({</span><span class="s1">&#39;table1&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table1.csv&#39;</span><span class="p">),</span> <span class="s1">&#39;table2&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table2.csv&#39;</span><span class="p">)})</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">query_tables_from_path</span><span class="p">([</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;table1&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table1.csv&#39;</span><span class="p">),</span> <span class="s1">&#39;table2&#39;</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;path/to/table2.csv&#39;</span><span class="p">)},</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">db_manager</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">(</span><span class="s1">'path/to/database.db'</span><span class="p">)</span>
+<span class="n">db_manager</span><span class="o">.</span><span class="n">create_database</span><span class="p">({</span><span class="s1">'table1'</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'path/to/table1.csv'</span><span class="p">),</span> <span class="s1">'table2'</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'path/to/table2.csv'</span><span class="p">)})</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">db_manager</span><span class="o">.</span><span class="n">query_tables_from_path</span><span class="p">([</span><span class="s1">'table1'</span><span class="p">,</span> <span class="s1">'table2'</span><span class="p">],</span> <span class="p">{</span><span class="s1">'table1'</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'path/to/table1.csv'</span><span class="p">),</span> <span class="s1">'table2'</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'path/to/table2.csv'</span><span class="p">)},</span> <span class="s1">'left'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -196,7 +196,7 @@ and querying tables using various join types.</p>
 <dd><p>Initializes the DatabaseManager with the provided database path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>db_path</strong> (<em>str</em>) – The path to the DuckDB database.</p>
+<dd class="field-odd"><p><strong>db_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The path to the DuckDB database.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -208,15 +208,15 @@ and querying tables using various join types.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dfs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – A dictionary of table names to DataFrames to be joined.</p></li>
-<li><p><strong>join_type</strong> (<em>str</em>) – The type of join to perform (e.g., ‘inner’, ‘outer’).</p></li>
+<li><p><strong>dfs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</span>) – A dictionary of table names to DataFrames to be joined.</p></li>
+<li><p><strong>join_type</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The type of join to perform (e.g., ‘inner’, ‘outer’).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The resulting DataFrame after performing all joins.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If no common columns are found between DataFrames for joining.</p>
@@ -244,7 +244,7 @@ and querying tables using various join types.</p>
 <dd><p>Creates tables in the DuckDB database from CSV or Excel files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>table_paths</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – A dictionary mapping table names to file paths.</p>
+<dd class="field-odd"><p><strong>table_paths</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]</span>) – A dictionary mapping table names to file paths.</p>
 </dd>
 </dl>
 <p>This method loads data from the specified file paths and creates tables
@@ -260,7 +260,7 @@ in the database. The file paths must point to CSV or Excel files.</p>
 <dd class="field-odd"><p>A list of table names in the database.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,16 +272,16 @@ in the database. The file paths must point to CSV or Excel files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of table names to include in the query.</p></li>
-<li><p><strong>table_paths</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – A dictionary mapping table names to file paths.</p></li>
-<li><p><strong>join_type</strong> (<em>str</em>) – The type of join to perform. Default is ‘outer’.</p></li>
+<li><p><strong>path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – A list of table names to include in the query.</p></li>
+<li><p><strong>table_paths</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]</span>) – A dictionary mapping table names to file paths.</p></li>
+<li><p><strong>join_type</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The type of join to perform. Default is ‘outer’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A DataFrame containing the result of the join operation.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If no valid tables are found in the provided path.</p>
@@ -293,7 +293,7 @@ in the database. The file paths must point to CSV or Excel files.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.LocalMerger.GraphBuilder">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">GraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Consensus.LocalMerger.</span></span><span class="sig-name descname"><span class="pre">GraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.LocalMerger.GraphBuilder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to build and manage a graph from CSV and Excel files in a directory.</p>
 <p>This class constructs a graph where nodes are tables and columns, and edges represent
@@ -389,9 +389,9 @@ relationships between them. It provides methods to find paths between tables or 
 <p>Usage:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Consensus.LocalMerger</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphBuilder</span>
-<span class="n">graph_builder</span> <span class="o">=</span> <span class="n">GraphBuilder</span><span class="p">(</span><span class="s1">&#39;path/to/directory&#39;</span><span class="p">)</span>
-<span class="n">graph_builder</span><span class="o">.</span><span class="n">find_paths</span><span class="p">(</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">)</span>
-<span class="n">graph_builder</span><span class="o">.</span><span class="n">get_all_possible_paths</span><span class="p">(</span><span class="s1">&#39;table1&#39;</span><span class="p">,</span> <span class="s1">&#39;table2&#39;</span><span class="p">)</span>
+<span class="n">graph_builder</span> <span class="o">=</span> <span class="n">GraphBuilder</span><span class="p">(</span><span class="s1">'path/to/directory'</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">find_paths</span><span class="p">(</span><span class="s1">'table1'</span><span class="p">,</span> <span class="s1">'table2'</span><span class="p">)</span>
+<span class="n">graph_builder</span><span class="o">.</span><span class="n">get_all_possible_paths</span><span class="p">(</span><span class="s1">'table1'</span><span class="p">,</span> <span class="s1">'table2'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -401,7 +401,7 @@ relationships between them. It provides methods to find paths between tables or 
 <dd><p>Initializes the GraphBuilder with a directory containing CSV and Excel files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>directory_path</strong> (<em>str</em>) – The path to the directory containing the data files.</p>
+<dd class="field-odd"><p><strong>directory_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The path to the directory containing the data files.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -428,7 +428,7 @@ processes them, and adds the tables and columns to the graph.</p>
 <dd><p>Processes a CSV file and updates the graph with table and column information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>Path</em>) – The path to the CSV file to process.</p>
+<dd class="field-odd"><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – The path to the CSV file to process.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -446,9 +446,9 @@ processes them, and adds the tables and columns to the graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – The DataFrame containing the table’s data.</p></li>
-<li><p><strong>table_name</strong> (<em>str</em>) – The name of the table.</p></li>
-<li><p><strong>file_path</strong> (<em>Path</em>) – The path to the data file.</p></li>
+<li><p><strong>df</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span>) – The DataFrame containing the table’s data.</p></li>
+<li><p><strong>table_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the table.</p></li>
+<li><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – The path to the data file.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -466,7 +466,7 @@ processes them, and adds the tables and columns to the graph.</p>
 <dd><p>Processes an Excel file and updates the graph with table and column information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>Path</em>) – The path to the Excel file to process.</p>
+<dd class="field-odd"><p><strong>file_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span>) – The path to the Excel file to process.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -484,15 +484,15 @@ processes them, and adds the tables and columns to the graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start</strong> (<em>str</em>) – The starting node.</p></li>
-<li><p><strong>end</strong> (<em>str</em>) – The ending node.</p></li>
+<li><p><strong>start</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The starting node.</p></li>
+<li><p><strong>end</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The ending node.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of paths from start to end nodes.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[List[str]]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -506,15 +506,15 @@ processes them, and adds the tables and columns to the graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>paths</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – A list of possible paths.</p></li>
-<li><p><strong>index</strong> (<em>int</em>) – The index of the chosen path.</p></li>
+<li><p><strong>paths</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span>) – A list of possible paths.</p></li>
+<li><p><strong>index</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The index of the chosen path.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The chosen path.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[str]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>IndexError</strong> – If the provided index is out of range for the list of paths.</p>
@@ -529,16 +529,16 @@ processes them, and adds the tables and columns to the graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start</strong> (<em>str</em>) – The starting node.</p></li>
-<li><p><strong>end</strong> (<em>str</em>) – The ending node.</p></li>
-<li><p><strong>by</strong> (<em>str</em>) – Specifies whether to search by ‘table’ or ‘column’. Defaults to ‘table’.</p></li>
+<li><p><strong>start</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The starting node.</p></li>
+<li><p><strong>end</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The ending node.</p></li>
+<li><p><strong>by</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Specifies whether to search by ‘table’ or ‘column’. Defaults to ‘table’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of paths between start and end nodes.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[List[str]]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If the search type is not supported (e.g., ‘column’ is used but no columns exist).</p>
@@ -553,16 +553,16 @@ processes them, and adds the tables and columns to the graph.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start</strong> (<em>str</em>) – The starting node.</p></li>
-<li><p><strong>end</strong> (<em>str</em>) – The ending node.</p></li>
-<li><p><strong>by</strong> (<em>str</em>) – Specifies whether to search by ‘table’ or ‘column’. Defaults to ‘table’.</p></li>
+<li><p><strong>start</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The starting node.</p></li>
+<li><p><strong>end</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The ending node.</p></li>
+<li><p><strong>by</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Specifies whether to search by ‘table’ or ‘column’. Defaults to ‘table’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of all possible paths from start to end.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[List[str]]</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -576,7 +576,7 @@ processes them, and adds the tables and columns to the graph.</p>
 <dd class="field-odd"><p>The full graph object containing all nodes and edges.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>nx.Graph</p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -590,7 +590,7 @@ processes them, and adds the tables and columns to the graph.</p>
 <dd class="field-odd"><p>A dictionary where the keys are table names and the values are file paths.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict[str, Path]</p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>

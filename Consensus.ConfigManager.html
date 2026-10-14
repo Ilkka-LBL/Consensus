@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consensus.ConfigManager module &mdash; Consensus 1.2.2 documentation</title>
+  <title>Consensus.ConfigManager module &mdash; Consensus 1.2.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=fd7cadf9"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=590429e0"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -122,12 +122,12 @@
 
 <span class="c1"># Define a new configuration</span>
 <span class="n">new_config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;nomis_api_key&#39;</span><span class="p">:</span> <span class="s1">&#39;your_api_key&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;lg_inform_key&#39;</span><span class="p">:</span> <span class="s1">&#39;your_lg_inform_key&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;lg_inform_secret&#39;</span><span class="p">:</span> <span class="s1">&#39;your_lg_inform_secret&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;proxies&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;http&#39;</span><span class="p">:</span> <span class="s1">&#39;your_http_proxy&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;https&#39;</span><span class="p">:</span> <span class="s1">&#39;your_https_proxy&#39;</span>
+    <span class="s1">'nomis_api_key'</span><span class="p">:</span> <span class="s1">'your_api_key'</span><span class="p">,</span>
+    <span class="s1">'lg_inform_key'</span><span class="p">:</span> <span class="s1">'your_lg_inform_key'</span><span class="p">,</span>
+    <span class="s1">'lg_inform_secret'</span><span class="p">:</span> <span class="s1">'your_lg_inform_secret'</span><span class="p">,</span>
+    <span class="s1">'proxies'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'http'</span><span class="p">:</span> <span class="s1">'your_http_proxy'</span><span class="p">,</span>
+        <span class="s1">'https'</span><span class="p">:</span> <span class="s1">'your_https_proxy'</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -136,8 +136,8 @@
 
 <span class="c1"># Update specific values in the configuration</span>
 <span class="n">updates</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;nomis_api_key&#39;</span><span class="p">:</span> <span class="s1">&#39;new_api_key&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;proxies.http&#39;</span><span class="p">:</span> <span class="s1">&#39;new_http_proxy&#39;</span>
+    <span class="s1">'nomis_api_key'</span><span class="p">:</span> <span class="s1">'new_api_key'</span><span class="p">,</span>
+    <span class="s1">'proxies.http'</span><span class="p">:</span> <span class="s1">'new_http_proxy'</span>
 <span class="p">}</span>
 <span class="n">config_manager</span><span class="o">.</span><span class="n">update_config</span><span class="p">(</span><span class="n">updates</span><span class="p">)</span>
 
@@ -149,7 +149,7 @@
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="Consensus.ConfigManager.ConfigManager">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Consensus.ConfigManager.</span></span><span class="sig-name descname"><span class="pre">ConfigManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.ConfigManager.ConfigManager" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">Consensus.ConfigManager.</span></span><span class="sig-name descname"><span class="pre">ConfigManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Consensus.ConfigManager.ConfigManager" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to manage loading, saving, updating, and resetting a JSON configuration file.</p>
 <p>This class provides an interface to manage a configuration file stored in JSON format,
@@ -202,7 +202,7 @@ allowing users to define their configuration settings and update them as needed.
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">DEFAULT_CONFIG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'lg_inform_key':</span> <span class="pre">'',</span> <span class="pre">'lg_inform_secret':</span> <span class="pre">'',</span> <span class="pre">'nomis_api_key':</span> <span class="pre">'',</span> <span class="pre">'proxies':</span> <span class="pre">{'http':</span> <span class="pre">'',</span> <span class="pre">'https':</span> <span class="pre">''}}</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DEFAULT_CONFIG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'lg_inform_key':</span> <span class="pre">'',</span> <span class="pre">'lg_inform_secret':</span> <span class="pre">'',</span> <span class="pre">'nomis_api_key':</span> <span class="pre">'',</span> <span class="pre">'proxies':</span> <span class="pre">{'http':</span> <span class="pre">'',</span> <span class="pre">'https':</span> <span class="pre">''}}</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -211,7 +211,7 @@ allowing users to define their configuration settings and update them as needed.
 <dd><p>Initializes the ConfigManager with a specified or default config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config_file</strong> (<em>str</em>) – Path to the configuration file. If not provided,
+<dd class="field-odd"><p><strong>config_file</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Path to the configuration file. If not provided,
 defaults to ‘config/config.json’ within the package.</p>
 </dd>
 </dl>
@@ -237,7 +237,7 @@ defaults to ‘config/config.json’ within the package.</p>
 <dd><p>Saves a configuration dictionary to the config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The configuration dictionary to save.</p>
+<dd class="field-odd"><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span>) – The configuration dictionary to save.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -255,7 +255,7 @@ defaults to ‘config/config.json’ within the package.</p>
 using dot notation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>updates</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – A dictionary of key-value pairs to update in the config.
+<dd class="field-odd"><p><strong>updates</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span>) – A dictionary of key-value pairs to update in the config.
 Nested keys can be specified in dot notation (e.g., ‘proxies.http’).</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
